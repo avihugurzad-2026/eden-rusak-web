@@ -18,14 +18,13 @@
   <header class="global-nav">
     <nav class="nav-inner" aria-label="ניווט ראשי">
       <a href="index.html" class="nav-logo">
-        <img src="assets/images/logo.png" alt="עדן רוסק">
-        <span class="nav-logo-text">עדן רוסק</span>
+        <img src="assets/images/edenewlogo.svg" alt="עדן רוסק">
       </a>
       <ul class="nav-links">
         <li><a href="index.html" class="active">בית</a></li>
         <li><a href="academy.html">האקדמיה</a></li>
         <li><a href="workshops.html">סדנאות</a></li>
-        <li><a href="recommendations.html">המלצות</a></li>
+        <li><a href="recommendations.html">המומלצים שלי</a></li>
         <li><a href="contact.html" class="nav-cta">צור קשר</a></li>
       </ul>
       <button class="nav-toggle" aria-label="תפריט" aria-expanded="false"><span></span><span></span></button>
@@ -34,17 +33,34 @@
 
   <main>
     <!-- ===== Hero ===== -->
-    <section class="hero">
-      <div class="hero-bg"><img src="assets/images/eden-hero-bw.jpg" alt="עדן רוסק"></div>
-      <div class="wrap">
-        <div class="hero-content">
-          <p class="eyebrow on-dark">יצירת תוכן · UGC · סושיאל</p>
-          <h1 class="display">הופכת כל עסק<br>למותג שבולט ברשת.</h1>
-          <p class="lead">אני עדן רוסק — חיה, נושמת ויוצרת תוכן שמוביל לתוצאות. תוכן שלא רק נראה טוב, אלא עושה עבודה: יותר חשיפה, יותר מעורבות והכי חשוב — יותר הכנסות.</p>
+    <section class="hero-intro">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">יצירת תוכן · UGC · סושיאל</p>
+          <h1 class="display">הופכת כל עסק<br>למותג <span class="pop">בולט ברשת.</span></h1>
+          <p class="lead">אני עדן, חיה, נושמת ויוצרת תוכן שמוביל לתוצאות. תוכן שלא רק נראה טוב, אלא עושה עבודה: יותר חשיפה, יותר מעורבות והכי חשוב, <span class="pop">יותר כסף!</span></p>
           <div class="btn-row">
-            <a href="academy.html" class="btn btn-primary">לאקדמיה שלי</a>
-            <a href="contact.html" class="btn btn-ghost on-dark">דברו איתי</a>
+            <a href="academy.html" class="btn btn-pink">לאקדמיה שלי</a>
+            <a href="portfolio.html" class="btn btn-primary">תיק העבודות שלי</a>
+            <a href="contact.html" class="btn btn-ghost">דברו איתי</a>
           </div>
+        </div>
+        <div class="hero-portrait">
+          <img src="assets/images/edenport.png" alt="עדן רוסק">
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== UGC workshop — closing soon ===== -->
+    <section class="ugc-alert-wrap">
+      <div class="wrap">
+        <div class="ugc-alert">
+          <span class="ugc-alert-ribbon">ההרשמה נסגרת בקרוב</span>
+          <span class="ugc-alert-body">
+            <strong>סדנת ה-UGC — התחום הכי חם בשיווק</strong>
+            <span>מקומות אחרונים למועד הקרוב · יוצאות עם תוכן מוכן וביטחון להמשיך לבד</span>
+          </span>
+          <a class="ugc-alert-cta btn" href="landing.html?id=ugc-workshop">להרשמה לסדנה <span aria-hidden="true">‹</span></a>
         </div>
       </div>
     </section>
@@ -53,53 +69,70 @@
     <section class="section tile-light">
       <div class="wrap">
         <div class="split reveal">
-          <div class="split-media tall"><img src="assets/images/eden-about.jpg" alt="עדן רוסק יוצרת תוכן"></div>
+          <div class="split-media tall"><img src="assets/images/eden-hero-bw.jpg" alt="עדן רוסק יוצרת תוכן"></div>
           <div>
-            <p class="eyebrow">אז היי, אני עדן</p>
-            <h2 class="h2">עוד לפני שעולם הסושיאל הפך לכלי הכרחי לכל בעל עסק — אני כבר הייתי שם.</h2>
+            <h2 class="h2">עוד לפני שעולם הסושיאל הפך לכלי הכרחי לכל בעל עסק, אני כבר הייתי שם.</h2>
             <div class="stack" style="margin-top:24px">
-              <p>עם השנים פיתחתי מומחיות בבניית נוכחות דיגיטלית חזקה, כזו שלא רק נראית טוב אלא עושה עבודה. הדבר הכי חשוב היום לבעל עסק הוא לבלוט ברשתות, למשוך את הלקוחות הנכונים ולהפוך עוקבים לפניות — וזו בדיוק החוזקה שלי.</p>
+              <p>עם השנים פיתחתי מומחיות בבניית נוכחות דיגיטלית חזקה, כזו שלא רק נראית טוב אלא עושה עבודה. הדבר הכי חשוב היום לבעל עסק הוא לבלוט ברשתות, למשוך את הלקוחות הנכונים ולהפוך עוקבים לפניות, וזו בדיוק החוזקה שלי.</p>
               <p>אחרי עבודה עם מאות עסקים ומותגים בתחומים שונים, אני יכולה להגיד בלב שלם: כשעושים סושיאל נכון, השינוי הוא שמים וארץ. אני מביאה איתי ניסיון, יצירתיות בלתי נגמרת והבנה עמוקה של מה עובד היום ברשת.</p>
             </div>
             <div class="btn-row" style="margin-top:28px">
-              <a href="academy.html" class="btn btn-primary">איך אני יכולה לעזור לך</a>
+              <a href="contact.html" class="btn btn-primary">אני רוצה להפוך למותג!</a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== What I do (dark tile) ===== -->
-    <section class="section tile-dark">
+    <!-- ===== What I do (blue tile) ===== -->
+    <section class="section tile-blue">
       <div class="wrap center">
-        <p class="eyebrow on-dark">מה אני עושה</p>
         <h2 class="h2">תוכן שמותאם בדיוק למי שאתם.</h2>
-        <p class="lead on-dark" style="max-width:680px;margin:18px auto 0">כל סרטון שאני יוצרת מותאם למותג, למוצר או לשירות באופן מלא — תוך שמירה על שפה ייחודית שמייצגת אתכם, ועריכה מקצועית שבולטת בפיד של טיקטוק ואינסטגרם גם בתוך ים של תוכן.</p>
-        <div class="cards reveal">
-          <div class="card"><div class="card-icon">✦</div><h3 class="h3">יצירת תוכן</h3><p>סרטונים, רילס ותמונות שמספרים את הסיפור של המותג שלכם בשפה שמדברת לקהל הנכון.</p></div>
-          <div class="card"><div class="card-icon">▶</div><h3 class="h3">ימי צילום</h3><p>יום צילום ממוקד שמפיק עשרות נכסי תוכן איכותיים לכל הפלטפורמות, מוכנים להעלאה.</p></div>
-          <div class="card"><div class="card-icon">◎</div><h3 class="h3">UGC ושיתופי פעולה</h3><p>תוכן אותנטי בסגנון משתמש אמיתי שמותגים אוהבים — כזה שמרגיש טבעי וממיר.</p></div>
-          <div class="card"><div class="card-icon">↗</div><h3 class="h3">בניית נוכחות</h3><p>אסטרטגיה, מיתוג אישי ובנייה של נוכחות דיגיטלית חזקה שמובילה לתוצאות אמיתיות.</p></div>
+        <p class="lead" style="max-width:680px;margin:18px auto 0">כל סרטון שאני יוצרת מותאם למותג, למוצר או לשירות באופן מלא, תוך שמירה על שפה ייחודית שמייצגת אתכם, ועריכה מקצועית שבולטת בפיד של טיקטוק ואינסטגרם גם בתוך ים של תוכן.</p>
+        <div class="services-grid reveal">
+          <div class="service-feat"><div class="s-icon">✦</div><h3 class="h3">יצירת תוכן</h3><p>סרטונים, רילס ותמונות שמספרים את הסיפור של המותג שלכם בשפה שמדברת לקהל הנכון.</p></div>
+          <div class="service-feat"><div class="s-icon">▶</div><h3 class="h3">ימי צילום</h3><p>יום צילום ממוקד שמפיק עשרות נכסי תוכן איכותיים לכל הפלטפורמות, מוכנים להעלאה.</p></div>
+          <div class="service-feat"><div class="s-icon">◎</div><h3 class="h3">UGC ושיתופי פעולה</h3><p>תוכן אותנטי בסגנון משתמש אמיתי שמותגים אוהבים, כזה שמרגיש טבעי וממיר.</p></div>
+          <div class="service-feat"><div class="s-icon">↗</div><h3 class="h3">בניית נוכחות</h3><p>אסטרטגיה, מיתוג אישי ובנייה של נוכחות דיגיטלית חזקה שמובילה לתוצאות אמיתיות.</p></div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Work peek ===== -->
+    <!-- ===== Work / reels ===== -->
     <section class="section tile-parchment">
       <div class="wrap">
         <div class="center">
-          <p class="eyebrow">קצת מהתכנים שלי</p>
-          <h2 class="h2">הצצה לעבודות.</h2>
+          <h2 class="h2">הצצה לתכנים שלי.</h2>
         </div>
-        <div class="work-grid reveal">
-          <div class="work-item"><img src="assets/images/work/work-04.jpg" alt="תוכן ביוטי" loading="lazy"></div>
-          <div class="work-item"><img src="assets/images/work/work-09.jpg" alt="תוכן מסעדנות" loading="lazy"></div>
-          <div class="work-item"><img src="assets/images/work/work-19.jpg" alt="תוכן UGC" loading="lazy"></div>
-          <div class="work-item"><img src="assets/images/work/work-02.jpg" alt="תוכן טיפוח" loading="lazy"></div>
-          <div class="work-item"><img src="assets/images/work/work-12.jpg" alt="תוכן לייפסטייל" loading="lazy"></div>
-          <div class="work-item"><img src="assets/images/work/work-14.jpg" alt="תוכן אופנה" loading="lazy"></div>
-          <div class="work-item"><img src="assets/images/work/work-22.jpg" alt="תוכן ביוטי" loading="lazy"></div>
-          <div class="work-item"><img src="assets/images/work/work-06.jpg" alt="תוכן מסעדנות" loading="lazy"></div>
+        <div class="reels-grid reveal">
+          <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-01.jpg" alt="תוכן" loading="lazy"><video src="assets/videos/reel-01.mp4" muted loop playsinline preload="none"></video><span class="reel-play">▶</span></div>
+          <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-02.jpg" alt="תוכן" loading="lazy"><video src="assets/videos/reel-02.mp4" muted loop playsinline preload="none"></video><span class="reel-play">▶</span></div>
+          <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-03.jpg" alt="תוכן" loading="lazy"><video src="assets/videos/reel-03.mp4" muted loop playsinline preload="none"></video><span class="reel-play">▶</span></div>
+          <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-04.jpg" alt="תוכן" loading="lazy"><video src="assets/videos/reel-04.mp4" muted loop playsinline preload="none"></video><span class="reel-play">▶</span></div>
+          <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-05.jpg" alt="תוכן" loading="lazy"><video src="assets/videos/reel-05.mp4" muted loop playsinline preload="none"></video><span class="reel-play">▶</span></div>
+          <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-06.jpg" alt="תוכן" loading="lazy"><video src="assets/videos/reel-06.mp4" muted loop playsinline preload="none"></video><span class="reel-play">▶</span></div>
+          <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-07.jpg" alt="תוכן" loading="lazy"><video src="assets/videos/reel-07.mp4" muted loop playsinline preload="none"></video><span class="reel-play">▶</span></div>
+          <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-08.jpg" alt="תוכן" loading="lazy"><video src="assets/videos/reel-08.mp4" muted loop playsinline preload="none"></video><span class="reel-play">▶</span></div>
+        </div>
+        <div class="center" style="margin-top:42px">
+          <a href="portfolio.html" class="btn btn-primary btn-lg">לתיק העבודות המלא שלי</a>
+          <p class="fine" style="margin-top:14px;color:var(--ink-48)">כל העבודות שלי מחולקות לפי קטגוריות, יחד עם נתוני הקהל והחשיפה</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Hot topic / Academy CTA (pink) ===== -->
+    <section class="section tile-pink-solid">
+      <div class="wrap">
+        <div class="hot-topic reveal">
+          <h2 class="display hot-topic-title"><span>התחום הכי חם</span><span>לשנת 2026</span></h2>
+          <div class="hot-topic-body">
+            <p class="lead">הקמתי את האקדמיה שלי מתוך הרצון להנגיש לכולן את התחום הכי חם שיש בעולם השיווק, תחום שלא יעלם בשנים הקרובות למרות עידן ה-AI. בקורסים שלי אני מלמדת את כל הסודות הכי כמוסים בתחום יצירת התוכן. התכנית שלי מתאימה גם ליוצרות תוכן ותיקות וגם למי שעדיין לא נכנסה לתחום ורוצה להכניס כסף מכל מקום, גם מהנייד.</p>
+            <div class="btn-row" style="margin-top:28px">
+              <a href="academy.html" class="btn btn-primary">לקורסים באקדמיה</a>
+              <a href="workshops.html" class="btn btn-ghost">סדנאות פרונטליות</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -107,40 +140,61 @@
     <!-- ===== Brands ===== -->
     <section class="section tile-light">
       <div class="wrap center">
-        <p class="eyebrow">מותגים שכבר הצטרפו להצלחה</p>
-        <h2 class="h2">בחברה טובה.</h2>
+        <h2 class="display" style="font-size:clamp(32px,5vw,54px)">מותגים שכבר הצטרפו להצלחה</h2>
         <p class="lead" style="max-width:620px;margin:16px auto 0">עבדתי עם מאות עסקים ומותגים מובילים בתחומי הביוטי, האופנה, המסעדנות ועוד.</p>
-        <div class="logos-grid reveal">
-          <div class="logo-cell"><img src="assets/images/logos/brand-01.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-02.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-03.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-04.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-05.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-06.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-12.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-14.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-15.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-19.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-20.png" alt="מותג" loading="lazy"></div>
-          <div class="logo-cell"><img src="assets/images/logos/brand-23.png" alt="מותג" loading="lazy"></div>
-        </div>
       </div>
-    </section>
-
-    <!-- ===== Academy CTA (dark) ===== -->
-    <section class="section tile-dark-2">
-      <div class="wrap">
-        <div class="split reverse reveal">
-          <div class="split-media"><img src="assets/images/eden-makeup.jpg" alt="האקדמיה של עדן רוסק"></div>
-          <div>
-            <p class="eyebrow on-dark">התחום הכי חם של 2026</p>
-            <h2 class="h2">החלטת שזה הזמן שלך להיכנס לעולם יצירת התוכן?</h2>
-            <p class="lead on-dark" style="margin-top:18px">השקתי את האקדמיה שלי — שכוללת את כל הסודות הכי כמוסים בתחום יצירת התוכן. מתאימה גם ליוצרות תוכן ותיקות וגם למי שעדיין לא נכנסה לתחום ורוצה להכניס כסף מכל מקום, מהנייד בלבד.</p>
-            <div class="btn-row" style="margin-top:28px">
-              <a href="academy.html" class="btn btn-primary">לפרטים על האקדמיה</a>
-              <a href="workshops.html" class="btn btn-ghost on-dark">לסדנאות הפרונטליות</a>
-            </div>
-          </div>
+      <div class="marquee" aria-label="לוגואים של מותגים">
+        <div class="marquee-track">
+          <img src="assets/images/logos/brand-01.png" alt="מותג">
+          <img src="assets/images/logos/brand-02.png" alt="מותג">
+          <img src="assets/images/logos/brand-03.png" alt="מותג">
+          <img src="assets/images/logos/brand-04.png" alt="מותג">
+          <img src="assets/images/logos/brand-05.png" alt="מותג">
+          <img src="assets/images/logos/brand-06.png" alt="מותג">
+          <img src="assets/images/logos/brand-07.png" alt="מותג">
+          <img src="assets/images/logos/brand-08.png" alt="מותג">
+          <img src="assets/images/logos/brand-09.png" alt="מותג">
+          <img src="assets/images/logos/brand-10.png" alt="מותג">
+          <img src="assets/images/logos/brand-11.png" alt="מותג">
+          <img src="assets/images/logos/brand-12.png" alt="מותג">
+          <img src="assets/images/logos/brand-13.png" alt="מותג">
+          <img src="assets/images/logos/brand-14.png" alt="מותג">
+          <img src="assets/images/logos/brand-15.png" alt="מותג">
+          <img src="assets/images/logos/brand-16.png" alt="מותג">
+          <img src="assets/images/logos/brand-17.png" alt="מותג">
+          <img src="assets/images/logos/brand-18.png" alt="מותג">
+          <img src="assets/images/logos/brand-19.png" alt="מותג">
+          <img src="assets/images/logos/brand-20.png" alt="מותג">
+          <img src="assets/images/logos/brand-21.png" alt="מותג">
+          <img src="assets/images/logos/brand-22.png" alt="מותג">
+          <img src="assets/images/logos/brand-23.png" alt="מותג">
+          <img src="assets/images/logos/brand-24.png" alt="מותג">
+          <img src="assets/images/logos/brand-25.png" alt="מותג">
+          <img src="assets/images/logos/brand-01.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-02.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-03.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-04.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-05.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-06.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-07.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-08.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-09.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-10.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-11.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-12.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-13.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-14.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-15.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-16.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-17.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-18.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-19.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-20.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-21.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-22.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-23.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-24.png" alt="" aria-hidden="true">
+          <img src="assets/images/logos/brand-25.png" alt="" aria-hidden="true">
         </div>
       </div>
     </section>
@@ -149,7 +203,7 @@
     <section class="section tile-pink center">
       <div class="wrap wrap-text">
         <h2 class="h2">החלטתם להעניק לעסק שלכם את מה שמגיע לו באמת?</h2>
-        <p class="lead" style="margin:18px auto 32px">השאירו פרטים ונדבר — ביחד נהפוך את התוכן שלכם למשהו שאי אפשר לעבור לידו.</p>
+        <p class="lead" style="margin:18px auto 32px">השאירו פרטים ונדבר, ביחד נהפוך את התוכן שלכם לתוכן שעושה כסף!</p>
         <a href="contact.html" class="btn btn-primary btn-lg">בואו נדבר</a>
       </div>
     </section>
@@ -160,33 +214,33 @@
     <div class="wrap">
       <div class="footer-top">
         <div class="footer-brand">
-          <img src="assets/images/logo.png" alt="עדן רוסק">
-          <p>מומחית ליצירת תוכן, UGC ורשתות חברתיות — הופכת כל עסק קטן למותג חזק שבולט ומוביל ברשת.</p>
+          <img src="assets/images/edenewlogo.svg" alt="עדן רוסק">
+          <p>מומחית ליצירת תוכן, UGC ורשתות חברתיות הופכת כל עסק למותג בולט ומוביל!</p>
           <div class="footer-social">
-            <a href="https://wa.me/972552629091" aria-label="WhatsApp" target="_blank" rel="noopener"><img src="assets/images/social-instagram.png" alt="Instagram"></a>
-            <a href="#" aria-label="TikTok"><img src="assets/images/social-tiktok.png" alt="TikTok"></a>
-            <a href="#" aria-label="Facebook"><img src="assets/images/social-facebook.png" alt="Facebook"></a>
+            <a href="https://www.instagram.com/eden.rusak/" aria-label="Instagram" target="_blank" rel="noopener"><img src="assets/images/social-instagram.png" alt="Instagram"></a>
+            <a href="https://www.tiktok.com/@edenrusakk" aria-label="TikTok" target="_blank" rel="noopener"><img src="assets/images/social-tiktok.png" alt="TikTok"></a>
           </div>
         </div>
         <div class="footer-col">
           <h4>ניווט באתר</h4>
           <a href="index.html">בית</a>
           <a href="academy.html">האקדמיה</a>
-          <a href="workshops.html">סדנאות פרונטליות</a>
-          <a href="recommendations.html">המלצות מוצרים</a>
+          <a href="workshops.html">סדנאות</a>
+          <a href="recommendations.html">המומלצים שלי</a>
           <a href="contact.html">צור קשר</a>
         </div>
         <div class="footer-col">
           <h4>מידע</h4>
           <a href="terms.html">תקנון ותנאי שימוש</a>
           <a href="terms.html#privacy">מדיניות הפרטיות</a>
+          <a href="accessibility.html">הצהרת נגישות</a>
           <a href="https://wa.me/972552629091" target="_blank" rel="noopener">055-262-9091</a>
           <span style="color:var(--ink-48);font-size:15px">שדרות הרכס 13, מודיעין</span>
         </div>
       </div>
       <div class="footer-bottom">
         <span>© <span id="year"></span> כל הזכויות שמורות לעדן רוסק</span>
-        <span><a href="terms.html">תקנון</a> · <a href="terms.html#privacy">פרטיות</a></span>
+        <span><a href="terms.html">תקנון</a> · <a href="terms.html#privacy">פרטיות</a> · <a href="accessibility.html">נגישות</a></span>
       </div>
     </div>
   </footer>

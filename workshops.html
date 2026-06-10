@@ -16,12 +16,12 @@
 
   <header class="global-nav">
     <nav class="nav-inner" aria-label="ניווט ראשי">
-      <a href="index.html" class="nav-logo"><img src="assets/images/logo.png" alt="עדן רוסק"><span class="nav-logo-text">עדן רוסק</span></a>
+      <a href="index.html" class="nav-logo"><img src="assets/images/edenewlogo.svg" alt="עדן רוסק"></a>
       <ul class="nav-links">
         <li><a href="index.html">בית</a></li>
         <li><a href="academy.html">האקדמיה</a></li>
         <li><a href="workshops.html" class="active">סדנאות</a></li>
-        <li><a href="recommendations.html">המלצות</a></li>
+        <li><a href="recommendations.html">המומלצים שלי</a></li>
         <li><a href="contact.html" class="nav-cta">צור קשר</a></li>
       </ul>
       <button class="nav-toggle" aria-label="תפריט" aria-expanded="false"><span></span><span></span></button>
@@ -31,15 +31,14 @@
   <main>
     <!-- Hero -->
     <section class="hero" style="min-height:clamp(480px,72vh,680px)">
-      <div class="hero-bg"><img src="assets/images/eden-makeup.jpg" alt="סדנה פרונטלית ליצירת תוכן"></div>
+      <div class="hero-bg"><img src="assets/images/eden-hero-bw.jpg" alt="סדנה פרונטלית ליצירת תוכן"></div>
       <div class="wrap">
         <div class="hero-content">
-          <p class="eyebrow on-dark">סדנאות פרונטליות</p>
-          <h1 class="display">יוצרים תוכן.<br>פנים אל פנים.</h1>
-          <p class="lead">יום אחד, חוויה אחת — ויוצאים עם ארגז כלים מלא ותוכן מוכן ביד. סדנאות מעשיות לעסקים, צוותים וקבוצות, בהן אני לוקחת אתכם מהמסך הריק ועד הרילס הראשון שלכם.</p>
+          <h1 class="display">סדנאות פרונטליות</h1>
+          <p class="lead">יום אחד, חוויה אחת — ויוצאים עם ארגז כלים מלא ותוכן מוכן ביד. סדנאות מעשיות לעסקים, צוותים וקבוצות, בהן אני לוקחת אתכם מהרעיון ועד הרילס הראשון שלכם.</p>
           <div class="btn-row">
-            <a href="contact.html" class="btn btn-primary">לתיאום סדנה</a>
-            <a href="#formats" class="btn btn-ghost on-dark">סוגי הסדנאות</a>
+            <a href="#contact-cta" class="btn btn-primary">לתאום סדנה פרטית לצוות</a>
+            <a href="#formats" class="btn btn-white">סוגי הסדנאות</a>
           </div>
         </div>
       </div>
@@ -48,10 +47,9 @@
     <!-- Why frontal -->
     <section class="section tile-light">
       <div class="wrap center">
-        <p class="eyebrow">למה פרונטלי</p>
         <h2 class="h2">כי כשעובדים ביחד, הקסם קורה מהר יותר.</h2>
         <p class="lead" style="max-width:680px;margin:16px auto 0">בסדנה הפרונטלית אני לידכם בכל שלב — מתקנת בזמן אמת, פותרת חסמים ומראה בדיוק איך נראה תהליך של יצירת תוכן מקצועי. במקום לצבור ידע — אתם מתרגלים, מצלמים ועורכים על המקום.</p>
-        <div class="cards reveal">
+        <div class="cards cards-feature reveal">
           <div class="card"><div class="card-icon">⌁</div><h3 class="h3">למידה מעשית</h3><p>פחות תיאוריה, יותר עשייה. כל משתתף מצלם ועורך תוכן אמיתי כבר במהלך הסדנה.</p></div>
           <div class="card"><div class="card-icon">⊕</div><h3 class="h3">התאמה אישית</h3><p>התוכן נבנה סביב העסק או התחום שלכם — דוגמאות ותרגול רלוונטיים אליכם.</p></div>
           <div class="card"><div class="card-icon">↺</div><h3 class="h3">תוצאה מיידית</h3><p>יוצאים מהסדנה עם תוכן מוכן להעלאה ועם ביטחון להמשיך לבד.</p></div>
@@ -63,35 +61,36 @@
     <section class="section tile-parchment" id="formats">
       <div class="wrap">
         <div class="center">
-          <p class="eyebrow">הפורמטים</p>
           <h2 class="h2">בוחרים את הסדנה שמתאימה לכם.</h2>
         </div>
-        <div class="cards reveal" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+        <div class="cards reveal" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));max-width:880px;margin-inline:auto">
           <div class="course-card">
-            <div class="course-media"><img src="assets/images/work/work-01.jpg" alt="סדנה לעסק" loading="lazy"></div>
-            <div class="course-body">
-              <span class="tag">לעסקים</span>
-              <h3 class="h3">סדנה לעסק ולצוות</h3>
-              <p>סדנה מותאמת לצוות שלכם — איך מייצרים תוכן עקבי שמייצג את המותג, גם כשאין מחלקת שיווק.</p>
-              <a href="contact.html" class="textlink">לתיאום</a>
-            </div>
-          </div>
-          <div class="course-card">
-            <div class="course-media"><img src="assets/images/work/work-16.jpg" alt="סדנה קבוצתית" loading="lazy"></div>
-            <div class="course-body">
-              <span class="tag">קבוצתי</span>
-              <h3 class="h3">סדנה קבוצתית פתוחה</h3>
-              <p>מפגש אינטימי של יוצרות תוכן — יום של השראה, תרגול וקהילה, עם ארוחה ואווירה טובה.</p>
-              <a href="contact.html" class="textlink">להצטרפות</a>
-            </div>
-          </div>
-          <div class="course-card">
-            <div class="course-media"><img src="assets/images/work/work-23.jpg" alt="יום צילום מודרך" loading="lazy"></div>
+            <div class="course-media"><img src="assets/images/work/work-23.jpg" alt="סדנת UGC" loading="lazy"></div>
             <div class="course-body">
               <span class="tag">מעשי</span>
-              <h3 class="h3">יום צילום מודרך</h3>
-              <p>יום שלם של צילום בליווי שלי — תאורה, סטיילינג, זוויות ועריכה, עד מאגר תוכן מלא.</p>
-              <a href="contact.html" class="textlink">לפרטים</a>
+              <h3 class="h3">סדנת UGC</h3>
+              <p>הכנסי לתחום הכי חם בשנים האחרונות בעולם השיווק!</p>
+              <p class="workshop-status">תאריך קרוב — 16.7.26, ההרשמה נסגרת בקרוב, נותרו מקומות אחרונים.</p>
+              <a href="landing.html?id=ugc-workshop" class="btn btn-primary">לפרטים והרשמה</a>
+            </div>
+          </div>
+          <div class="course-card">
+            <div class="course-media"><img src="assets/images/work/work-16.jpg" alt="סדנה קבוצתית ליצירת תוכן" loading="lazy"></div>
+            <div class="course-body">
+              <span class="tag">קבוצתי</span>
+              <h3 class="h3">סדנה ליצירת תוכן</h3>
+              <p class="workshop-cap">עד 12 משתתפים</p>
+              <p class="workshop-status">ההרשמה למועד הקרוב נסגרה, בקרוב יפתחו מועדים חדשים.</p>
+              <a href="landing.html?id=content-workshop" class="btn btn-primary">לפרטים ולעדכון מועד חדש</a>
+            </div>
+          </div>
+          <div class="course-card">
+            <div class="course-media"><img src="assets/images/work/work-01.jpg" alt="סדנת העשרה לצוות" loading="lazy"></div>
+            <div class="course-body">
+              <span class="tag">לעסקים וחברות</span>
+              <h3 class="h3">סדנת העשרה לצוות ולעובדים</h3>
+              <p>חוויה מגבשת ומעשירה לצוות — יוצרים יחד תוכן שמייצג את המותג, גם כשאין מחלקת שיווק.</p>
+              <a href="landing.html?id=team-workshop" class="btn btn-primary">לפרטים ולתיאום</a>
             </div>
           </div>
           <div class="course-card">
@@ -99,8 +98,8 @@
             <div class="course-body">
               <span class="tag">1:1</span>
               <h3 class="h3">סדנה אישית</h3>
-              <p>מפגש אחד על אחד שתפור בדיוק עליכם — לפי הקצב, היעדים והאתגרים הספציפיים שלכם.</p>
-              <a href="contact.html" class="textlink">לתיאום</a>
+              <p>מפגש אחד על אחד שתפור בדיוק עלייך — לפי הקצב, היעדים והאתגרים הספציפיים שלך.</p>
+              <a href="landing.html?id=private-workshop" class="btn btn-primary">לפרטים ולתיאום</a>
             </div>
           </div>
         </div>
@@ -113,8 +112,7 @@
         <div class="split reveal">
           <div class="split-media tall"><img src="assets/images/eden-portrait-2.jpg" alt="מהלך הסדנה"></div>
           <div>
-            <p class="eyebrow on-dark">מה עוברים בסדנה</p>
-            <h2 class="h2">מהמסך הריק — עד הרילס שמוכן לעלות.</h2>
+            <h2 class="h2">סדנאות פרקטיות וממוקדות!</h2>
             <ul class="check-list" style="margin-top:24px">
               <li>בניית רעיון והוק פותח שעוצר את הגלילה</li>
               <li>צילום נכון מהנייד — תאורה, זוויות וקומפוזיציה</li>
@@ -133,7 +131,7 @@
     <!-- Gallery -->
     <section class="section tile-light">
       <div class="wrap">
-        <div class="center"><p class="eyebrow">מהשטח</p><h2 class="h2">רגעים מהסדנאות.</h2></div>
+        <div class="center"><h2 class="h2">רגעים מהסדנאות.</h2></div>
         <div class="work-grid reveal">
           <div class="work-item"><img src="assets/images/work/work-03.jpg" alt="רגע מסדנה" loading="lazy"></div>
           <div class="work-item"><img src="assets/images/work/work-11.jpg" alt="רגע מסדנה" loading="lazy"></div>
@@ -144,11 +142,32 @@
     </section>
 
     <!-- CTA -->
-    <section class="section tile-pink center">
+    <section class="section tile-pink center" id="contact-cta">
       <div class="wrap wrap-text">
-        <h2 class="h2">רוצים להביא אותי לסדנה?</h2>
-        <p class="lead" style="margin:18px auto 32px">ספרו לי על העסק או הקבוצה שלכם ונבנה ביחד את הסדנה המושלמת.</p>
-        <a href="contact.html" class="btn btn-primary btn-lg">לתיאום סדנה</a>
+        <h2 class="h2">רוצים לתאם סדנה פרטית לעסק / חברה שלכם?</h2>
+        <p class="lead" style="margin:18px auto 32px">השאירו לי פרטים כאן ואחזור אליכם עם כל המידע.</p>
+        <form id="leadForm" class="lead-form" novalidate>
+          <div class="form-field">
+            <label for="lName">שם מלא</label>
+            <input type="text" id="lName" name="name" autocomplete="name" required>
+          </div>
+          <div class="form-field">
+            <label for="lPhone">טלפון</label>
+            <input type="tel" id="lPhone" name="phone" autocomplete="tel" inputmode="tel" placeholder="05X-XXXXXXX" required>
+          </div>
+          <div class="form-field">
+            <label for="lEmail">אימייל</label>
+            <input type="email" id="lEmail" name="email" autocomplete="email">
+          </div>
+          <div class="lead-actions">
+            <button type="submit" class="btn btn-primary btn-lg">שליחת פרטים</button>
+            <a href="https://wa.me/972552629091" class="btn btn-whatsapp btn-lg" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.972-1.207zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              whatsapp
+            </a>
+          </div>
+          <p id="leadNote" class="fine" style="display:none;margin-top:16px;color:var(--primary)">פותח עבורך whatsapp עם הפרטים — נדבר ממש עוד מעט! 💬</p>
+        </form>
       </div>
     </section>
   </main>
@@ -157,33 +176,33 @@
     <div class="wrap">
       <div class="footer-top">
         <div class="footer-brand">
-          <img src="assets/images/logo.png" alt="עדן רוסק">
-          <p>מומחית ליצירת תוכן, UGC ורשתות חברתיות — הופכת כל עסק קטן למותג חזק שבולט ומוביל ברשת.</p>
+          <img src="assets/images/edenewlogo.svg" alt="עדן רוסק">
+          <p>מומחית ליצירת תוכן, UGC ורשתות חברתיות הופכת כל עסק למותג בולט ומוביל!</p>
           <div class="footer-social">
-            <a href="https://wa.me/972552629091" aria-label="WhatsApp" target="_blank" rel="noopener"><img src="assets/images/social-instagram.png" alt="Instagram"></a>
-            <a href="#" aria-label="TikTok"><img src="assets/images/social-tiktok.png" alt="TikTok"></a>
-            <a href="#" aria-label="Facebook"><img src="assets/images/social-facebook.png" alt="Facebook"></a>
+            <a href="https://www.instagram.com/eden.rusak/" aria-label="Instagram" target="_blank" rel="noopener"><img src="assets/images/social-instagram.png" alt="Instagram"></a>
+            <a href="https://www.tiktok.com/@edenrusakk" aria-label="TikTok" target="_blank" rel="noopener"><img src="assets/images/social-tiktok.png" alt="TikTok"></a>
           </div>
         </div>
         <div class="footer-col">
           <h4>ניווט באתר</h4>
           <a href="index.html">בית</a>
           <a href="academy.html">האקדמיה</a>
-          <a href="workshops.html">סדנאות פרונטליות</a>
-          <a href="recommendations.html">המלצות מוצרים</a>
+          <a href="workshops.html">סדנאות</a>
+          <a href="recommendations.html">המומלצים שלי</a>
           <a href="contact.html">צור קשר</a>
         </div>
         <div class="footer-col">
           <h4>מידע</h4>
           <a href="terms.html">תקנון ותנאי שימוש</a>
           <a href="terms.html#privacy">מדיניות הפרטיות</a>
+          <a href="accessibility.html">הצהרת נגישות</a>
           <a href="https://wa.me/972552629091" target="_blank" rel="noopener">055-262-9091</a>
           <span style="color:var(--ink-48);font-size:15px">שדרות הרכס 13, מודיעין</span>
         </div>
       </div>
       <div class="footer-bottom">
         <span>© <span id="year"></span> כל הזכויות שמורות לעדן רוסק</span>
-        <span><a href="terms.html">תקנון</a> · <a href="terms.html#privacy">פרטיות</a></span>
+        <span><a href="terms.html">תקנון</a> · <a href="terms.html#privacy">פרטיות</a> · <a href="accessibility.html">נגישות</a></span>
       </div>
     </div>
   </footer>

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "eden-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/Users/avihugurzad/Desktop/work - graphics/עדן - אתר/.claude/serve.py"],
+      "port": 4173
+    }
+  ]
+}

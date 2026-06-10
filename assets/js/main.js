@@ -16,6 +16,39 @@
     });
   }
 
+  /* ---------- Adaptive nav contrast (white logo over dark sections) ---------- */
+  var nav = document.querySelector(".global-nav");
+  if (nav) {
+    var darkClasses = ["tile-dark", "tile-dark-2", "tile-blue", "hero"];
+    var sections = Array.prototype.slice.call(document.querySelectorAll("main section"));
+    function isDark(el) {
+      for (var c = 0; c < darkClasses.length; c++) {
+        if (el.classList.contains(darkClasses[c])) { return true; }
+      }
+      return false;
+    }
+    var ticking = false;
+    function syncNav() {
+      ticking = false;
+      var probe = nav.getBoundingClientRect().bottom - 2;
+      var onDark = false;
+      for (var i = 0; i < sections.length; i++) {
+        var r = sections[i].getBoundingClientRect();
+        if (r.top <= probe && r.bottom > probe) {
+          onDark = isDark(sections[i]);
+          break;
+        }
+      }
+      nav.classList.toggle("nav-on-dark", onDark);
+    }
+    function onScroll() {
+      if (!ticking) { ticking = true; requestAnimationFrame(syncNav); }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    syncNav();
+  }
+
   /* ---------- Scroll reveal ---------- */
   var reveals = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window && reveals.length) {
@@ -48,6 +81,21 @@
     if (rej) rej.addEventListener("click", function () { decide("rejected"); });
   }
 
+  /* ---------- Reels: hover-play (muted) ---------- */
+  document.querySelectorAll(".reel-item").forEach(function (item) {
+    var video = item.querySelector("video");
+    if (!video) return;
+    item.addEventListener("mouseenter", function () {
+      item.classList.add("playing");
+      try { video.currentTime = 0; var p = video.play(); if (p) p.catch(function () {}); } catch (e) {}
+    });
+    item.addEventListener("mouseleave", function () {
+      item.classList.remove("playing");
+      video.pause();
+      try { video.currentTime = 0; } catch (e) {}
+    });
+  });
+
   /* ---------- Contact form (no backend — friendly handoff) ---------- */
   var form = document.getElementById("contactForm");
   if (form) {
@@ -60,6 +108,109 @@
       window.open("https://wa.me/972552629091?text=" + text, "_blank");
       if (note) { note.style.display = "block"; }
       form.reset();
+    });
+  }
+
+  /* ---------- Accessibility widget ---------- */
+  (function () {
+    var A11Y_KEY = "eden_a11y";
+    var root = document.documentElement;
+    var state = { font: 0, contrast: false, links: false, readable: false, gray: false, stop: false };
+    try { var s = JSON.parse(localStorage.getItem(A11Y_KEY) || "{}"); for (var k in s) { if (k in state) state[k] = s[k]; } } catch (e) {}
+
+    var launcher = document.createElement("button");
+    launcher.className = "a11y-launcher";
+    launcher.setAttribute("aria-label", "תפריט נגישות");
+    launcher.setAttribute("aria-expanded", "false");
+    launcher.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><circle cx="12" cy="3.6" r="2.1"/><path d="M20.5 7.4c0 .66-.49 1.18-1.15 1.27l-4.35.55v3.05l2.12 6.64a1.3 1.3 0 1 1-2.48.79L13 13.9h-2l-1.66 5.8a1.3 1.3 0 1 1-2.48-.8l2.12-6.63V9.22l-4.35-.55A1.28 1.28 0 0 1 4.83 6.1l4.32.55c1.9.24 3.8.24 5.7 0l4.32-.55c.7-.09 1.33.46 1.33 1.18v.12Z"/></svg>';
+
+    var panel = document.createElement("div");
+    panel.className = "a11y-panel";
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-label", "אפשרויות נגישות");
+    panel.hidden = true;
+    panel.innerHTML =
+      '<div class="a11y-head"><h4>נגישות</h4><button class="a11y-close" type="button" aria-label="סגירה">&times;</button></div>' +
+      '<div class="a11y-row"><span>גודל טקסט</span><div class="a11y-stepper">' +
+      '<button type="button" data-act="font-down" aria-label="הקטנת טקסט">A−</button>' +
+      '<span class="a11y-val" data-val="font">0</span>' +
+      '<button type="button" data-act="font-up" aria-label="הגדלת טקסט">A+</button></div></div>' +
+      '<button class="a11y-opt" type="button" data-toggle="contrast" aria-pressed="false">ניגודיות גבוהה</button>' +
+      '<button class="a11y-opt" type="button" data-toggle="links" aria-pressed="false">הדגשת קישורים</button>' +
+      '<button class="a11y-opt" type="button" data-toggle="readable" aria-pressed="false">גופן קריא</button>' +
+      '<button class="a11y-opt" type="button" data-toggle="gray" aria-pressed="false">גווני אפור</button>' +
+      '<button class="a11y-opt" type="button" data-toggle="stop" aria-pressed="false">עצירת אנימציות</button>' +
+      '<button class="a11y-reset" type="button">איפוס הגדרות</button>';
+
+    document.body.appendChild(launcher);
+    document.body.appendChild(panel);
+
+    function updateFontVal() { panel.querySelector('[data-val="font"]').textContent = (state.font > 0 ? "+" : "") + state.font; }
+    function apply() {
+      root.style.setProperty("--a11y-font-scale", (1 + state.font * 0.1).toFixed(2));
+      root.classList.toggle("a11y-font", state.font !== 0);
+      root.classList.toggle("a11y-contrast", state.contrast);
+      root.classList.toggle("a11y-links", state.links);
+      root.classList.toggle("a11y-readable", state.readable);
+      root.classList.toggle("a11y-gray", state.gray);
+      root.classList.toggle("a11y-stop", state.stop);
+      try { localStorage.setItem(A11Y_KEY, JSON.stringify(state)); } catch (e) {}
+      panel.querySelectorAll("[data-toggle]").forEach(function (btn) {
+        var key = btn.getAttribute("data-toggle");
+        btn.setAttribute("aria-pressed", state[key] ? "true" : "false");
+      });
+    }
+
+    function openPanel() { panel.hidden = false; launcher.setAttribute("aria-expanded", "true"); }
+    function closePanel() { panel.hidden = true; launcher.setAttribute("aria-expanded", "false"); }
+    launcher.addEventListener("click", function () { panel.hidden ? openPanel() : closePanel(); });
+    panel.querySelector(".a11y-close").addEventListener("click", closePanel);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePanel(); });
+
+    panel.querySelector('[data-act="font-up"]').addEventListener("click", function () { if (state.font < 5) state.font++; updateFontVal(); apply(); });
+    panel.querySelector('[data-act="font-down"]').addEventListener("click", function () { if (state.font > -2) state.font--; updateFontVal(); apply(); });
+    panel.querySelectorAll("[data-toggle]").forEach(function (btn) {
+      btn.addEventListener("click", function () { var key = btn.getAttribute("data-toggle"); state[key] = !state[key]; apply(); });
+    });
+    panel.querySelector(".a11y-reset").addEventListener("click", function () {
+      state = { font: 0, contrast: false, links: false, readable: false, gray: false, stop: false };
+      updateFontVal(); apply();
+    });
+
+    updateFontVal();
+    apply();
+  })();
+
+  /* ---------- Lead form (academy CTA — Israeli phone, optional email) ---------- */
+  var leadForm = document.getElementById("leadForm");
+  if (leadForm) {
+    leadForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var nameEl = document.getElementById("lName");
+      var phoneEl = document.getElementById("lPhone");
+      var emailEl = document.getElementById("lEmail");
+      var note = document.getElementById("leadNote");
+      var name = (nameEl.value || "").trim();
+      var phone = (phoneEl.value || "").trim();
+      var email = (emailEl.value || "").trim();
+
+      if (!name) { nameEl.focus(); return; }
+      var digits = phone.replace(/\D/g, "").replace(/^972/, "0");
+      if (!/^0(5\d|[2-489])\d{7}$/.test(digits)) {
+        phoneEl.setCustomValidity("נא להזין מספר טלפון ישראלי תקין");
+        phoneEl.reportValidity();
+        return;
+      }
+      phoneEl.setCustomValidity("");
+
+      var text = "שלום עדן, שמי " + name + " ואשמח לקבל פרטים על האקדמיה. טלפון: " + phone;
+      if (email) { text += ". מייל: " + email; }
+      window.open("https://wa.me/972552629091?text=" + encodeURIComponent(text), "_blank");
+      if (note) { note.style.display = "block"; }
+      leadForm.reset();
+    });
+    document.getElementById("lPhone").addEventListener("input", function () {
+      this.setCustomValidity("");
     });
   }
 })();
