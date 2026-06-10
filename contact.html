@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>צור קשר — עדן רוסק</title>
+  <meta name="description" content="ליצירת קשר עם עדן רוסק לשיתופי פעולה, סדנאות וקורסים. השאירו פרטים ואחזור אליכם, או דברו איתי בוואטסאפ.">
+  <link rel="icon" href="assets/images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="global-nav">
+    <nav class="nav-inner" aria-label="ניווט ראשי">
+      <a href="index.html" class="nav-logo"><img src="assets/images/logo.png" alt="עדן רוסק"><span class="nav-logo-text">עדן רוסק</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">בית</a></li>
+        <li><a href="academy.html">האקדמיה</a></li>
+        <li><a href="workshops.html">סדנאות</a></li>
+        <li><a href="recommendations.html">המלצות</a></li>
+        <li><a href="contact.html" class="nav-cta active">צור קשר</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="תפריט" aria-expanded="false"><span></span><span></span></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="tile-light page-hero" style="padding-block:clamp(64px,9vw,110px) 40px">
+      <div class="wrap">
+        <p class="eyebrow">צור קשר</p>
+        <h1 class="display">בואו נדבר.</h1>
+        <p class="lead">ליצירת קשר לשיתופי פעולה, סדנאות, קורסים או כל שאלה — השאירו פרטים ואחזור אליכם, או דברו איתי ישירות בוואטסאפ.</p>
+      </div>
+    </section>
+
+    <section class="section-sm tile-light" style="padding-top:0">
+      <div class="wrap">
+        <div class="contact-grid">
+          <!-- Form -->
+          <div>
+            <form id="contactForm" novalidate>
+              <div class="form-field">
+                <label for="cName">שם מלא</label>
+                <input type="text" id="cName" name="name" autocomplete="name" required>
+              </div>
+              <div class="form-field">
+                <label for="cPhone">טלפון</label>
+                <input type="tel" id="cPhone" name="phone" autocomplete="tel" required>
+              </div>
+              <div class="form-field">
+                <label for="cEmail">אימייל</label>
+                <input type="email" id="cEmail" name="email" autocomplete="email">
+              </div>
+              <div class="form-field">
+                <label for="cMsg">איך אפשר לעזור?</label>
+                <textarea id="cMsg" name="message" placeholder="ספרו לי קצת על העסק או על מה שמעניין אתכם..."></textarea>
+              </div>
+              <label class="consent">
+                <input type="checkbox" required>
+                <span>אני מאשר/ת בזאת לעדן רוסק לשלוח לי הודעות שיווקיות, ומאשר/ת את <a href="terms.html#privacy">מדיניות הפרטיות</a> ואת <a href="terms.html">תנאי השימוש</a> באתר.</span>
+              </label>
+              <button type="submit" class="btn btn-primary btn-lg">שליחה בוואטסאפ</button>
+              <p id="formNote" class="fine" style="display:none;margin-top:16px;color:var(--primary)">פותח עבורכם וואטסאפ עם ההודעה — נדבר ממש עוד מעט! 💬</p>
+            </form>
+          </div>
+
+          <!-- Details -->
+          <div>
+            <div class="split-media" style="margin-bottom:32px">
+              <img src="assets/images/eden-avatar.png" alt="עדן רוסק" style="border-radius:var(--r-lg);aspect-ratio:1/1;object-fit:cover;box-shadow:var(--shadow-product)">
+            </div>
+            <div class="contact-detail">
+              <div class="ico">☎</div>
+              <div><div class="d-label">טלפון / וואטסאפ</div><a href="https://wa.me/972552629091" class="d-value" target="_blank" rel="noopener">055-262-9091</a></div>
+            </div>
+            <div class="contact-detail">
+              <div class="ico">✉</div>
+              <div><div class="d-label">פנייה מהירה</div><a href="https://wa.me/972552629091" class="d-value" target="_blank" rel="noopener">שלחו לי הודעה בוואטסאפ</a></div>
+            </div>
+            <div class="contact-detail">
+              <div class="ico">⌖</div>
+              <div><div class="d-label">כתובת</div><div class="d-value">שדרות הרכס 13, מודיעין</div></div>
+            </div>
+            <p class="fine" style="margin-top:18px">מענה לפניות יינתן עד 7 ימי עסקים מרגע קבלת הפנייה.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/images/logo.png" alt="עדן רוסק">
+          <p>מומחית ליצירת תוכן, UGC ורשתות חברתיות — הופכת כל עסק קטן למותג חזק שבולט ומוביל ברשת.</p>
+          <div class="footer-social">
+            <a href="https://wa.me/972552629091" aria-label="WhatsApp" target="_blank" rel="noopener"><img src="assets/images/social-instagram.png" alt="Instagram"></a>
+            <a href="#" aria-label="TikTok"><img src="assets/images/social-tiktok.png" alt="TikTok"></a>
+            <a href="#" aria-label="Facebook"><img src="assets/images/social-facebook.png" alt="Facebook"></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>ניווט באתר</h4>
+          <a href="index.html">בית</a>
+          <a href="academy.html">האקדמיה</a>
+          <a href="workshops.html">סדנאות פרונטליות</a>
+          <a href="recommendations.html">המלצות מוצרים</a>
+          <a href="contact.html">צור קשר</a>
+        </div>
+        <div class="footer-col">
+          <h4>מידע</h4>
+          <a href="terms.html">תקנון ותנאי שימוש</a>
+          <a href="terms.html#privacy">מדיניות הפרטיות</a>
+          <a href="https://wa.me/972552629091" target="_blank" rel="noopener">055-262-9091</a>
+          <span style="color:var(--ink-48);font-size:15px">שדרות הרכס 13, מודיעין</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> כל הזכויות שמורות לעדן רוסק</span>
+        <span><a href="terms.html">תקנון</a> · <a href="terms.html#privacy">פרטיות</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="הסכמה לשימוש בעוגיות">
+    <h4>אנחנו משתמשים בעוגיות 🍪</h4>
+    <p>האתר משתמש בעוגיות (Cookies) לתפעול תקין, לאיסוף נתונים סטטיסטיים ולהתאמת החוויה אליכם. למידע נוסף ראו <a href="terms.html#privacy">מדיניות הפרטיות</a>.</p>
+    <div class="cookie-actions">
+      <button class="btn btn-primary" id="cookieAccept">אישור</button>
+      <button class="btn btn-cookie-reject" id="cookieReject">רק ההכרחי</button>
+    </div>
+  </div>
+
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
