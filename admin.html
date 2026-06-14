@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>פאנל ניהול — עדן רוסק</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #232dce; --pink: #fe9cb1; --pink-soft: #fae3e8; --pink-deep: #e0567a;
+      --ink: #1d1d1f; --ink-80: rgba(29,29,31,.8); --ink-48: rgba(29,29,31,.48);
+      --hairline: rgba(0,0,0,.1); --canvas: #f5f5f7; --card: #ffffff;
+      --r: 14px; --r-sm: 10px; --r-pill: 999px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Heebo", sans-serif; background: var(--canvas); color: var(--ink); min-height: 100vh; }
+    button { font-family: inherit; cursor: pointer; }
+    input, select, textarea { font-family: inherit; font-size: 15px; }
+    a { color: var(--primary); }
+
+    /* ---- gate ---- */
+    .gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .gate-card { background: var(--card); border: 1px solid var(--hairline); border-radius: var(--r); padding: 40px 36px; width: min(420px, 100%); text-align: center; }
+    .gate-card img { width: 80px; margin-bottom: 14px; }
+    .gate-card h1 { font-size: 24px; margin-bottom: 6px; }
+    .gate-card p { font-size: 14px; color: var(--ink-48); margin-bottom: 22px; }
+    .gate-card input { width: 100%; padding: 13px 16px; border: 1px solid var(--hairline); border-radius: var(--r-sm); margin-bottom: 14px; font-size: 16px; }
+    .gate-err { color: var(--pink-deep); font-size: 14px; margin-top: 10px; display: none; }
+
+    /* ---- layout ---- */
+    .app { display: none; }
+    .app.open { display: block; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 16px;
+      background: var(--card); border-bottom: 1px solid var(--hairline); padding: 12px clamp(16px, 3vw, 32px);
+    }
+    .topbar img { width: 44px; }
+    .topbar h1 { font-size: 18px; font-weight: 700; }
+    .topbar .spacer { flex: 1; }
+    .topbar a.site-link { font-size: 14px; font-weight: 600; text-decoration: none; }
+
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; padding: 18px clamp(16px, 3vw, 32px) 0; }
+    .tab {
+      border: 1px solid var(--hairline); background: var(--card); color: var(--ink-80);
+      font-size: 15px; font-weight: 600; padding: 10px 22px; border-radius: var(--r-pill);
+    }
+    .tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    .panel { padding: 22px clamp(16px, 3vw, 32px) 80px; max-width: 1180px; }
+    .panel-head { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+    .panel-head h2 { font-size: 22px; }
+    .panel-head .spacer { flex: 1; }
+    .note {
+      background: #f3f4ff; border: 1px solid rgba(35,45,206,.25); border-radius: var(--r-sm);
+      font-size: 13.5px; color: var(--ink-80); padding: 10px 14px; margin-bottom: 18px; line-height: 1.6;
+    }
+
+    /* ---- buttons ---- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px; border: none; border-radius: var(--r-pill);
+      font-size: 14px; font-weight: 700; padding: 10px 20px; text-decoration: none;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-pink { background: var(--pink); color: var(--primary); }
+    .btn-ghost { background: transparent; border: 1px solid var(--hairline); color: var(--ink-80); }
+    .btn-danger { background: #fdeaea; color: #c0392b; }
+    .btn-sm { padding: 6px 14px; font-size: 13px; }
+
+    /* ---- stats (dashboard) ---- */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 26px; }
+    .stat-card { background: var(--card); border: 1px solid var(--hairline); border-radius: var(--r); padding: 20px; }
+    .stat-card .num { font-size: 32px; font-weight: 800; color: var(--primary); line-height: 1.1; }
+    .stat-card .lbl { font-size: 13.5px; color: var(--ink-48); margin-top: 4px; }
+    .dash-list { background: var(--card); border: 1px solid var(--hairline); border-radius: var(--r); padding: 18px 20px; margin-bottom: 16px; }
+    .dash-list h3 { font-size: 16px; margin-bottom: 10px; }
+    .dash-list ul { list-style: none; }
+    .dash-list li { font-size: 14px; padding: 7px 0; border-top: 1px solid var(--hairline); display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .dash-list li:first-child { border-top: none; }
+    .dash-list .muted { color: var(--ink-48); }
+
+    /* ---- item table ---- */
+    .items { display: flex; flex-direction: column; gap: 10px; }
+    .item {
+      display: flex; align-items: center; gap: 14px; background: var(--card);
+      border: 1px solid var(--hairline); border-radius: var(--r); padding: 12px 16px;
+    }
+    .item.inactive { opacity: .5; }
+    .item img { width: 64px; height: 48px; object-fit: cover; border-radius: 8px; background: var(--canvas); flex: 0 0 auto; }
+    .item-main { flex: 1 1 auto; min-width: 0; }
+    .item-title { font-size: 15.5px; font-weight: 700; }
+    .item-sub { font-size: 13px; color: var(--ink-48); margin-top: 2px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .item-sub .sale { color: var(--pink-deep); font-weight: 700; }
+    .item-sub .out { color: #c0392b; font-weight: 700; }
+    .item-acts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .chip { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: var(--r-pill); background: var(--pink-soft); color: var(--primary); }
+
+    /* ---- modal form ---- */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 50;
+      display: none; align-items: flex-start; justify-content: center; padding: 4vh 16px; overflow: auto;
+    }
+    .overlay.open { display: flex; }
+    .modal {
+      background: var(--card); border-radius: var(--r); width: min(680px, 100%);
+      padding: 26px 26px 22px; margin-bottom: 6vh;
+    }
+    .modal h3 { font-size: 19px; margin-bottom: 18px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+    .ffield { display: flex; flex-direction: column; gap: 5px; }
+    .ffield.full { grid-column: 1 / -1; }
+    .ffield label { font-size: 13px; font-weight: 700; color: var(--ink-80); }
+    .ffield .hint { font-size: 12px; color: var(--ink-48); font-weight: 400; }
+    .ffield input, .ffield select, .ffield textarea {
+      border: 1px solid var(--hairline); border-radius: var(--r-sm); padding: 10px 12px; background: #fff;
+    }
+    .ffield textarea { min-height: 84px; resize: vertical; line-height: 1.55; }
+    .ffield-check { flex-direction: row; align-items: center; gap: 8px; }
+    .ffield-check input { width: 18px; height: 18px; }
+    .ffield-check label { font-size: 14px; }
+    .modal-acts { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; flex-wrap: wrap; }
+    .img-preview { width: 100%; max-width: 180px; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--r-sm); border: 1px solid var(--hairline); margin-top: 6px; display: none; }
+
+    .toast {
+      position: fixed; bottom: 22px; inset-inline-start: 50%; transform: translateX(50%);
+      background: var(--ink); color: #fff; font-size: 14px; font-weight: 600;
+      padding: 12px 24px; border-radius: var(--r-pill); z-index: 90; opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .toast.show { opacity: 1; }
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .item { flex-wrap: wrap; }
+      .item-acts { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== passcode gate ===== -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <img src="assets/images/logo.png" alt="עדן רוסק">
+      <h1>פאנל ניהול</h1>
+      <p>האזור הזה מיועד לעדן בלבד. יש להזין קוד גישה.</p>
+      <input type="password" id="gatePass" placeholder="קוד גישה" autocomplete="current-password">
+      <button class="btn btn-primary" id="gateBtn" style="width:100%;justify-content:center">כניסה</button>
+      <p class="gate-err" id="gateErr">קוד שגוי — נסי שוב</p>
+    </div>
+  </div>
+
+  <!-- ===== app ===== -->
+  <div class="app" id="app">
+    <div class="topbar">
+      <img src="assets/images/logo.png" alt="">
+      <h1>פאנל ניהול — עדן רוסק</h1>
+      <span class="spacer"></span>
+      <a class="site-link" href="index.html" target="_blank" rel="noopener">צפייה באתר ↗</a>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn">יציאה</button>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tab="dash">לוח בקרה</button>
+      <button class="tab" data-tab="store">החנות</button>
+      <button class="tab" data-tab="rec">המומלצים שלי</button>
+      <button class="tab" data-tab="workshops">סדנאות</button>
+      <button class="tab" data-tab="settings">גיבוי ופרסום</button>
+    </div>
+
+    <div class="panel" id="panel"></div>
+  </div>
+
+  <!-- ===== modal ===== -->
+  <div class="overlay" id="overlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="assets/js/eden-db.js"></script>
+  <script src="assets/js/store-data.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/workshops-data.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

@@ -21,6 +21,7 @@
         <li><a href="index.html">בית</a></li>
         <li><a href="academy.html">האקדמיה</a></li>
         <li><a href="workshops.html" class="active">סדנאות</a></li>
+        <li><a href="shop.html">החנות</a></li>
         <li><a href="recommendations.html">המומלצים שלי</a></li>
         <li><a href="contact.html" class="nav-cta">צור קשר</a></li>
       </ul>
@@ -63,46 +64,7 @@
         <div class="center">
           <h2 class="h2">בוחרים את הסדנה שמתאימה לכם.</h2>
         </div>
-        <div class="cards reveal" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));max-width:880px;margin-inline:auto">
-          <div class="course-card">
-            <div class="course-media"><img src="assets/images/work/work-23.jpg" alt="סדנת UGC" loading="lazy"></div>
-            <div class="course-body">
-              <span class="tag">מעשי</span>
-              <h3 class="h3">סדנת UGC</h3>
-              <p>הכנסי לתחום הכי חם בשנים האחרונות בעולם השיווק!</p>
-              <p class="workshop-status">תאריך קרוב — 16.7.26, ההרשמה נסגרת בקרוב, נותרו מקומות אחרונים.</p>
-              <a href="landing.html?id=ugc-workshop" class="btn btn-primary">לפרטים והרשמה</a>
-            </div>
-          </div>
-          <div class="course-card">
-            <div class="course-media"><img src="assets/images/work/work-16.jpg" alt="סדנה קבוצתית ליצירת תוכן" loading="lazy"></div>
-            <div class="course-body">
-              <span class="tag">קבוצתי</span>
-              <h3 class="h3">סדנה ליצירת תוכן</h3>
-              <p class="workshop-cap">עד 12 משתתפים</p>
-              <p class="workshop-status">ההרשמה למועד הקרוב נסגרה, בקרוב יפתחו מועדים חדשים.</p>
-              <a href="landing.html?id=content-workshop" class="btn btn-primary">לפרטים ולעדכון מועד חדש</a>
-            </div>
-          </div>
-          <div class="course-card">
-            <div class="course-media"><img src="assets/images/work/work-01.jpg" alt="סדנת העשרה לצוות" loading="lazy"></div>
-            <div class="course-body">
-              <span class="tag">לעסקים וחברות</span>
-              <h3 class="h3">סדנת העשרה לצוות ולעובדים</h3>
-              <p>חוויה מגבשת ומעשירה לצוות — יוצרים יחד תוכן שמייצג את המותג, גם כשאין מחלקת שיווק.</p>
-              <a href="landing.html?id=team-workshop" class="btn btn-primary">לפרטים ולתיאום</a>
-            </div>
-          </div>
-          <div class="course-card">
-            <div class="course-media"><img src="assets/images/work/work-18.jpg" alt="סדנה אישית" loading="lazy"></div>
-            <div class="course-body">
-              <span class="tag">1:1</span>
-              <h3 class="h3">סדנה אישית</h3>
-              <p>מפגש אחד על אחד שתפור בדיוק עלייך — לפי הקצב, היעדים והאתגרים הספציפיים שלך.</p>
-              <a href="landing.html?id=private-workshop" class="btn btn-primary">לפרטים ולתיאום</a>
-            </div>
-          </div>
-        </div>
+        <div id="workshopCards" class="cards reveal" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));max-width:880px;margin-inline:auto"></div>
       </div>
     </section>
 
@@ -166,7 +128,7 @@
               whatsapp
             </a>
           </div>
-          <p id="leadNote" class="fine" style="display:none;margin-top:16px;color:var(--primary)">פותח עבורך whatsapp עם הפרטים — נדבר ממש עוד מעט! 💬</p>
+          <p id="leadNote" class="fine" style="display:none;margin-top:16px;color:var(--primary)">פותח עבורך whatsapp עם הפרטים — נדבר ממש עוד מעט!</p>
         </form>
       </div>
     </section>
@@ -188,6 +150,7 @@
           <a href="index.html">בית</a>
           <a href="academy.html">האקדמיה</a>
           <a href="workshops.html">סדנאות</a>
+          <a href="shop.html">החנות</a>
           <a href="recommendations.html">המומלצים שלי</a>
           <a href="contact.html">צור קשר</a>
         </div>
@@ -208,7 +171,7 @@
   </footer>
 
   <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="הסכמה לשימוש בעוגיות">
-    <h4>אנחנו משתמשים בעוגיות 🍪</h4>
+    <h4>אנחנו משתמשים בעוגיות</h4>
     <p>האתר משתמש בעוגיות (Cookies) לתפעול תקין, לאיסוף נתונים סטטיסטיים ולהתאמת החוויה אליכם. למידע נוסף ראו <a href="terms.html#privacy">מדיניות הפרטיות</a>.</p>
     <div class="cookie-actions">
       <button class="btn btn-primary" id="cookieAccept">אישור</button>
@@ -217,6 +180,9 @@
   </div>
 
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script src="assets/js/eden-db.js"></script>
+  <script src="assets/js/workshops-data.js"></script>
+  <script src="assets/js/workshops.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

@@ -81,20 +81,73 @@
     if (rej) rej.addEventListener("click", function () { decide("rejected"); });
   }
 
-  /* ---------- Reels: hover-play (muted) ---------- */
-  document.querySelectorAll(".reel-item").forEach(function (item) {
-    var video = item.querySelector("video");
-    if (!video) return;
-    item.addEventListener("mouseenter", function () {
+  /* ---------- Reels: hover-play on desktop, autoplay-in-view + tap on touch ---------- */
+  (function () {
+    var items = document.querySelectorAll(".reel-item");
+    if (!items.length) return;
+    var coarse = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+    /* iOS Safari needs the muted/playsinline *properties* set via JS before play() */
+    function prime(v) {
+      v.muted = true;
+      v.playsInline = true;
+      v.setAttribute("muted", "");
+      v.setAttribute("playsinline", "");
+      v.setAttribute("webkit-playsinline", "");
+    }
+    function play(item, v) {
       item.classList.add("playing");
-      try { video.currentTime = 0; var p = video.play(); if (p) p.catch(function () {}); } catch (e) {}
-    });
-    item.addEventListener("mouseleave", function () {
+      try { var p = v.play(); if (p) p.catch(function () { item.classList.remove("playing"); }); } catch (e) {}
+    }
+    function stop(item, v) {
       item.classList.remove("playing");
-      video.pause();
-      try { video.currentTime = 0; } catch (e) {}
+      v.pause();
+    }
+
+    if (coarse) {
+      /* Touch devices have no hover — play the muted videos while they're on screen. */
+      items.forEach(function (item) {
+        var v = item.querySelector("video");
+        if (!v) return;
+        prime(v);
+        try { v.preload = "metadata"; v.load(); } catch (e) {}
+        /* tap toggles play/pause as a fallback (e.g. iOS low-power mode blocks autoplay) */
+        item.addEventListener("click", function () {
+          if (item.classList.contains("playing")) { stop(item, v); } else { play(item, v); }
+        });
+      });
+      if ("IntersectionObserver" in window) {
+        var vio = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            var item = e.target, v = item.querySelector("video");
+            if (!v) return;
+            if (e.isIntersecting) { play(item, v); } else { stop(item, v); }
+          });
+        }, { threshold: 0.4 });
+        items.forEach(function (item) { vio.observe(item); });
+      } else {
+        items.forEach(function (item) {
+          var v = item.querySelector("video");
+          if (v) play(item, v);
+        });
+      }
+      return;
+    }
+
+    items.forEach(function (item) {
+      var video = item.querySelector("video");
+      if (!video) return;
+      item.addEventListener("mouseenter", function () {
+        prime(video);
+        try { video.currentTime = 0; } catch (e) {}
+        play(item, video);
+      });
+      item.addEventListener("mouseleave", function () {
+        stop(item, video);
+        try { video.currentTime = 0; } catch (e) {}
+      });
     });
-  });
+  })();
 
   /* ---------- Contact form (no backend — friendly handoff) ---------- */
   var form = document.getElementById("contactForm");

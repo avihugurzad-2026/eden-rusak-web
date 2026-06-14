@@ -2,8 +2,10 @@
    Renders category carousels on recommendations.html and the product page. */
 (function () {
   "use strict";
-  var PRODUCTS = window.EDEN_PRODUCTS || [];
-  var CATS = window.EDEN_CATEGORIES || [];
+  /* admin.html edits are merged in via EDEN_DB (localStorage overrides) */
+  var PRODUCTS = window.EDEN_DB ? EDEN_DB.get("recProducts", window.EDEN_PRODUCTS || []) : (window.EDEN_PRODUCTS || []);
+  var CATS = window.EDEN_DB ? EDEN_DB.get("recCategories", window.EDEN_CATEGORIES || []) : (window.EDEN_CATEGORIES || []);
+  PRODUCTS = PRODUCTS.filter(function (p) { return p.active !== false; });
 
   function byId(id) { for (var i = 0; i < PRODUCTS.length; i++) { if (PRODUCTS[i].id === id) return PRODUCTS[i]; } return null; }
   function inCat(key) { return PRODUCTS.filter(function (p) { return p.cat === key; }); }

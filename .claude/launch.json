@@ -4,7 +4,7 @@
     {
       "name": "eden-site",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["/Users/avihugurzad/Desktop/work - graphics/עדן - אתר/.claude/serve.py"],
+      "runtimeArgs": ["-m", "http.server", "4173"],
       "port": 4173
     }
   ]

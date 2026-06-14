@@ -1,6 +1,7 @@
 /* Eden Rusak — landing page renderer. Renders landing.html by ?id=<key>.
-   Long-form sales structure, inspired by a webinar landing reference,
-   in the site's own colors & design language. */
+   Premium one-background structure (ronizaken.com reference): unified white
+   page, big editorial typography, hero → features → curriculum → about →
+   process → for-who → testimonials → FAQ → lead form. Site colors only. */
 (function () {
   "use strict";
   var DATA = window.EDEN_LANDINGS || {};
@@ -14,7 +15,6 @@
   if (!d) return;
 
   document.title = d.title + " — עדן רוסק";
-  var accentTile = d.accent === "pink" ? "tile-pink" : "tile-blue";
 
   function li(arr) { return arr.map(function (x) { return "<li>" + x + "</li>"; }).join(""); }
   function esc(s) { return String(s); }
@@ -32,8 +32,13 @@
       d.ctaUrl + '"' + ctaAttr + ">" + d.ctaText + "</a>";
   }
 
-  /* ---------- benefits (whatYouGet → feature cards) ---------- */
-  var benefitIcons = [
+  /* small decorative sparkle (site pink/blue) */
+  function spark(cls, style) {
+    return '<span class="lp-spark ' + (cls || "") + '" style="' + style + '" aria-hidden="true"></span>';
+  }
+
+  /* ---------- features (whatYouGet → icon rows) ---------- */
+  var featureIcons = [
     'M20 6L9 17l-5-5',                       /* check */
     'M13 2L3 14h7l-1 8 10-12h-7l1-8z',       /* bolt */
     'M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21 8 14 2 9.4h7.6L12 2z', /* star */
@@ -41,30 +46,30 @@
     'M22 11.08V12a10 10 0 1 1-5.93-9.14',    /* check-circle */
     'M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 5v5l3 3' /* clock */
   ];
-  var benefitCards = d.whatYouGet.map(function (b, i) {
-    var p = benefitIcons[i % benefitIcons.length];
-    return '<div class="benefit-card reveal">' +
-      '<span class="benefit-ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + p + '"/></svg></span>' +
+  var featuresHTML = d.whatYouGet.map(function (b, i) {
+    var p = featureIcons[i % featureIcons.length];
+    return '<div class="lp-feature reveal">' +
+      '<span class="lp-feature-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + p + '"/></svg></span>' +
       "<p>" + b + "</p></div>";
   }).join("");
 
-  /* ---------- steps strip ---------- */
+  /* ---------- curriculum (numbered cards grid) ---------- */
+  var curriculum = d.curriculum.map(function (m, i) {
+    var n = (i + 1 < 10 ? "0" : "") + (i + 1);
+    return '<div class="card reveal"><div class="card-num">' + n + '</div><h3 class="h3">' +
+      m.t + "</h3><p>" + m.d + "</p></div>";
+  }).join("");
+
+  /* ---------- process steps ---------- */
   var stepsHTML = COMMON.steps.map(function (s, i) {
     return '<div class="step-card reveal"><span class="step-num">' + (i + 1) + "</span>" +
       '<h3 class="h3">' + s.t + "</h3><p>" + s.d + "</p></div>";
   }).join("");
 
-  /* ---------- stats strip ---------- */
+  /* ---------- stats (quiet trust strip, white) ---------- */
   var statsHTML = COMMON.stats.map(function (s) {
-    return '<div class="stat-item"><span class="stat-num">' + s.num + "</span>" +
-      '<span class="stat-label">' + s.label + "</span></div>";
-  }).join("");
-
-  /* ---------- curriculum ---------- */
-  var curriculum = d.curriculum.map(function (m, i) {
-    var n = (i + 1 < 10 ? "0" : "") + (i + 1);
-    return '<div class="card reveal"><div class="card-num">' + n + '</div><h3 class="h3">' +
-      m.t + "</h3><p>" + m.d + "</p></div>";
+    return '<div class="lp-stat"><span class="lp-stat-num">' + s.num + "</span>" +
+      '<span class="lp-stat-label">' + s.label + "</span></div>";
   }).join("");
 
   /* ---------- testimonials ---------- */
@@ -78,13 +83,13 @@
       "</figure>";
   }).join("");
 
-  /* ---------- FAQ (kept from original) ---------- */
+  /* ---------- FAQ ---------- */
   var faqHTML = "";
   if (d.faq && d.faq.length) {
     faqHTML =
-      '<section class="section tile-light"><div class="wrap wrap-text">' +
-      '<div class="center"><h2 class="h2">שאלות ותשובות</h2>' +
-      '<p class="lead" style="margin-top:14px">כל מה שחשוב לדעת לפני שמתחילים</p></div>' +
+      '<section class="landing-sec"><div class="wrap wrap-text">' +
+      '<div class="center"><span class="eyebrow">שאלות נפוצות</span>' +
+      '<h2 class="h2 lp-h2">שאלות ותשובות</h2></div>' +
       '<div class="landing-faq">' +
       d.faq.map(function (f) {
         return '<details class="faq-item"><summary>' + f.q + "</summary><p>" + f.a + "</p></details>";
@@ -92,83 +97,77 @@
       "</div></div></section>";
   }
 
-  /* mid-page CTA band */
-  function ctaBand() {
-    return '<section class="section ' + accentTile + ' center landing-cta-band">' +
-      '<div class="wrap wrap-text">' +
-      '<h2 class="h2">' + (d.price && d.price !== "ללא עלות" ? "מוכנה להתחיל?" : "רוצה פרטים נוספים?") + "</h2>" +
-      '<p class="lead" style="margin:16px auto 24px">' + d.tagline + "</p>" +
-      (priceHTML ? priceHTML : "") + dateHTML +
-      '<div class="btn-row" style="justify-content:center;margin-top:24px">' + ctaBtn() +
-      '<a class="btn btn-ghost" href="#enroll">השארת פרטים</a></div>' +
-      "</div></section>";
-  }
-
   root.innerHTML =
-    /* ===== hero ===== */
-    '<section class="' + accentTile + ' page-hero landing-hero">' +
-      '<div class="wrap landing-hero-grid">' +
-        '<div class="landing-hero-text">' +
-          '<span class="landing-badge">' + d.kind + "</span>" +
-          '<h1 class="display">' + d.title + "</h1>" +
-          '<p class="lead">' + d.tagline + "</p>" +
-          priceHTML + dateHTML +
-          '<div class="btn-row" style="margin-top:28px">' + ctaBtn() +
-          '<a class="btn btn-ghost" href="#enroll">השארת פרטים</a></div>' +
-        "</div>" +
-        '<div class="landing-hero-media"><img src="' + d.image + '" alt="' + esc(d.title) + '"></div>' +
+    /* ===== hero — centered, big type, large image below ===== */
+    '<section class="landing-hero">' +
+      spark("", "top:18%;inset-inline-start:10%;width:26px;height:26px;animation-delay:.3s") +
+      spark("lp-spark-blue", "top:30%;inset-inline-end:9%;width:18px;height:18px;animation-delay:1.1s") +
+      spark("lp-spark-blue", "top:12%;inset-inline-end:18%;width:12px;height:12px") +
+      '<div class="wrap landing-hero-inner">' +
+        '<span class="landing-badge">' + d.kind + "</span>" +
+        '<h1 class="landing-display">' + d.title + "</h1>" +
+        '<p class="lead">' + d.tagline + "</p>" +
+        priceHTML + dateHTML +
+        '<div class="btn-row landing-hero-cta">' + ctaBtn() +
+        '<a class="btn btn-ghost" href="#enroll">השארת פרטים</a></div>' +
+        '<div class="landing-hero-media reveal"><img src="' + d.image + '" alt="' + esc(d.title) + '"></div>' +
       "</div>" +
     "</section>" +
 
-    /* ===== benefits ===== */
-    '<section class="section tile-light"><div class="wrap"><div class="center">' +
+    /* ===== features ===== */
+    '<section class="landing-sec"><div class="wrap"><div class="center">' +
       '<span class="eyebrow">למה כדאי</span>' +
-      '<h2 class="h2">מה תקבלי</h2></div>' +
-      '<div class="benefit-grid">' + benefitCards + "</div></div></section>" +
+      '<h2 class="h2 lp-h2">מה תקבלי</h2></div>' +
+      '<div class="lp-feature-grid">' + featuresHTML + "</div></div></section>" +
 
-    /* ===== intro + image split ===== */
-    '<section class="section tile-parchment"><div class="wrap"><div class="split reveal">' +
-      '<div class="split-media"><img src="' + d.image + '" alt="' + esc(d.title) + '"></div>' +
-      '<div><span class="eyebrow">קצת רקע</span>' +
-      '<h2 class="h2">מה מחכה לך</h2><p class="lead" style="margin-top:16px">' + d.intro + "</p>" +
+    /* ===== curriculum ===== */
+    '<section class="landing-sec"><div class="wrap"><div class="center">' +
+      '<span class="eyebrow">התכנית</span>' +
+      '<h2 class="h2 lp-h2">מה לומדים בפנים</h2></div>' +
+      '<div class="cards cards-centered">' + curriculum + "</div></div></section>" +
+
+    /* ===== mid CTA strip (soft pink card on the white page) ===== */
+    '<section class="landing-sec"><div class="wrap">' +
+      '<div class="lp-cta-strip reveal">' +
+      '<h2 class="h2 lp-h2">' + (d.price && d.price !== "ללא עלות" ? "מוכנה להתחיל" : "רוצה פרטים נוספים") + "</h2>" +
+      '<p class="lead" style="margin:14px auto 0;max-width:560px">' + d.tagline + "</p>" +
+      priceHTML + dateHTML +
+      '<div class="btn-row" style="justify-content:center;margin-top:26px">' + ctaBtn() +
+      '<a class="btn btn-ghost" href="#enroll">השארת פרטים</a></div>' +
+      "</div></div></section>" +
+
+    /* ===== about — "נעים להכיר" split ===== */
+    '<section class="landing-sec"><div class="wrap"><div class="split reveal">' +
+      '<div class="split-media"><img src="assets/images/eden-hero-bw.jpg" alt="עדן רוסק"></div>' +
+      '<div><span class="eyebrow">נעים להכיר</span>' +
+      '<h2 class="h2 lp-h2">מה מחכה לך</h2><p class="lead" style="margin-top:16px">' + d.intro + "</p>" +
       '<ul class="check-list" style="margin-top:22px">' + li(d.whatYouGet) + "</ul>" +
       '<div class="btn-row" style="margin-top:26px">' + ctaBtn() + "</div></div>" +
     "</div></div></section>" +
 
-    /* ===== stats strip ===== */
-    '<section class="section tile-dark landing-stats"><div class="wrap">' +
-      '<div class="stats-grid">' + statsHTML + "</div></div></section>" +
-
-    /* ===== curriculum ===== */
-    '<section class="section tile-light"><div class="wrap"><div class="center">' +
-      '<span class="eyebrow">תכנית</span>' +
-      '<h2 class="h2">מה לומדים</h2></div>' +
-      '<div class="cards cards-centered">' + curriculum + "</div></div></section>" +
-
-    /* ===== mid CTA band ===== */
-    ctaBand() +
-
-    /* ===== steps ===== */
-    '<section class="section tile-light"><div class="wrap"><div class="center">' +
+    /* ===== process steps ===== */
+    '<section class="landing-sec"><div class="wrap"><div class="center">' +
       '<span class="eyebrow">איך זה עובד</span>' +
-      '<h2 class="h2">שלושה צעדים פשוטים</h2></div>' +
+      '<h2 class="h2 lp-h2">שלושה צעדים פשוטים</h2></div>' +
       '<div class="steps-grid">' + stepsHTML + "</div></div></section>" +
 
     /* ===== for who ===== */
-    '<section class="section tile-blue"><div class="wrap"><div class="split reverse reveal">' +
-      '<div class="split-media"><img src="assets/images/edenphoto11.jpeg" alt="למי זה מתאים"></div>' +
-      '<div><span class="eyebrow" style="color:rgba(255,255,255,.7)">בדיוק בשבילך</span>' +
-      '<h2 class="display" style="font-size:clamp(34px,5vw,58px)">למי זה מתאים</h2>' +
-      '<ul class="check-list" style="margin-top:22px">' + li(d.forWho) + "</ul></div>" +
-    "</div></div></section>" +
+    '<section class="landing-sec"><div class="wrap"><div class="center">' +
+      '<span class="eyebrow">בדיוק בשבילך</span>' +
+      '<h2 class="h2 lp-h2">למי זה מתאים</h2></div>' +
+      '<div class="lp-forwho"><ul class="check-list">' + li(d.forWho) + "</ul></div>" +
+    "</div></section>" +
+
+    /* ===== stats — quiet trust strip ===== */
+    (statsHTML ? '<section class="landing-sec lp-stats-sec"><div class="wrap"><div class="lp-stats">' + statsHTML + "</div></div></section>" : "") +
 
     /* ===== testimonials ===== */
-    '<section class="section tile-parchment"><div class="wrap"><div class="center">' +
+    '<section class="landing-sec"><div class="wrap"><div class="center">' +
       '<span class="eyebrow">ממליצות</span>' +
-      '<h2 class="h2">מה אומרות עליי</h2></div>' +
+      '<h2 class="h2 lp-h2">מה אומרות עליי</h2></div>' +
       '<div class="testimonial-grid">' + testimonialHTML + "</div></div></section>" +
 
-    /* ===== FAQ (kept) ===== */
+    /* ===== FAQ ===== */
     faqHTML;
 
   /* wire the static CTA button + headline in #enroll */
