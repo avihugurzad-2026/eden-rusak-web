@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18238889882"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-18238889882');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>סדנת UGC — עדן רוסק</title>
+  <meta name="description" content="סדנת UGC פרונטלית עם עדן רוסק — לומדות לצלם, לערוך ולעבוד עם מותגים, ויוצאות עם תיק עבודות מוכן.">
+  <link rel="icon" href="assets/images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- pin this page to the UGC workshop landing -->
+  <script>window.EDEN_FORCE_ID = "ugc-workshop";</script>
+</head>
+<body>
+
+  <header class="global-nav">
+    <nav class="nav-inner" aria-label="ניווט ראשי">
+      <a href="index.html" class="nav-logo"><img src="assets/images/edenewlogo.svg" alt="עדן רוסק"></a>
+      <ul class="nav-links">
+        <li><a href="index.html">בית</a></li>
+        <li><a href="academy.html">האקדמיה</a></li>
+        <li><a href="workshops.html">סדנאות</a></li>
+        <li><a href="shop.html">החנות</a></li>
+        <li><a href="recommendations.html">המומלצים שלי</a></li>
+        <li><a href="contact.html" class="nav-cta">צור קשר</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="תפריט" aria-expanded="false"><span></span><span></span></button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="landingContent"></div>
+
+    <!-- Final CTA + lead form -->
+    <section class="section lp-enroll center" id="enroll">
+      <div class="wrap wrap-text">
+        <h2 class="h2" id="landingCtaHead">רוצה לשמוע עוד?</h2>
+        <p class="lead" style="margin:18px auto 18px">תשאירי לי פרטים כאן למטה או לחצי על הכפתור ונחזור אליך עם הפרטים.</p>
+        <div class="btn-row" style="justify-content:center;margin-bottom:30px">
+          <a id="landingCtaBtn" class="btn btn-primary btn-lg" href="#enroll">להרשמה</a>
+        </div>
+        <form id="leadForm" class="lead-form" novalidate>
+          <div class="form-field">
+            <label for="lName">שם מלא</label>
+            <input type="text" id="lName" name="name" autocomplete="name" required>
+          </div>
+          <div class="form-field">
+            <label for="lPhone">טלפון</label>
+            <input type="tel" id="lPhone" name="phone" autocomplete="tel" inputmode="tel" placeholder="05X-XXXXXXX" required>
+          </div>
+          <div class="form-field">
+            <label for="lEmail">אימייל <span class="optional">(לא חובה)</span></label>
+            <input type="email" id="lEmail" name="email" autocomplete="email">
+          </div>
+          <div class="lead-actions">
+            <button type="submit" class="btn btn-primary btn-lg">אני רוצה פרטים</button>
+            <a href="https://wa.me/972552629091" class="btn btn-whatsapp btn-lg" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.516 5.26l-.999 3.648 3.972-1.207zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              whatsapp
+            </a>
+          </div>
+          <p id="leadNote" class="fine" style="display:none;margin-top:16px;color:var(--primary)">פותח עבורך whatsapp עם הפרטים — נדבר ממש עוד מעט!</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/images/edenewlogo.svg" alt="עדן רוסק">
+          <p>מומחית ליצירת תוכן, UGC ורשתות חברתיות הופכת כל עסק למותג בולט ומוביל!</p>
+          <div class="footer-social">
+            <a href="https://www.instagram.com/eden.rusak/" aria-label="Instagram" target="_blank" rel="noopener"><img src="assets/images/social-instagram.png" alt="Instagram"></a>
+            <a href="https://www.tiktok.com/@edenrusakk" aria-label="TikTok" target="_blank" rel="noopener"><img src="assets/images/social-tiktok.png" alt="TikTok"></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>ניווט באתר</h4>
+          <a href="index.html">בית</a>
+          <a href="academy.html">האקדמיה</a>
+          <a href="workshops.html">סדנאות</a>
+          <a href="shop.html">החנות</a>
+          <a href="recommendations.html">המומלצים שלי</a>
+          <a href="contact.html">צור קשר</a>
+        </div>
+        <div class="footer-col">
+          <h4>מידע</h4>
+          <a href="terms.html">תקנון ותנאי שימוש</a>
+          <a href="terms.html#privacy">מדיניות הפרטיות</a>
+          <a href="accessibility.html">הצהרת נגישות</a>
+          <a href="https://wa.me/972552629091" target="_blank" rel="noopener">055-262-9091</a>
+          <span style="color:var(--ink-48);font-size:15px">שדרות הרכס 13, מודיעין</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> כל הזכויות שמורות לעדן רוסק</span>
+        <span><a href="terms.html">תקנון</a> · <a href="terms.html#privacy">פרטיות</a> · <a href="accessibility.html">נגישות</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="הסכמה לשימוש בעוגיות">
+    <h4>אנחנו משתמשים בעוגיות</h4>
+    <p>האתר משתמש בעוגיות (Cookies) לתפעול תקין, לאיסוף נתונים סטטיסטיים ולהתאמת החוויה אליכם. למידע נוסף ראו <a href="terms.html#privacy">מדיניות הפרטיות</a>.</p>
+    <div class="cookie-actions">
+      <button class="btn btn-primary" id="cookieAccept">אישור</button>
+      <button class="btn btn-cookie-reject" id="cookieReject">רק ההכרחי</button>
+    </div>
+  </div>
+
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script src="assets/js/landings.js"></script>
+  <script src="assets/js/landing.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

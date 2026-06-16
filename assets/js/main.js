@@ -157,6 +157,7 @@
       var note = document.getElementById("formNote");
       var name = (document.getElementById("cName") || {}).value || "";
       var msg = (document.getElementById("cMsg") || {}).value || "";
+      fireLeadConversion();
       var text = encodeURIComponent("שלום עדן, שמי " + name + ". " + msg);
       window.open("https://wa.me/972552629091?text=" + text, "_blank");
       if (note) { note.style.display = "block"; }
@@ -234,6 +235,17 @@
     apply();
   })();
 
+  /* ---------- Google Ads conversion (lead-form submission) ---------- */
+  function fireLeadConversion() {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "conversion", {
+        send_to: "AW-18238889882/fDNZCJeplcAcEJq__fhD",
+        value: 1.0,
+        currency: "ILS"
+      });
+    }
+  }
+
   /* ---------- Lead form (academy CTA — Israeli phone, optional email) ---------- */
   /* Static site → forward leads by email via FormSubmit (one-time activation
      required: the first submission emails an activation link to the address). */
@@ -273,6 +285,8 @@
         return;
       }
       phoneEl.setCustomValidity("");
+
+      fireLeadConversion();
 
       var cfg = window.EDEN_LEAD;
       if (cfg) {

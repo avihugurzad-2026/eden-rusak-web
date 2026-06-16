@@ -10,7 +10,8 @@
   if (!root) return;
 
   var params = new URLSearchParams(window.location.search);
-  var key = params.get("id");
+  /* a dedicated short-URL page (e.g. /ugc.html) can pin the id via window.EDEN_FORCE_ID */
+  var key = window.EDEN_FORCE_ID || params.get("id");
   var d = DATA[key] || DATA[Object.keys(DATA)[0]];
   if (!d) return;
 

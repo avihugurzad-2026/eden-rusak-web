@@ -9,7 +9,7 @@ window.EDEN_WORKSHOPS = [
     text: "הכנסי לתחום הכי חם בשנים האחרונות בעולם השיווק!",
     cap: "", status: "תאריך קרוב — 16.7.26, ההרשמה נסגרת בקרוב, נותרו מקומות אחרונים.",
     price: "", img: "assets/images/work/work-23.jpg",
-    link: "landing.html?id=ugc-workshop", linkText: "לפרטים והרשמה", active: true
+    link: "ugc.html", linkText: "לפרטים והרשמה", active: true
   },
   {
     id: "content-workshop", tag: "קבוצתי", title: "סדנה ליצירת תוכן",
