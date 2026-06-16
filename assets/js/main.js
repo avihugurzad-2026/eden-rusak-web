@@ -235,6 +235,24 @@
   })();
 
   /* ---------- Lead form (academy CTA — Israeli phone, optional email) ---------- */
+  /* Static site → forward leads by email via FormSubmit (one-time activation
+     required: the first submission emails an activation link to the address). */
+  function sendLeadEmail(to, data) {
+    if (!to) { return; }
+    try {
+      fetch("https://formsubmit.co/ajax/" + encodeURIComponent(to), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: "ליד חדש מהאתר" + (data.page ? " — " + data.page : ""),
+          "שם": data.name || "",
+          "טלפון": data.phone || "",
+          "אימייל": data.email || "—"
+        })
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
   var leadForm = document.getElementById("leadForm");
   if (leadForm) {
     leadForm.addEventListener("submit", function (e) {
@@ -255,6 +273,20 @@
         return;
       }
       phoneEl.setCustomValidity("");
+
+      var cfg = window.EDEN_LEAD;
+      if (cfg) {
+        /* 1) auto-forward the lead to Eden's inbox (no backend — FormSubmit) */
+        sendLeadEmail(cfg.email, { name: name, phone: phone, email: email, page: cfg.page });
+        /* 2) hand off to a prefilled whatsapp chat within a few seconds */
+        var firstName = name.split(/\s+/)[0];
+        var waText = (cfg.waMessage || "").replace("{name}", firstName);
+        var waUrl = "https://wa.me/" + cfg.waNumber + "?text=" + encodeURIComponent(waText);
+        if (note) { note.style.display = "block"; }
+        leadForm.reset();
+        setTimeout(function () { window.location.href = waUrl; }, cfg.delayMs || 4000);
+        return;
+      }
 
       var text = "שלום עדן, שמי " + name + " ואשמח לקבל פרטים על האקדמיה. טלפון: " + phone;
       if (email) { text += ". מייל: " + email; }

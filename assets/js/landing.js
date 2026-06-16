@@ -16,7 +16,43 @@
 
   document.title = d.title + " — עדן רוסק";
 
-  function li(arr) { return arr.map(function (x) { return "<li>" + x + "</li>"; }).join(""); }
+  /* optional: strip the global header/nav on focused landing pages (e.g. UGC) */
+  if (d.hideHeader) {
+    var navEl = document.querySelector(".global-nav");
+    if (navEl) navEl.parentNode.removeChild(navEl);
+    document.body.classList.add("lp-no-header");
+  }
+
+  /* accent → primary button colour (pink accent uses the pink button) */
+  var accentBtn = d.accent === "blue" ? "btn-primary" : "btn-pink";
+  var WA_NUMBER = "972552629091";
+
+  /* optional: route the primary CTAs straight to a prefilled whatsapp chat */
+  if (d.ctaWhatsapp) {
+    d.ctaUrl = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(d.ctaWhatsapp);
+  }
+
+  /* optional: lead-form behaviour (auto-email + whatsapp handoff) read by main.js */
+  if (d.leadEmail) {
+    window.EDEN_LEAD = {
+      email: d.leadEmail,
+      waNumber: WA_NUMBER,
+      waMessage: d.leadWaMessage || "היי, אשמח לקבל פרטים נוספים",
+      delayMs: 4000,
+      page: d.title
+    };
+  }
+
+  /* eyebrow kicker — hidden on de-cluttered pages */
+  function eb(text) { return d.hideEyebrows ? "" : '<span class="eyebrow">' + text + "</span>"; }
+  /* bold the opening clause up to the first colon, then drop to a new line */
+  function boldLead(s) {
+    var i = s.indexOf(":");
+    if (i === -1) { return s; }
+    return "<strong>" + s.slice(0, i + 1) + "</strong><br>" + s.slice(i + 1).replace(/^\s+/, "");
+  }
+
+  function li(arr) { return arr.map(function (x) { return "<li>" + boldLead(x) + "</li>"; }).join(""); }
   function esc(s) { return String(s); }
 
   var priceHTML = "";
@@ -27,8 +63,9 @@
   var dateHTML = d.dateNote ? '<p class="landing-date">' + d.dateNote + "</p>" : "";
 
   var ctaAttr = d.ctaUrl.indexOf("http") === 0 ? ' target="_blank" rel="noopener"' : "";
+  var ctaSecondaryText = d.ctaSecondaryText || "השארת פרטים";
   function ctaBtn(extraClass) {
-    return '<a class="btn btn-primary btn-lg ' + (extraClass || "") + '" href="' +
+    return '<a class="btn ' + accentBtn + ' btn-lg ' + (extraClass || "") + '" href="' +
       d.ctaUrl + '"' + ctaAttr + ">" + d.ctaText + "</a>";
   }
 
@@ -50,7 +87,7 @@
     var p = featureIcons[i % featureIcons.length];
     return '<div class="lp-feature reveal">' +
       '<span class="lp-feature-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + p + '"/></svg></span>' +
-      "<p>" + b + "</p></div>";
+      "<p>" + boldLead(b) + "</p></div>";
   }).join("");
 
   /* ---------- curriculum (numbered cards grid) ---------- */
@@ -87,14 +124,30 @@
   var faqHTML = "";
   if (d.faq && d.faq.length) {
     faqHTML =
-      '<section class="landing-sec"><div class="wrap wrap-text">' +
-      '<div class="center"><span class="eyebrow">שאלות נפוצות</span>' +
+      '<section class="landing-sec lp-faq-sec"><div class="wrap wrap-text">' +
+      '<div class="center">' + eb("שאלות נפוצות") +
       '<h2 class="h2 lp-h2">שאלות ותשובות</h2></div>' +
       '<div class="landing-faq">' +
       d.faq.map(function (f) {
         return '<details class="faq-item"><summary>' + f.q + "</summary><p>" + f.a + "</p></details>";
       }).join("") +
       "</div></div></section>";
+  }
+
+  /* ---------- technical details + urgency (workshops) ---------- */
+  var detailsHTML = "";
+  if (d.details) {
+    detailsHTML =
+      '<section class="landing-sec"><div class="wrap wrap-text">' +
+      '<div class="center">' + eb("פרטים טכניים") +
+      '<h2 class="h2 lp-h2">מתי, איפה וכמה מקומות</h2></div>' +
+      '<div class="lp-details">' +
+        (d.details.when ? '<div class="lp-detail"><span class="lp-detail-k">מתי</span><span class="lp-detail-v">' + d.details.when + "</span></div>" : "") +
+        (d.details.where ? '<div class="lp-detail"><span class="lp-detail-k">איפה</span><span class="lp-detail-v">' + d.details.where +
+          (d.details.whereNote ? '<span class="lp-detail-note">' + d.details.whereNote + "</span>" : "") + "</span></div>" : "") +
+      "</div>" +
+      (d.details.urgency ? '<p class="lp-urgency">' + d.details.urgency + "</p>" : "") +
+      "</div></section>";
   }
 
   root.innerHTML =
@@ -106,56 +159,60 @@
       '<div class="wrap landing-hero-inner">' +
         '<span class="landing-badge">' + d.kind + "</span>" +
         '<h1 class="landing-display">' + d.title + "</h1>" +
+        (d.subtitle ? '<p class="landing-subtitle">' + d.subtitle + "</p>" : "") +
         '<p class="lead">' + d.tagline + "</p>" +
         priceHTML + dateHTML +
         '<div class="btn-row landing-hero-cta">' + ctaBtn() +
-        '<a class="btn btn-ghost" href="#enroll">השארת פרטים</a></div>' +
+        '<a class="btn btn-ghost" href="#enroll">' + ctaSecondaryText + "</a></div>" +
         '<div class="landing-hero-media reveal"><img src="' + d.image + '" alt="' + esc(d.title) + '"></div>' +
       "</div>" +
     "</section>" +
 
     /* ===== features ===== */
     '<section class="landing-sec"><div class="wrap"><div class="center">' +
-      '<span class="eyebrow">למה כדאי</span>' +
-      '<h2 class="h2 lp-h2">מה תקבלי</h2></div>' +
-      '<div class="lp-feature-grid">' + featuresHTML + "</div></div></section>" +
+      eb("למה כדאי") +
+      '<h2 class="h2 lp-h2">' + (d.featuresTitle || "מה תקבלי") + "</h2></div>" +
+      '<div class="lp-feature-grid">' + featuresHTML + "</div>" +
+      (d.summaryLine ? '<p class="lp-summary-line">' + d.summaryLine + "</p>" : "") +
+      "</div></section>" +
 
     /* ===== curriculum ===== */
     '<section class="landing-sec"><div class="wrap"><div class="center">' +
-      '<span class="eyebrow">התכנית</span>' +
-      '<h2 class="h2 lp-h2">מה לומדים בפנים</h2></div>' +
-      '<div class="cards cards-centered">' + curriculum + "</div></div></section>" +
+      eb("התכנית") +
+      '<h2 class="h2 lp-h2">' + (d.curriculumTitle || "מה לומדים בפנים") + "</h2></div>" +
+      '<div class="cards cards-centered' + (d.curriculumPlain ? " cards-plain" : "") + '">' + curriculum + "</div></div></section>" +
 
     /* ===== mid CTA strip (soft pink card on the white page) ===== */
     '<section class="landing-sec"><div class="wrap">' +
       '<div class="lp-cta-strip reveal">' +
-      '<h2 class="h2 lp-h2">' + (d.price && d.price !== "ללא עלות" ? "מוכנה להתחיל" : "רוצה פרטים נוספים") + "</h2>" +
+      '<h2 class="h2 lp-h2">' + (d.price && d.price !== "ללא עלות" ? "מוכנה להתחיל" : "רוצה פרטים נוספים?") + "</h2>" +
       '<p class="lead" style="margin:14px auto 0;max-width:560px">' + d.tagline + "</p>" +
       priceHTML + dateHTML +
       '<div class="btn-row" style="justify-content:center;margin-top:26px">' + ctaBtn() +
-      '<a class="btn btn-ghost" href="#enroll">השארת פרטים</a></div>' +
+      '<a class="btn btn-ghost" href="#enroll">' + ctaSecondaryText + "</a></div>" +
       "</div></div></section>" +
 
     /* ===== about — "נעים להכיר" split ===== */
     '<section class="landing-sec"><div class="wrap"><div class="split reveal">' +
       '<div class="split-media"><img src="assets/images/eden-hero-bw.jpg" alt="עדן רוסק"></div>' +
-      '<div><span class="eyebrow">נעים להכיר</span>' +
+      "<div>" + eb("נעים להכיר") +
       '<h2 class="h2 lp-h2">מה מחכה לך</h2><p class="lead" style="margin-top:16px">' + d.intro + "</p>" +
       '<ul class="check-list" style="margin-top:22px">' + li(d.whatYouGet) + "</ul>" +
       '<div class="btn-row" style="margin-top:26px">' + ctaBtn() + "</div></div>" +
     "</div></div></section>" +
 
     /* ===== process steps ===== */
-    '<section class="landing-sec"><div class="wrap"><div class="center">' +
-      '<span class="eyebrow">איך זה עובד</span>' +
+    (d.hideSteps ? "" :
+      '<section class="landing-sec"><div class="wrap"><div class="center">' +
+      eb("איך זה עובד") +
       '<h2 class="h2 lp-h2">שלושה צעדים פשוטים</h2></div>' +
-      '<div class="steps-grid">' + stepsHTML + "</div></div></section>" +
+      '<div class="steps-grid">' + stepsHTML + "</div></div></section>") +
 
     /* ===== for who ===== */
     '<section class="landing-sec"><div class="wrap"><div class="center">' +
-      '<span class="eyebrow">בדיוק בשבילך</span>' +
-      '<h2 class="h2 lp-h2">למי זה מתאים</h2></div>' +
-      '<div class="lp-forwho"><ul class="check-list">' + li(d.forWho) + "</ul></div>" +
+      eb("בדיוק בשבילך") +
+      '<h2 class="h2 lp-h2">' + (d.forWhoTitle || "למי זה מתאים") + "</h2></div>" +
+      '<div class="lp-forwho"><ul class="check-list' + (d.forWhoSpark ? " check-list-spark" : "") + '">' + li(d.forWho) + "</ul></div>" +
     "</div></section>" +
 
     /* ===== stats — quiet trust strip ===== */
@@ -163,20 +220,51 @@
 
     /* ===== testimonials ===== */
     '<section class="landing-sec"><div class="wrap"><div class="center">' +
-      '<span class="eyebrow">ממליצות</span>' +
+      eb("ממליצות") +
       '<h2 class="h2 lp-h2">מה אומרות עליי</h2></div>' +
       '<div class="testimonial-grid">' + testimonialHTML + "</div></div></section>" +
 
     /* ===== FAQ ===== */
-    faqHTML;
+    faqHTML +
+
+    /* ===== technical details + urgency ===== */
+    detailsHTML;
 
   /* wire the static CTA button + headline in #enroll */
   var ctaBtnEl = document.getElementById("landingCtaBtn");
   if (ctaBtnEl) {
-    ctaBtnEl.textContent = d.ctaText;
+    ctaBtnEl.textContent = d.enrollCtaText || d.ctaText;
     ctaBtnEl.setAttribute("href", d.ctaUrl);
+    ctaBtnEl.className = "btn " + accentBtn + " btn-lg";
     if (d.ctaUrl.indexOf("http") === 0) { ctaBtnEl.setAttribute("target", "_blank"); ctaBtnEl.setAttribute("rel", "noopener"); }
   }
   var ctaHead = document.getElementById("landingCtaHead");
-  if (ctaHead) { ctaHead.textContent = "רוצה לשמוע עוד על " + d.title + "?"; }
+  if (ctaHead) { ctaHead.textContent = "רוצה לשמוע עוד על " + d.title.replace(/[!?.]+$/, "") + "?"; }
+
+  /* optional: override the lead-form submit label (e.g. UGC) */
+  if (d.formBtnText) {
+    var formBtn = document.querySelector('#leadForm button[type="submit"]');
+    if (formBtn) formBtn.textContent = d.formBtnText;
+  }
+
+  /* optional: scatter a few animated sparkles down the whole page (UGC) */
+  if (d.scatterSparks) {
+    var secs = root.querySelectorAll(".landing-sec");
+    Array.prototype.forEach.call(secs, function (sec, i) {
+      sec.classList.add("lp-spark-host");
+      var n = i % 2 === 0 ? 2 : 1;
+      for (var k = 0; k < n; k++) {
+        var sp = document.createElement("span");
+        sp.className = "lp-spark" + ((i + k) % 2 ? " lp-spark-blue" : "");
+        sp.setAttribute("aria-hidden", "true");
+        var side = (i + k) % 2 ? "start" : "end";
+        var top = 14 + ((i * 23 + k * 47) % 64);
+        var off = 4 + ((i * 13 + k * 29) % 12);
+        var sz = 12 + ((i + k) % 3) * 5;
+        sp.style.cssText = "top:" + top + "%;inset-inline-" + side + ":" + off +
+          "%;width:" + sz + "px;height:" + sz + "px;animation-delay:" + (((i + k) % 5) * 0.4).toFixed(1) + "s";
+        sec.appendChild(sp);
+      }
+    });
+  }
 })();
