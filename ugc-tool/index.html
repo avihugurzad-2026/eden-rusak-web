@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>תסריטי UGC</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root {
+  --bg: #fbf0f1; --surface: #fffafb; --ink: #5c1626; --muted: #8e5c68;
+  --line: #efcdd6; --deep: #7a1c2e; --accent: #b52a5c; --glow: #f8dbe3; --blush: #fbe3e9;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #2b1219; --surface: #3a1a23; --ink: #fbe9ed; --muted: #d6a6b3;
+    --line: #5c2c39; --deep: #f3b8c6; --accent: #e0708f; --glow: #4a1f2b; --blush: #431f2a;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: "Heebo", Arial, sans-serif; font-size: 15px; line-height: 1.6;
+  direction: rtl; text-align: right;
+}
+[hidden] { display: none !important; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-block: 20px 40px; padding-inline: 16px; }
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 14px 18px;
+}
+.top img { height: 52px; width: auto; }
+.nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 22px; margin-top: 16px; }
+h1 { margin: 0 0 8px; font-size: clamp(24px, 5vw, 34px); font-weight: 900; color: var(--deep); text-wrap: balance; }
+h2 { margin: 0 0 12px; font-size: 18px; font-weight: 800; color: var(--deep); }
+.muted { color: var(--muted); }
+.status { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+button {
+  font: inherit; font-weight: 700; color: var(--surface); background: var(--accent);
+  border: 0; border-radius: 999px; padding: 9px 18px; cursor: pointer;
+}
+button.outline { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+button.danger { background: transparent; color: var(--deep); border: 1.5px solid var(--deep); }
+button:disabled { opacity: 0.5; cursor: default; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+input[type="text"], input[type="email"], input[type="password"], input[type="date"], textarea {
+  font: inherit; color: var(--ink); background: var(--blush); border: 1.5px solid var(--line);
+  border-radius: 12px; padding: 10px 12px; width: 100%; min-width: 0;
+}
+input[type="checkbox"] { accent-color: var(--accent); width: 18px; height: 18px; }
+input:focus, textarea:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+label.lbl { display: grid; gap: 6px; font-size: 13px; font-weight: 700; color: var(--accent); min-width: 0; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 16px; }
+.wide { grid-column: 1 / -1; }
+.row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.spacer { flex: 1; }
+
+/* list */
+.items { display: grid; gap: 10px; margin-top: 12px; }
+.item {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  background: var(--blush); border: 1px solid var(--line); border-radius: 16px; padding: 12px 16px;
+}
+.item strong { color: var(--deep); }
+
+/* table */
+.tbl-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow-x: auto; margin-top: 12px; }
+table.script { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+table.script th {
+  background: var(--blush); color: var(--deep); font-size: 13px; font-weight: 700; text-align: right;
+  padding: 12px 14px; border-bottom: 1px solid var(--line);
+}
+table.script td { vertical-align: top; padding: 10px; border-bottom: 1px solid var(--line); border-inline-start: 1px solid var(--line); }
+table.script td:first-child { border-inline-start: 0; }
+table.script tbody tr:last-child td { border-bottom: 0; }
+table.script textarea { min-height: 150px; resize: vertical; line-height: 1.7; font-size: 15px; }
+table.script td.ctl { width: 64px; text-align: center; }
+.num {
+  display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 999px;
+  background: var(--deep); color: var(--surface); font-size: 13px; font-weight: 700;
+}
+.del-row {
+  margin-top: 8px; width: 34px; height: 34px; padding: 0; font-size: 16px; line-height: 1;
+  background: transparent; color: var(--muted); border: 1.5px solid var(--line);
+}
+
+/* admin table */
+table.users { width: 100%; border-collapse: collapse; margin-top: 12px; }
+table.users th, table.users td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: middle; }
+table.users th { color: var(--deep); font-size: 13px; }
+
+.notice { background: var(--blush); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin-top: 12px; }
+.error { color: var(--deep); font-weight: 700; margin-top: 10px; }
+
+/* mobile */
+@media (max-width: 640px) {
+  .top img { height: 40px; }
+  table.script thead { display: none; }
+  table.script, table.script tbody, table.script tr, table.script td { display: block; width: 100%; }
+  table.script tr { border-bottom: 1px solid var(--line); padding: 8px 2px; }
+  table.script td { border: 0; padding: 6px 4px; }
+  table.script td.ctl { width: auto; text-align: right; }
+  table.script td:not(.ctl)::before {
+    content: attr(data-label); display: block; font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 4px;
+  }
+  table.users thead { display: none; }
+  table.users, table.users tbody, table.users tr, table.users td { display: block; width: 100%; }
+  table.users tr { border-bottom: 1px solid var(--line); padding: 8px 0; }
+  table.users td { border: 0; padding: 4px 0; }
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  .top, .no-print, #view-auth, #view-denied, #view-list, #view-admin, .status-bar { display: none !important; }
+  .wrap { max-width: none; padding: 0; }
+  #view-editor { border: 0; padding: 0; margin: 0; background: #fff; }
+  #view-editor .no-print { display: none !important; }
+  #view-editor .status { display: none !important; }
+  textarea, input { border: 0 !important; background: transparent !important; color: #000 !important; }
+  .print-only { display: block !important; }
+  table.script textarea { min-height: 80px; }
+  table.script td.ctl, .del-row { display: none !important; }
+  table.script th:last-child { display: none; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.print-only { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top no-print">
+    <img src="logo.png" alt="Edit yourself">
+    <nav class="nav" id="nav" hidden>
+      <button type="button" class="outline" id="nav-list">התסריטים שלי</button>
+      <button type="button" class="outline" id="nav-admin" hidden>ניהול משתמשות</button>
+      <button type="button" class="danger" id="nav-logout">יציאה</button>
+    </nav>
+  </header>
+
+  <!-- AUTH -->
+  <section class="card" id="view-auth" hidden>
+    <h1>כניסה לתסריטים</h1>
+    <p class="muted">הכניסה למשתמשות מאושרות בלבד. אם עוד לא קיבלת גישה, פני למנהלת.</p>
+    <form id="form-login" class="fields" style="margin-top:14px">
+      <label class="lbl wide">מייל<input type="email" id="auth-email" autocomplete="email" required></label>
+      <label class="lbl wide">סיסמה<input type="password" id="auth-password" autocomplete="current-password" required minlength="6"></label>
+      <div class="row-actions wide">
+        <button type="submit">כניסה</button>
+        <button type="button" class="outline" id="btn-signup">יצירת חשבון (למשתמשת שאושרה)</button>
+      </div>
+    </form>
+    <p class="error" id="auth-error" role="alert" hidden></p>
+  </section>
+
+  <!-- NO ACCESS -->
+  <section class="card" id="view-denied" hidden>
+    <h1>אין לך גישה עדיין</h1>
+    <p class="muted">המייל שלך לא מופיע ברשימת המשתמשות המאושרות. פני למנהלת כדי שתוסיף אותך.</p>
+    <div class="row-actions" style="margin-top:12px">
+      <button type="button" class="outline" id="btn-denied-logout">יציאה</button>
+    </div>
+  </section>
+
+  <!-- LIST -->
+  <section class="card" id="view-list" hidden>
+    <div class="row-actions">
+      <h1 class="spacer">התסריטים שלי</h1>
+      <button type="button" id="btn-new">+ תסריט חדש</button>
+    </div>
+    <p class="status" id="list-status" role="status"></p>
+    <div class="items" id="items"></div>
+  </section>
+
+  <!-- EDITOR -->
+  <section class="card" id="view-editor" hidden>
+    <div class="row-actions no-print">
+      <button type="button" class="outline" id="btn-back">חזרה לרשימה</button>
+      <span class="spacer"></span>
+      <span class="status" id="save-status" role="status">נשמר</span>
+      <button type="button" id="btn-print">שמירה כ-PDF / הדפסה</button>
+      <button type="button" class="danger" id="btn-delete">מחיקת התסריט</button>
+    </div>
+
+    <div id="editor" style="margin-top:16px">
+      <h2 class="print-only" id="print-title"></h2>
+
+      <h2>פרטי הסרטון</h2>
+      <div class="fields">
+        <label class="lbl wide">נושא הסרטון<input type="text" id="d-topic"></label>
+        <label class="lbl">לקוח / מותג<input type="text" id="d-client"></label>
+        <label class="lbl">מוצר<input type="text" id="d-product"></label>
+        <label class="lbl">שם היוצרת<input type="text" id="d-creator"></label>
+        <label class="lbl">פלטפורמה<input type="text" id="d-platform"></label>
+        <label class="lbl">תאריך צילום<input type="date" id="d-shoot"></label>
+        <label class="lbl">תאריך פרסום מתוכנן<input type="date" id="d-publish"></label>
+        <label class="lbl">משך מוערך<input type="text" id="d-length"></label>
+        <label class="lbl">מיקום הצילום<input type="text" id="d-location"></label>
+      </div>
+
+      <h2 style="margin-top:22px">השוטים</h2>
+      <div class="tbl-wrap">
+        <table class="script">
+          <colgroup><col style="width:36%"><col style="width:36%"><col style="width:20%"><col style="width:8%"></colgroup>
+          <thead><tr><th>מה אומרים (מלל)</th><th>מה רואים (ויזואל / שוטים)</th><th>הערות</th><th></th></tr></thead>
+          <tbody id="shot-rows"></tbody>
+        </table>
+      </div>
+      <div class="row-actions no-print" style="margin-top:12px">
+        <button type="button" class="outline" id="btn-add-shot">+ הוספת שוט</button>
+      </div>
+
+      <h2 style="margin-top:22px">הערות כלליות</h2>
+      <textarea id="g-notes" rows="5" aria-label="הערות כלליות"></textarea>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section class="card" id="view-admin" hidden>
+    <h1>ניהול משתמשות</h1>
+    <p class="muted">רק משתמשות שמופיעות כאן יכולות להיכנס ולשמור תסריטים. מסירות את המייל כדי לבטל גישה.</p>
+
+    <form id="form-add-user" class="fields" style="margin-top:14px">
+      <label class="lbl">מייל<input type="email" id="u-email" required></label>
+      <label class="lbl">שם<input type="text" id="u-name"></label>
+      <label class="lbl" style="grid-template-columns:auto 1fr;align-items:center">
+        <input type="checkbox" id="u-admin"> מנהלת
+      </label>
+      <div class="row-actions">
+        <button type="submit">הוספת משתמשת</button>
+      </div>
+    </form>
+    <p class="error" id="admin-error" role="alert" hidden></p>
+
+    <table class="users">
+      <thead><tr><th>שם</th><th>מייל</th><th>מנהלת</th><th></th></tr></thead>
+      <tbody id="users-rows"></tbody>
+    </table>
+  </section>
+
+  <p class="status" style="text-align:center;margin-top:20px">© כל הזכויות שמורות לעדן רוסק</p>
+</div>
+
+<script>
+(function () {
+  var SUPABASE_URL = "https://lzlqszxlfyjfprzdoxnq.supabase.co";
+  var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6bHFzenhsZnlqZnByemRveG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzNTg1NDMsImV4cCI6MjEwNjkzNDU0M30.qNIOK209hKQDnNRUB41yHEU5mm6vyppQ4CjSOX1SzTY";
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { persistSession: true, autoRefreshToken: true } });
+
+  var state = { user: null, approved: null, scriptId: null, saveTimer: null, shotCount: 0 };
+  var DETAILS = [
+    ["d-topic", "נושא הסרטון"], ["d-client", "לקוח / מותג"], ["d-product", "מוצר"], ["d-creator", "שם היוצרת"],
+    ["d-platform", "פלטפורמה"], ["d-shoot", "תאריך צילום"], ["d-publish", "תאריך פרסום מתוכנן"],
+    ["d-length", "משך מוערך"], ["d-location", "מיקום הצילום"]
+  ];
+
+  function $(id) { return document.getElementById(id); }
+  function show(id) {
+    ["view-auth", "view-denied", "view-list", "view-editor", "view-admin"].forEach(function (v) {
+      $(v).hidden = v !== id;
+    });
+  }
+  function setError(el, msg) { el.textContent = msg || ""; el.hidden = !msg; }
+  function el(tag, props, text) {
+    var n = document.createElement(tag);
+    if (props) Object.keys(props).forEach(function (k) { n.setAttribute(k, props[k]); });
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function route() {
+    if (!state.user) return;
+    var h = location.hash || "#/";
+    if (h.indexOf("#/s/") === 0) return openEditor(h.slice(4));
+    if (h === "#/admin" && state.approved && state.approved.is_admin) return openAdmin();
+    return openList();
+  }
+
+  // ---------- auth ----------
+  async function signIn(email, password) {
+    var r = await sb.auth.signInWithPassword({ email: email, password: password });
+    if (r.error) throw new Error("המייל או הסיסמה לא נכונים");
+  }
+  async function signUp(email, password) {
+    var r = await sb.auth.signUp({ email: email, password: password });
+    if (r.error) throw new Error(r.error.message);
+    if (!r.data.session) throw new Error("נשלח מייל אישור. אחרי האישור, היכנסי עם הסיסמה.");
+  }
+
+  async function loadApproved() {
+    var email = (state.user.email || "").toLowerCase();
+    var r = await sb.from("ugc_approved_users").select("email,display_name,is_admin").eq("email", email).maybeSingle();
+    state.approved = r.data || null;
+    return !!state.approved;
+  }
+
+  async function enter(session) {
+    state.user = session.user;
+    var ok = await loadApproved();
+    if (!ok) { show("view-denied"); $("nav").hidden = true; return; }
+    $("nav").hidden = false;
+    $("nav-admin").hidden = !state.approved.is_admin;
+    if (!location.hash) location.hash = "#/";
+    route();
+  }
+
+  $("form-login").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    setError($("auth-error"), "");
+    try {
+      await signIn($("auth-email").value.trim(), $("auth-password").value);
+    } catch (err) { setError($("auth-error"), err.message); }
+  });
+
+  $("btn-signup").addEventListener("click", async function () {
+    setError($("auth-error"), "");
+    var email = $("auth-email").value.trim();
+    var pw = $("auth-password").value;
+    if (!email || pw.length < 6) return setError($("auth-error"), "כתבי מייל וסיסמה של לפחות 6 תווים");
+    try { await signUp(email, pw); }
+    catch (err) { setError($("auth-error"), err.message); }
+  });
+
+  $("nav-logout").addEventListener("click", logout);
+  $("btn-denied-logout").addEventListener("click", logout);
+  async function logout() {
+    await sb.auth.signOut();
+    state.user = null; state.approved = null; state.scriptId = null;
+    location.hash = "";
+    $("nav").hidden = true;
+    show("view-auth");
+  }
+
+  // ---------- list ----------
+  $("nav-list").addEventListener("click", function () { location.hash = "#/"; });
+  $("nav-admin").addEventListener("click", function () { location.hash = "#/admin"; });
+
+  async function openList() {
+    show("view-list");
+    $("list-status").textContent = "טוענת...";
+    var r = await sb.from("ugc_scripts").select("id,title,updated_at").order("updated_at", { ascending: false });
+    var box = $("items");
+    box.textContent = "";
+    if (r.error) { $("list-status").textContent = "לא הצלחנו לטעון את התסריטים"; return; }
+    $("list-status").textContent = r.data.length ? "" : "עוד אין תסריטים. לחצי על ״תסריט חדש״ כדי להתחיל.";
+    r.data.forEach(function (s) {
+      var item = el("div", { class: "item" });
+      var info = el("div");
+      info.appendChild(el("strong", null, s.title || "תסריט ללא שם"));
+      info.appendChild(el("div", { class: "status" }, "עודכן: " + new Date(s.updated_at).toLocaleString("he-IL")));
+      var open = el("button", { type: "button", class: "outline" }, "פתיחה");
+      open.addEventListener("click", function () { location.hash = "#/s/" + s.id; });
+      item.appendChild(info);
+      item.appendChild(open);
+      box.appendChild(item);
+    });
+  }
+
+  $("btn-new").addEventListener("click", async function () {
+    var r = await sb.from("ugc_scripts").insert({ title: "תסריט חדש", content: {} }).select("id").single();
+    if (r.error) { $("list-status").textContent = "לא הצלחנו ליצור תסריט חדש"; return; }
+    location.hash = "#/s/" + r.data.id;
+  });
+
+  // ---------- editor ----------
+  function addShot(values) {
+    state.shotCount += 1;
+    var tr = el("tr");
+    var labels = ["מה אומרים (מלל)", "מה רואים (ויזואל / שוטים)", "הערות"];
+    var keys = ["say", "see", "notes"];
+    keys.forEach(function (k, i) {
+      var td = el("td", { "data-label": labels[i] });
+      var ta = el("textarea", { "data-k": k, "aria-label": labels[i] });
+      ta.value = (values && values[k]) || "";
+      ta.addEventListener("input", scheduleSave);
+      td.appendChild(ta);
+      tr.appendChild(td);
+    });
+    var ctl = el("td", { class: "ctl" });
+    var num = el("span", { class: "num" });
+    var del = el("button", { type: "button", class: "del-row", "aria-label": "מחיקת שוט" }, "×");
+    del.addEventListener("click", function () { tr.remove(); renumber(); scheduleSave(); });
+    ctl.appendChild(num);
+    ctl.appendChild(del);
+    tr.appendChild(ctl);
+    $("shot-rows").appendChild(tr);
+    renumber();
+  }
+  function renumber() {
+    var rows = $("shot-rows").querySelectorAll("tr");
+    rows.forEach(function (tr, i) { tr.querySelector(".num").textContent = String(i + 1).padStart(2, "0"); });
+    state.shotCount = rows.length;
+  }
+
+  function collect() {
+    var details = {};
+    DETAILS.forEach(function (d) { details[d[0]] = $(d[0]).value; });
+    var rows = [];
+    $("shot-rows").querySelectorAll("tr").forEach(function (tr) {
+      var o = {};
+      tr.querySelectorAll("textarea").forEach(function (ta) { o[ta.getAttribute("data-k")] = ta.value; });
+      rows.push(o);
+    });
+    return { details: details, rows: rows, notes: $("g-notes").value };
+  }
+
+  function fill(content) {
+    var d = (content && content.details) || {};
+    DETAILS.forEach(function (x) { $(x[0]).value = d[x[0]] || ""; });
+    $("g-notes").value = (content && content.notes) || "";
+    $("shot-rows").textContent = "";
+    var rows = (content && content.rows && content.rows.length) ? content.rows : [{}, {}, {}, {}, {}, {}];
+    rows.forEach(function (r) { addShot(r); });
+  }
+
+  function scheduleSave() {
+    $("save-status").textContent = "שומרת...";
+    clearTimeout(state.saveTimer);
+    state.saveTimer = setTimeout(saveNow, 600);
+  }
+
+  async function saveNow() {
+    if (!state.scriptId) return;
+    var content = collect();
+    var title = (content.details["d-topic"] || "").trim() || "תסריט חדש";
+    var r = await sb.from("ugc_scripts").update({ title: title, content: content }).eq("id", state.scriptId);
+    $("save-status").textContent = r.error ? "השמירה נכשלה, נסי שוב" : "נשמר";
+  }
+
+  async function openEditor(id) {
+    state.scriptId = id;
+    show("view-editor");
+    $("save-status").textContent = "טוענת...";
+    var r = await sb.from("ugc_scripts").select("id,title,content").eq("id", id).maybeSingle();
+    if (!r.data) { $("save-status").textContent = "התסריט לא נמצא"; state.scriptId = null; return; }
+    fill(r.data.content);
+    renumber();
+    $("print-title").textContent = r.data.title;
+    $("save-status").textContent = "נשמר";
+  }
+
+  $("btn-add-shot").addEventListener("click", function () { addShot({}); scheduleSave(); });
+  $("g-notes").addEventListener("input", scheduleSave);
+  DETAILS.forEach(function (d) { $(d[0]).addEventListener("input", scheduleSave); });
+
+  $("btn-back").addEventListener("click", async function () {
+    clearTimeout(state.saveTimer);
+    await saveNow();
+    state.scriptId = null;
+    location.hash = "#/";
+  });
+
+  $("btn-print").addEventListener("click", function () {
+    $("print-title").textContent = ($("d-topic").value || "תסריט").trim();
+    window.print();
+  });
+
+  $("btn-delete").addEventListener("click", async function () {
+    var btn = $("btn-delete");
+    if (btn.getAttribute("data-armed") !== "1") {
+      btn.setAttribute("data-armed", "1");
+      btn.textContent = "לחצי שוב כדי למחוק";
+      setTimeout(function () { btn.removeAttribute("data-armed"); btn.textContent = "מחיקת התסריט"; }, 4000);
+      return;
+    }
+    clearTimeout(state.saveTimer);
+    var r = await sb.from("ugc_scripts").delete().eq("id", state.scriptId);
+    btn.removeAttribute("data-armed");
+    btn.textContent = "מחיקת התסריט";
+    if (r.error) { $("save-status").textContent = "המחיקה נכשלה"; return; }
+    state.scriptId = null;
+    location.hash = "#/";
+  });
+
+  // ---------- admin ----------
+  async function openAdmin() {
+    show("view-admin");
+    await loadUsers();
+  }
+
+  async function loadUsers() {
+    var r = await sb.from("ugc_approved_users").select("email,display_name,is_admin").order("added_at", { ascending: true });
+    var body = $("users-rows");
+    body.textContent = "";
+    if (r.error) return;
+    r.data.forEach(function (u) {
+      var tr = el("tr");
+      tr.appendChild(el("td", { "data-label": "שם" }, u.display_name || "—"));
+      tr.appendChild(el("td", { "data-label": "מייל" }, u.email));
+      var tdAdmin = el("td", { "data-label": "מנהלת" });
+      var cb = el("input", { type: "checkbox", "aria-label": "מנהלת" });
+      cb.checked = !!u.is_admin;
+      cb.addEventListener("change", async function () {
+        var res = await sb.from("ugc_approved_users").update({ is_admin: cb.checked }).eq("email", u.email);
+        if (res.error) { cb.checked = !cb.checked; setError($("admin-error"), "העדכון נכשל"); }
+        else setError($("admin-error"), "");
+      });
+      tdAdmin.appendChild(cb);
+      tr.appendChild(tdAdmin);
+      var tdDel = el("td");
+      var isMe = state.user && (state.user.email || "").toLowerCase() === u.email.toLowerCase();
+      var del = el("button", { type: "button", class: "danger" }, "הסרה");
+      if (isMe) del.disabled = true;
+      del.addEventListener("click", async function () {
+        var res = await sb.from("ugc_approved_users").delete().eq("email", u.email);
+        if (res.error) return setError($("admin-error"), "ההסרה נכשלה");
+        loadUsers();
+      });
+      tdDel.appendChild(del);
+      tr.appendChild(tdDel);
+      body.appendChild(tr);
+    });
+  }
+
+  $("form-add-user").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    setError($("admin-error"), "");
+    var email = $("u-email").value.trim().toLowerCase();
+    var res = await sb.from("ugc_approved_users").insert({
+      email: email,
+      display_name: $("u-name").value.trim(),
+      is_admin: $("u-admin").checked
+    });
+    if (res.error) return setError($("admin-error"), "לא הצלחנו להוסיף. בדקי שהמייל לא כבר ברשימה.");
+    $("form-add-user").reset();
+    loadUsers();
+  });
+
+  window.addEventListener("hashchange", route);
+
+  // ---------- start ----------
+  sb.auth.onAuthStateChange(function (event, session) {
+    if (session && session.user && (!state.user || state.user.id !== session.user.id)) {
+      enter(session);
+    } else if (!session && state.user) {
+      state.user = null;
+    }
+  });
+
+  sb.auth.getSession().then(function (r) {
+    if (r.data && r.data.session) enter(r.data.session);
+    else show("view-auth");
+  });
+})();
+</script>
+</body>
+</html>
