@@ -8,6 +8,8 @@
 <link rel="icon" href="logo.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<link rel="stylesheet" href="planner.css">
+<script src="planner.js"></script>
 <style>
 :root {
   --bg: #fbf0f1; --surface: #fffafb; --ink: #5c1626; --muted: #8e5c68;
@@ -24,6 +26,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Heebo", Arial, sans-serif; font-size: 15px; line-height: 1.6; direction: rtl; text-align: right; }
 [hidden] { display: none !important; }
+body.is-wide .wrap { max-width: 1360px; }
 .wrap { max-width: 1040px; margin: 0 auto; padding-block: 20px 40px; padding-inline: 16px; }
 .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 14px 18px; }
 .top img { height: 52px; width: auto; }
@@ -155,6 +158,7 @@ table.users th { color: var(--deep); font-size: 13px; }
       <h1 class="spacer">המסמכים שלי</h1>
       <button type="button" id="btn-new-script">+ תסריט חדש</button>
       <button type="button" class="outline" id="btn-new-ws">+ תרגיל חדש</button>
+      <button type="button" class="outline" id="btn-new-plan">+ תכנון שנתי</button>
     </div>
     <p class="status" id="list-status" role="status"></p>
     <div class="items" id="items"></div>
@@ -214,6 +218,9 @@ table.users th { color: var(--deep); font-size: 13px; }
       <h2 style="margin-top:22px">הערות כלליות</h2>
       <textarea id="g-notes" rows="5" aria-label="הערות כלליות"></textarea>
     </div>
+
+    <!-- Annual planner -->
+    <div id="form-planner" hidden></div>
 
     <!-- Worksheet form -->
     <div id="form-ws" hidden style="margin-top:16px">
@@ -348,6 +355,7 @@ table.users th { color: var(--deep); font-size: 13px; }
 
   function $(id) { return document.getElementById(id); }
   function show(id) {
+    if (id !== "view-editor") document.body.classList.remove("is-wide");
     ["view-auth", "view-denied", "view-list", "view-hooks", "view-editor", "view-admin"].forEach(function (v) {
       $(v).hidden = v !== id;
     });
@@ -435,13 +443,13 @@ table.users th { color: var(--deep); font-size: 13px; }
     var box = $("items");
     box.textContent = "";
     if (r.error) { $("list-status").textContent = "לא הצלחנו לטעון את המסמכים"; return; }
-    $("list-status").textContent = r.data.length ? "" : "עוד אין מסמכים. בחרי ״תסריט חדש״ או ״תרגיל חדש״ כדי להתחיל.";
+    $("list-status").textContent = r.data.length ? "" : "עוד אין מסמכים. בחרי ״תסריט חדש״, ״תרגיל חדש״ או ״תכנון שנתי״ כדי להתחיל.";
     r.data.forEach(function (s) {
       var item = el("div", { class: "item" });
       var info = el("div");
       var name = el("strong", null, s.title || "ללא שם");
       info.appendChild(name);
-      info.appendChild(el("span", { class: "badge" }, s.kind === "worksheet" ? "תרגיל" : "תסריט"));
+      info.appendChild(el("span", { class: "badge" }, { worksheet: "תרגיל", planner: "תכנון שנתי" }[s.kind] || "תסריט"));
       info.appendChild(el("div", { class: "status" }, "עודכן: " + new Date(s.updated_at).toLocaleString("he-IL")));
       var open = el("button", { type: "button", class: "outline" }, "פתיחה");
       open.addEventListener("click", function () { location.hash = "#/d/" + s.id; });
@@ -452,13 +460,14 @@ table.users th { color: var(--deep); font-size: 13px; }
   }
 
   async function newDoc(kind) {
-    var title = kind === "worksheet" ? "תרגיל חדש" : "תסריט חדש";
+    var title = { worksheet: "תרגיל חדש", planner: "תכנון שנתי 2026–2027" }[kind] || "תסריט חדש";
     var r = await sb.from("ugc_scripts").insert({ title: title, kind: kind, content: {} }).select("id").single();
     if (r.error) { $("list-status").textContent = "לא הצלחנו ליצור מסמך חדש"; return; }
     location.hash = "#/d/" + r.data.id;
   }
   $("btn-new-script").addEventListener("click", function () { newDoc("script"); });
   $("btn-new-ws").addEventListener("click", function () { newDoc("worksheet"); });
+  $("btn-new-plan").addEventListener("click", function () { newDoc("planner"); });
 
   // ---------- hook bank ----------
   var currentFilter = "all";
@@ -568,6 +577,7 @@ table.users th { color: var(--deep); font-size: 13px; }
   }
 
   function titleFor(kind, content) {
+    if (kind === "planner") return window.Planner.title();
     if (kind === "worksheet") return ((content.ws && content.ws["w-product"]) || "").trim() || "תרגיל חדש";
     return ((content.details && content.details["d-topic"]) || "").trim() || "תסריט חדש";
   }
@@ -580,7 +590,7 @@ table.users th { color: var(--deep); font-size: 13px; }
   }
   async function saveNow() {
     if (!state.docId) return;
-    var content = state.kind === "worksheet" ? collectWs() : collectScript();
+    var content = state.kind === "planner" ? window.Planner.read() : state.kind === "worksheet" ? collectWs() : collectScript();
     var title = titleFor(state.kind, content);
     $("print-title").textContent = title;
     var r = await sb.from("ugc_scripts").update({ title: title, content: content }).eq("id", state.docId);
@@ -594,10 +604,13 @@ table.users th { color: var(--deep); font-size: 13px; }
     var r = await sb.from("ugc_scripts").select("id,title,kind,content").eq("id", id).maybeSingle();
     if (!r.data) { $("save-status").textContent = "המסמך לא נמצא"; state.docId = null; return; }
     state.kind = r.data.kind || "script";
-    var isWs = state.kind === "worksheet";
-    $("form-script").hidden = isWs;
+    var isWs = state.kind === "worksheet", isPlan = state.kind === "planner";
+    $("form-script").hidden = isWs || isPlan;
     $("form-ws").hidden = !isWs;
-    if (isWs) fillWs(r.data.content); else fillScript(r.data.content);
+    $("form-planner").hidden = !isPlan;
+    document.body.classList.toggle("is-wide", isPlan);
+    if (isPlan) window.Planner.mount($("form-planner"), r.data.content, scheduleSave);
+    else if (isWs) fillWs(r.data.content); else fillScript(r.data.content);
     $("print-title").textContent = r.data.title;
     $("save-status").textContent = "נשמר";
   }
@@ -615,7 +628,7 @@ table.users th { color: var(--deep); font-size: 13px; }
     location.hash = "#/";
   });
   $("btn-print").addEventListener("click", function () {
-    var t = state.kind === "worksheet" ? ($("w-product").value || "תרגיל") : ($("d-topic").value || "תסריט");
+    var t = state.kind === "planner" ? window.Planner.title() : state.kind === "worksheet" ? ($("w-product").value || "תרגיל") : ($("d-topic").value || "תסריט");
     $("print-title").textContent = t.trim();
     window.print();
   });
