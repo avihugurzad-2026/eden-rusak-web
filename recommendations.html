@@ -25,7 +25,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
   <!-- Meta Pixel Code -->
   <script>
@@ -44,6 +43,7 @@
   src="https://www.facebook.com/tr?id=2485898195139434&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+<script defer src="https://buyz.co.il/assets/js/st.js?v=2" data-site="va7gb5edvrfzfynw"></script>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -67,16 +67,75 @@
   </header>
 
   <main>
-    <!-- Hero -->
-    <section class="tile-parchment page-hero">
-      <div class="wrap">
-        <h1 class="display">המוצרים שאני<br>אוהבת.</h1>
-        <p class="lead">מוצרים שאני <strong>באמת</strong> משתמשת בהם — בלי בולשיט, רק מה שעובד אצלי ביום-יום.</p>
+    <!-- Store hero -->
+    <section class="store-hero">
+      <div class="wrap store-hero-grid">
+        <div class="store-hero-copy">
+          <p class="eyebrow">החנות של עדן · המומלצים שלי</p>
+          <h1>המוצרים שאני <span class="hl">באמת</span> אוהבת.</h1>
+          <p class="lead">בלי בולשיט — רק מה שעובד אצלי ביום-יום, עם קודי הנחה שהשגתי במיוחד בשבילכן.</p>
+          <form class="hero-search" id="heroSearch" role="search">
+            <input type="search" placeholder="מה מחפשות? תאורה, סרום, חצובה..." aria-label="חיפוש מוצר">
+            <button type="submit" class="btn btn-primary">חיפוש</button>
+          </form>
+          <nav class="hero-cats" id="heroCats" aria-label="קטגוריות"></nav>
+        </div>
+        <div class="store-spotlight" id="storeSpotlight" aria-live="polite"></div>
       </div>
     </section>
 
-    <!-- Store: category carousels (rendered from products.js) -->
-    <div id="shopCategories" class="tile-light" style="padding-block:clamp(40px,6vw,72px)"></div>
+    <!-- Trust strip -->
+    <div class="store-trust">
+      <div class="wrap">
+        <span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>רק מוצרים שאני משתמשת בהם</span>
+        <span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg>קודי הנחה בלעדיים</span>
+        <span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>קישור ישיר לרכישה</span>
+      </div>
+    </div>
+
+    <!-- Featured row -->
+    <section class="section-sm" id="storeFeatured">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><p class="eyebrow">הכי אהובים</p><h2 class="h2">המועדפים שלי</h2></div>
+        </div>
+        <div class="featured-track" id="featuredTrack"></div>
+      </div>
+    </section>
+
+    <!-- Catalog -->
+    <section class="store-main" id="store">
+      <div class="store-toolbar">
+        <div class="wrap">
+          <div class="chips" id="storeChips" role="toolbar" aria-label="סינון לפי קטגוריה"></div>
+          <div class="store-tools">
+            <label class="store-search"><span class="sr-only">חיפוש בחנות</span>
+              <input type="search" id="storeSearch" placeholder="חיפוש בחנות...">
+            </label>
+            <label class="store-sort"><span class="sr-only">מיון</span>
+              <select id="storeSort">
+                <option value="featured">מיון: מומלץ</option>
+                <option value="new">החדשים ביותר</option>
+                <option value="price-asc">מחיר: מהנמוך לגבוה</option>
+                <option value="price-desc">מחיר: מהגבוה לנמוך</option>
+                <option value="az">לפי שם (א-ת)</option>
+              </select>
+            </label>
+            <span class="store-count" id="storeCount" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="store-groups" id="storeGrid">
+          <div class="store-grid"><div class="pcard skeleton"></div><div class="pcard skeleton"></div><div class="pcard skeleton"></div><div class="pcard skeleton"></div></div>
+        </div>
+        <div class="store-empty" id="storeEmpty" hidden>
+          <h3>לא מצאתי מוצר כזה...</h3>
+          <p>נסו מילה אחרת או חזרו לכל המוצרים.</p>
+          <button type="button" class="btn btn-outline" id="storeReset">לכל המוצרים</button>
+        </div>
+      </div>
+    </section>
 
     <!-- Instagram live feed -->
     <section class="section tile-pink-solid ig-feed">
@@ -96,6 +155,14 @@
       </div>
     </section>
   </main>
+
+  <!-- Quick view -->
+  <div class="qv" id="quickView" role="dialog" aria-modal="true" aria-labelledby="qvTitle" hidden>
+    <div class="qv-card">
+      <button type="button" class="qv-close" aria-label="סגירה">×</button>
+      <div class="qv-body"></div>
+    </div>
+  </div>
 
   <footer class="footer">
     <div class="wrap">
@@ -145,6 +212,7 @@
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
   <script src="assets/js/eden-db.js"></script>
   <script src="assets/js/products.js"></script>
+  <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/shop.js"></script>
   <script src="assets/js/main.js"></script>
 </body>

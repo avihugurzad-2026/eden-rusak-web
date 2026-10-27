@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>ניהול המומלצים — עדן רוסק</title>
+  <link rel="icon" href="assets/images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body { background: var(--cream); min-height: 100vh; }
+    .ra-top { position: sticky; top: 0; z-index: 20; background: var(--heading); color: #fff; }
+    .ra-top .wrap { display: flex; align-items: center; gap: 16px; height: 64px; }
+    .ra-top img { height: 22px; filter: brightness(0) invert(1); }
+    .ra-top .ra-title { font-weight: 800; font-size: 15px; opacity: .85; }
+    .ra-top .ra-actions { margin-inline-start: auto; display: flex; gap: 10px; align-items: center; }
+    .ra-top .ra-user { font-size: 13px; opacity: .7; }
+    .ra-btn-ghost { color: #fff; border: 1px solid rgba(255,255,255,.35); padding: 8px 16px; font-size: 14px; }
+    .ra-btn-ghost:hover { background: rgba(255,255,255,.12); }
+    .btn-sm { padding: 9px 16px; font-size: 14px; }
+
+    /* login */
+    .ra-login { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
+    .ra-login-card { width: min(420px, 100%); background: #fff; border-radius: var(--r-xl); padding: 34px; box-shadow: var(--shadow-card); }
+    .ra-login-card img { height: 26px; margin-bottom: 18px; }
+    .ra-login-card h1 { font-size: 28px; font-weight: 900; margin-bottom: 6px; }
+    .ra-login-card p { color: var(--ink-80); font-size: 15px; margin-bottom: 22px; }
+    .ra-login-card .btn { width: 100%; }
+    .ra-error { color: #c0213f; font-size: 14px; margin-top: 12px; min-height: 20px; }
+
+    /* tabs + toolbar */
+    .ra-main { padding-block: 28px 80px; }
+    .ra-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .ra-tabs button { font-weight: 800; font-size: 15px; color: var(--heading); background: #fff; border: 1px solid var(--hairline); padding: 10px 18px; border-radius: var(--r-pill); }
+    .ra-tabs button.on { background: var(--heading); color: #fff; border-color: var(--heading); }
+    .ra-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .ra-bar input, .ra-bar select { font: inherit; font-size: 14px; padding: 10px 14px; border: 1px solid var(--hairline); border-radius: var(--r-pill); background: #fff; }
+    .ra-bar input { min-width: 220px; flex: 1 1 220px; max-width: 360px; }
+    .ra-bar .btn { margin-inline-start: auto; }
+    .ra-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .ra-stat { background: #fff; border-radius: 18px; padding: 14px 18px; min-width: 140px; box-shadow: 0 1px 0 rgba(0,0,0,.03); border: 1px solid var(--hairline); }
+    .ra-stat b { display: block; font-size: 26px; font-weight: 900; color: var(--heading); }
+    .ra-stat span { font-size: 13px; color: var(--ink-48); }
+
+    /* list */
+    .ra-list { display: grid; gap: 10px; }
+    .ra-row { display: grid; grid-template-columns: 64px 1fr auto; gap: 14px; align-items: center; background: #fff; border: 1px solid var(--hairline); border-radius: 18px; padding: 10px 14px; }
+    .ra-row.off { opacity: .55; }
+    .ra-row img { width: 64px; height: 64px; object-fit: cover; border-radius: 12px; background: var(--parchment); }
+    .ra-row .t { font-weight: 800; color: var(--heading); }
+    .ra-row .m { font-size: 13px; color: var(--ink-48); display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 2px; }
+    .ra-row .m .pill { background: var(--pink-soft); color: var(--heading); font-weight: 700; padding: 1px 8px; border-radius: 99px; }
+    .ra-row .acts { display: flex; gap: 6px; align-items: center; }
+    .ra-icon { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--parchment); color: var(--heading); font-size: 17px; }
+    .ra-icon:hover { background: var(--pink-soft); }
+    .ra-icon.on { background: var(--pink); }
+    .ra-icon.danger:hover { background: #ffe0e6; color: #c0213f; }
+    .ra-switch { position: relative; width: 44px; height: 26px; border-radius: 99px; background: #d9d9e3; transition: background .2s; flex: none; }
+    .ra-switch::after { content: ""; position: absolute; top: 3px; inset-inline-start: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: inset-inline-start .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+    .ra-switch.on { background: #1faa59; }
+    .ra-switch.on::after { inset-inline-start: 21px; }
+    .note { background: #fff; border: 1px solid var(--hairline); border-inline-start: 4px solid var(--pink); border-radius: 16px; padding: 18px 20px; font-size: 15px; line-height: 1.6; }
+    .note code { direction: ltr; unicode-bidi: embed; background: var(--parchment); padding: 2px 6px; border-radius: 6px; font-size: 13px; }
+    .ra-empty { text-align: center; padding: 40px; color: var(--ink-48); }
+
+    /* editor drawer */
+    .ra-drawer { position: fixed; inset: 0; z-index: 50; background: rgba(22,27,58,.5); display: flex; justify-content: flex-start; }
+    .ra-drawer[hidden] { display: none; }
+    .ra-panel { width: min(560px, 100%); height: 100%; overflow: auto; background: var(--cream); padding: 24px; box-shadow: var(--shadow-float); }
+    .ra-panel h2 { font-size: 26px; font-weight: 900; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
+    .ra-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+    .ra-panel .form-field input, .ra-panel .form-field textarea, .ra-panel .form-field select { font-size: 15px; padding: 11px 13px; }
+    .ra-panel .form-field textarea { min-height: 90px; }
+    .ra-panel .hint { font-size: 12px; color: var(--ink-48); margin-top: 4px; }
+    .ra-img { display: grid; grid-template-columns: 110px 1fr; gap: 14px; align-items: center; }
+    .ra-img img { width: 110px; height: 110px; object-fit: cover; border-radius: 16px; background: var(--parchment); border: 1px dashed var(--hairline); }
+    .ra-drop { display: block; border: 2px dashed rgba(35,45,206,.35); border-radius: 16px; padding: 16px; text-align: center; font-size: 14px; font-weight: 700; color: var(--primary); cursor: pointer; background: #fff; }
+    .ra-drop:hover, .ra-drop.drag { background: #eef0ff; }
+    .ra-drop input { display: none; }
+    .ra-checks { display: flex; gap: 20px; margin: 6px 0 18px; }
+    .ra-checks label { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; }
+    .ra-checks input { width: 18px; height: 18px; accent-color: var(--primary); }
+    .ra-foot { display: flex; gap: 10px; position: sticky; bottom: -24px; background: var(--cream); padding-block: 14px; }
+    .ra-foot .btn-primary { flex: 1; }
+
+    .ra-toast { position: fixed; bottom: 20px; inset-inline: 0; margin-inline: auto; width: fit-content; z-index: 80; background: var(--heading); color: #fff; padding: 12px 20px; border-radius: 99px; font-weight: 700; font-size: 14px; box-shadow: var(--shadow-float); transition: opacity .3s, translate .3s; }
+    .ra-toast.hide { opacity: 0; translate: 0 10px; pointer-events: none; }
+    .ra-toast.err { background: #c0213f; }
+    @media (max-width: 640px) {
+      .ra-row { grid-template-columns: 52px 1fr; }
+      .ra-row img { width: 52px; height: 52px; }
+      .ra-row .acts { grid-column: 1 / -1; justify-content: flex-end; }
+      .ra-grid2 { grid-template-columns: 1fr; }
+      .ra-top .ra-user { display: none; }
+    }
+  </style>
+<script defer src="https://buyz.co.il/assets/js/st.js?v=2" data-site="va7gb5edvrfzfynw"></script>
+</head>
+<body>
+  <!-- Login -->
+  <section class="ra-login" id="loginView" hidden>
+    <form class="ra-login-card" id="loginForm">
+      <img src="assets/images/edenewlogo.svg" alt="עדן רוסק">
+      <h1>ניהול המומלצים</h1>
+      <p>כניסה לפאנל שבו מעלים ומעדכנים את המוצרים בעמוד "המומלצים שלי".</p>
+      <div class="form-field"><label for="lgEmail">אימייל</label><input type="email" id="lgEmail" autocomplete="username" required></div>
+      <div class="form-field"><label for="lgPass">סיסמה</label><input type="password" id="lgPass" autocomplete="current-password" required></div>
+      <button class="btn btn-primary btn-lg" type="submit" id="lgBtn">כניסה</button>
+      <div class="ra-error" id="lgError" role="alert"></div>
+    </form>
+  </section>
+
+  <!-- App -->
+  <div id="appView" hidden>
+    <header class="ra-top">
+      <div class="wrap">
+        <img src="assets/images/edenewlogo.svg" alt="עדן רוסק">
+        <span class="ra-title">ניהול המומלצים</span>
+        <div class="ra-actions">
+          <span class="ra-user" id="raUser"></span>
+          <a class="btn ra-btn-ghost btn-sm" href="recommendations.html" target="_blank" rel="noopener">צפייה בחנות</a>
+          <button class="btn ra-btn-ghost btn-sm" id="logoutBtn" type="button">יציאה</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="ra-main">
+      <div class="wrap">
+        <div id="notAdmin" class="note" hidden></div>
+        <div id="adminArea" hidden>
+          <div class="ra-stats" id="raStats"></div>
+          <nav class="ra-tabs">
+            <button type="button" class="on" data-tab="products">מוצרים</button>
+            <button type="button" data-tab="cats">קטגוריות</button>
+          </nav>
+
+          <section id="tabProducts">
+            <div class="ra-bar">
+              <input type="search" id="pSearch" placeholder="חיפוש מוצר...">
+              <select id="pFilter"><option value="">כל הקטגוריות</option></select>
+              <button class="btn btn-primary btn-sm" type="button" id="addProduct">+ מוצר חדש</button>
+            </div>
+            <div class="ra-list" id="pList"></div>
+          </section>
+
+          <section id="tabCats" hidden>
+            <div class="ra-bar">
+              <span class="fine">הקטגוריות מופיעות כסינון בחנות. הסדר נקבע לפי "מיקום".</span>
+              <button class="btn btn-primary btn-sm" type="button" id="addCat">+ קטגוריה חדשה</button>
+            </div>
+            <div class="ra-list" id="cList"></div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Product editor -->
+  <div class="ra-drawer" id="pDrawer" hidden>
+    <form class="ra-panel" id="pForm" novalidate>
+      <h2><span id="pFormTitle">מוצר חדש</span><button type="button" class="ra-icon" data-close aria-label="סגירה">×</button></h2>
+      <div class="form-field">
+        <label>תמונת המוצר</label>
+        <div class="ra-img">
+          <img id="pImgPreview" src="assets/images/logo.png" alt="">
+          <div>
+            <label class="ra-drop" id="pDrop">גררו תמונה לכאן או לחצו להעלאה<input type="file" id="pFile" accept="image/jpeg,image/png,image/webp,image/gif"></label>
+            <input type="text" id="pImg" placeholder="או הדביקו קישור לתמונה" style="margin-top:8px" dir="ltr">
+            <div class="hint">JPG / PNG / WEBP, עד 5MB.</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-field"><label for="pTitle">שם המוצר *</label><input id="pTitle" required></div>
+      <div class="ra-grid2">
+        <div class="form-field"><label for="pCat">קטגוריה</label><select id="pCat"></select></div>
+        <div class="form-field"><label for="pBadge">תגית על התמונה</label><input id="pBadge" placeholder="למשל: חדש / רב מכר"></div>
+      </div>
+      <div class="form-field"><label for="pShort">תיאור קצר (בכרטיס)</label><input id="pShort" maxlength="140"></div>
+      <div class="form-field"><label for="pDesc">תיאור מלא (בעמוד המוצר)</label><textarea id="pDesc"></textarea></div>
+      <div class="ra-grid2">
+        <div class="form-field"><label for="pPrice">מחיר (₪)</label><input id="pPrice" type="number" min="0" step="0.01" inputmode="decimal"></div>
+        <div class="form-field"><label for="pOld">מחיר לפני הנחה (₪)</label><input id="pOld" type="number" min="0" step="0.01" inputmode="decimal"></div>
+        <div class="form-field"><label for="pCoupon">קוד קופון</label><input id="pCoupon" dir="ltr" placeholder="EDEN10"></div>
+        <div class="form-field"><label for="pSort">מיקום בתצוגה</label><input id="pSort" type="number" step="1"><div class="hint">מספר קטן = מופיע קודם</div></div>
+      </div>
+      <div class="form-field"><label for="pBuy">קישור לרכישה</label><input id="pBuy" type="url" dir="ltr" placeholder="https://..."></div>
+      <div class="form-field"><label for="pSlug">כתובת המוצר (באנגלית)</label><input id="pSlug" dir="ltr" placeholder="ring-light"><div class="hint">product.html?id=<b id="pSlugPrev">…</b> · אותיות קטנות באנגלית, מספרים ומקפים</div></div>
+      <div class="ra-checks">
+        <label><input type="checkbox" id="pActive" checked> מוצג באתר</label>
+        <label><input type="checkbox" id="pFeatured"> במועדפים שלי</label>
+      </div>
+      <div class="ra-error" id="pError" role="alert"></div>
+      <div class="ra-foot">
+        <button class="btn btn-primary" type="submit" id="pSave">שמירה</button>
+        <button class="btn btn-outline" type="button" data-close>ביטול</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Category editor -->
+  <div class="ra-drawer" id="cDrawer" hidden>
+    <form class="ra-panel" id="cForm" novalidate>
+      <h2><span id="cFormTitle">קטגוריה חדשה</span><button type="button" class="ra-icon" data-close aria-label="סגירה">×</button></h2>
+      <div class="form-field"><label for="cLabel">שם הקטגוריה *</label><input id="cLabel" required></div>
+      <div class="form-field"><label for="cKey">מזהה (באנגלית) *</label><input id="cKey" dir="ltr" placeholder="beauty"><div class="hint">אותיות קטנות באנגלית, מספרים ומקפים</div></div>
+      <div class="form-field"><label for="cNote">משפט קצר</label><input id="cNote"></div>
+      <div class="form-field"><label for="cSort">מיקום</label><input id="cSort" type="number" step="1"></div>
+      <div class="ra-checks"><label><input type="checkbox" id="cActive" checked> מוצגת באתר</label></div>
+      <div class="ra-error" id="cError" role="alert"></div>
+      <div class="ra-foot">
+        <button class="btn btn-primary" type="submit">שמירה</button>
+        <button class="btn btn-outline" type="button" data-close>ביטול</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="ra-toast hide" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="assets/js/supabase-config.js"></script>
+  <script src="assets/js/rec-admin.js"></script>
+</body>
+</html>

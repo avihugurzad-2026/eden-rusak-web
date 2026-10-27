@@ -212,10 +212,14 @@
       { section: "storeProducts", head: "מוצרים בחנות" },
       { section: "storeCategories", head: "קטגוריות החנות" }
     ], "עריכת החנות מתעדכנת מיד בעמוד \"החנות\" באתר.");
-    if (activeTab === "rec") return renderCatalog([
-      { section: "recProducts", head: "מוצרים מומלצים" },
-      { section: "recCategories", head: "קטגוריות המומלצים" }
-    ], "עריכת המומלצים מתעדכנת מיד בעמוד \"המומלצים שלי\" ובעמודי המוצר.");
+    /* recommendations moved to Supabase — edited in rec-admin.html */
+    if (activeTab === "rec") {
+      panel.innerHTML =
+        '<div class="panel-head"><h2>המומלצים שלי</h2></div>' +
+        '<div class="note">המוצרים המומלצים מנוהלים עכשיו בפאנל נפרד שמחובר למסד נתונים — כל שינוי שם מופיע מיד אצל כל הגולשים, בלי גיבוי ופרסום.</div>' +
+        '<p style="margin-top:18px"><a class="btn btn-primary" href="rec-admin.html">לפאנל ניהול המומלצים</a></p>';
+      return;
+    }
     if (activeTab === "workshops") return renderCatalog([
       { section: "workshops", head: "סדנאות" }
     ], "הסדנאות מוצגות בעמוד \"סדנאות\". מחירים, סטטוס הרשמה ומגבלות משתתפים נשלטים מכאן.");

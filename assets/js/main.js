@@ -2,6 +2,49 @@
 (function () {
   "use strict";
 
+  /* ---------- Homepage hero: tiles flying out of the screen ---------- */
+  var fly = document.getElementById("flySpace");
+  if (fly && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var IG = '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="3.6" fill="none" stroke="#fff" stroke-width="2"/><circle cx="16.8" cy="7.3" r="1.1" fill="#fff"/></svg>';
+    var TT = '<svg viewBox="0 0 24 24"><path d="M14.5 3h2.8c.2 1.9 1.4 3.3 3.2 3.5v2.8c-1.2 0-2.3-.4-3.2-1v6.3a5.4 5.4 0 1 1-5.4-5.4c.3 0 .6 0 .9.1v2.9a2.6 2.6 0 1 0 1.7 2.4V3Z" fill="#fff"/></svg>';
+    var STAR = '<svg viewBox="0 0 24 24"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z" fill="#fff"/></svg>';
+    var reel = function (n, video) {
+      var src = "assets/images/posters/reel-" + n + ".jpg";
+      return { cls: "fly-tile", html: video
+        ? '<video src="assets/videos/reel-' + n + '.mp4" poster="' + src + '" autoplay muted loop playsinline preload="none"></video>'
+        : '<img src="' + src + '" alt="" decoding="async">' };
+    };
+    var chip = function (t) { return { cls: "fly-tile fly-chip", html: '<span class="heart">♥</span><b>' + t + "</b>" }; };
+    var icon = function (c, svg) { return { cls: "fly-tile fly-icon " + c, html: svg }; };
+    var items = [
+      reel("01", true), icon("fly-ig", IG), reel("02"), chip("UGC"), reel("04", true), icon("fly-tt", TT),
+      reel("05"), icon("fly-pink", STAR), reel("07", true), chip("יותר חשיפה"), reel("09"), icon("fly-ig", IG),
+      reel("11"), icon("fly-blue", STAR), reel("13"), chip("יותר מכירות"), reel("03"), icon("fly-tt", TT),
+      reel("06"), reel("14")
+    ];
+    var DUR = 14, GOLDEN = 2.39996;
+    fly.innerHTML = items.map(function (it, i) {
+      /* golden-angle spread so tiles leave in every direction, always clear of the centre */
+      var a = i * GOLDEN, r = 0.78 + (i % 3) * 0.08;
+      var dx = (Math.cos(a) * 66 * r).toFixed(2) + "vw";
+      var dy = (Math.sin(a) * 62 * r).toFixed(2) + "vh";
+      var delay = (-i * DUR / items.length).toFixed(2) + "s";
+      return '<div class="' + it.cls + '" style="--dx:' + dx + ";--dy:" + dy + ";animation-duration:" + DUR + "s;animation-delay:" + delay + '">' + it.html + "</div>";
+    }).join("");
+  }
+
+  /* ---------- Reels carousel arrows ---------- */
+  var reelTrack = document.getElementById("reelTrack");
+  if (reelTrack) {
+    document.querySelectorAll(".reel-nav button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var step = reelTrack.querySelector(".reel-item").offsetWidth + 20;
+        /* RTL: positive dir moves toward the start (right) */
+        reelTrack.scrollBy({ left: step * Number(b.getAttribute("data-dir")), behavior: "smooth" });
+      });
+    });
+  }
+
   /* ---------- Mobile nav toggle ---------- */
   var toggle = document.querySelector(".nav-toggle");
   var body = document.body;
@@ -157,6 +200,8 @@
       var note = document.getElementById("formNote");
       var name = (document.getElementById("cName") || {}).value || "";
       var msg = (document.getElementById("cMsg") || {}).value || "";
+      var topic = (document.getElementById("cTopic") || {}).value || "";
+      if (topic) { msg = "(" + topic + ") " + msg; }
       fireLeadConversion();
       var text = encodeURIComponent("שלום עדן, שמי " + name + ". " + msg);
       window.open("https://wa.me/972552629091?text=" + text, "_blank");
