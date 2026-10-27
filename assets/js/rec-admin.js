@@ -136,7 +136,8 @@
       var meta = ['<span class="pill">' + esc(catLabel(p.category_key)) + "</span>"];
       if (p.price != null) meta.push(money(p.price) + (p.old_price ? " <s>" + money(p.old_price) + "</s>" : ""));
       if (p.coupon) meta.push("קוד: " + esc(p.coupon));
-      if (p.badge) meta.push("תגית: " + esc(p.badge));
+      if (p.badge) meta.push("סטיקר: " + esc(p.badge));
+      if (p.video_url) meta.push("יש סרטון הדגמה");
       meta.push("מיקום " + p.sort);
       return '<div class="ra-row' + (p.active ? "" : " off") + '" data-id="' + p.id + '">' +
         '<img src="' + esc(p.image_url || "assets/images/logo.png") + '" alt="" loading="lazy">' +
@@ -174,7 +175,8 @@
       if (!confirm('למחוק את "' + p.title + '"? אי אפשר לבטל את זה.')) return;
       return sb.from("eden_rec_products").delete().eq("id", p.id).then(function (r) {
         if (r.error) return toast(heError(r.error), true);
-        removeStoredImage(p.image_url);
+        removeStoredImage(p.image_url, p.id);
+        removeStoredImage(p.video_url, p.id);
         toast("המוצר נמחק"); loadAll();
       });
     }
@@ -218,6 +220,11 @@
     $("pImg").value = p ? (p.image_url || "") : "";
     $("pImgPreview").src = (p && p.image_url) || "assets/images/logo.png";
     $("pFile").value = "";
+    state.sticker = p ? (p.sticker_style || "pink") : "pink";
+    state.videoFile = null;
+    $("pVideo").value = p ? (p.video_url || "") : "";
+    $("pVFile").value = "";
+    renderSticker(); renderVideoNow();
     $("pError").textContent = "";
     openDrawer("pDrawer");
     $("pTitle").focus();
@@ -230,7 +237,76 @@
   $("pImg").addEventListener("input", function () {
     state.uploadFile = null;
     $("pImgPreview").src = $("pImg").value || "assets/images/logo.png";
+    renderSticker();
   });
+
+  /* ---------- sticker ---------- */
+  function renderSticker() {
+    var prev = $("pStickerPrev"), text = $("pBadge").value.trim();
+    var old = numOrNull($("pOld").value), price = numOrNull($("pPrice").value);
+    var auto = !text && price != null && old != null && old > price ? "-" + Math.round((1 - price / old) * 100) + "%" : "";
+    prev.hidden = !(text || auto);
+    prev.textContent = text || auto;
+    prev.className = "sticker sticker-" + (text ? state.sticker : "red");
+    $("pStickerImg").src = $("pImgPreview").src;
+    document.querySelectorAll("#pSwatches button").forEach(function (b) {
+      var on = b.getAttribute("data-s") === state.sticker;
+      b.classList.toggle("on", on); b.setAttribute("aria-checked", on);
+    });
+  }
+  $("pBadge").addEventListener("input", renderSticker);
+  $("pPrice").addEventListener("input", renderSticker);
+  $("pOld").addEventListener("input", renderSticker);
+  $("pPresets").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-v]");
+    if (!b) return;
+    $("pBadge").value = b.getAttribute("data-v");
+    renderSticker();
+  });
+  $("pSwatches").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-s]");
+    if (!b) return;
+    state.sticker = b.getAttribute("data-s");
+    renderSticker();
+  });
+
+  /* ---------- demo video ---------- */
+  function renderVideoNow() {
+    var box = $("pVideoNow"), url = $("pVideo").value.trim();
+    if (state.videoFile) {
+      box.hidden = false;
+      box.innerHTML = '<video src="' + URL.createObjectURL(state.videoFile) + '" muted playsinline></video><span>' + esc(state.videoFile.name) + " · יעלה בשמירה</span>" +
+        '<button type="button" data-vclear>הסרה</button>';
+    } else if (url) {
+      box.hidden = false;
+      box.innerHTML = (/\.(mp4|webm|mov)(\?|$)/i.test(url) || url.indexOf("/storage/v1/object/public/") !== -1
+        ? '<video src="' + esc(url) + '" muted playsinline preload="metadata"></video>' : "") +
+        '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(url.length > 60 ? url.slice(0, 60) + "…" : url) + "</a>" +
+        '<button type="button" data-vclear>הסרה</button>';
+    } else {
+      box.hidden = true; box.innerHTML = "";
+    }
+  }
+  $("pVideoNow").addEventListener("click", function (e) {
+    if (!e.target.closest("[data-vclear]")) return;
+    state.videoFile = null; $("pVideo").value = ""; $("pVFile").value = "";
+    renderVideoNow();
+  });
+  $("pVideo").addEventListener("input", function () { state.videoFile = null; renderVideoNow(); });
+  function pickVideo(file) {
+    if (!file) return;
+    if (!/^video\/(mp4|quicktime|webm)$/.test(file.type)) { $("pError").textContent = "אפשר להעלות רק סרטון MP4 / MOV / WEBM."; return; }
+    if (file.size > 50 * 1024 * 1024) { $("pError").textContent = "הסרטון גדול מ-50MB — כדאי לכווץ אותו או להדביק קישור יוטיוב."; return; }
+    $("pError").textContent = "";
+    state.videoFile = file;
+    $("pVideo").value = "";
+    renderVideoNow();
+  }
+  $("pVFile").addEventListener("change", function () { pickVideo(this.files[0]); });
+  var vdrop = $("pVDrop");
+  ["dragenter", "dragover"].forEach(function (ev) { vdrop.addEventListener(ev, function (e) { e.preventDefault(); vdrop.classList.add("drag"); }); });
+  ["dragleave", "drop"].forEach(function (ev) { vdrop.addEventListener(ev, function (e) { e.preventDefault(); vdrop.classList.remove("drag"); }); });
+  vdrop.addEventListener("drop", function (e) { pickVideo(e.dataTransfer.files[0]); });
 
   function pickFile(file) {
     if (!file) return;
@@ -240,6 +316,7 @@
     state.uploadFile = file;
     $("pImg").value = "";
     $("pImgPreview").src = URL.createObjectURL(file);
+    renderSticker();
   }
   $("pFile").addEventListener("change", function () { pickFile(this.files[0]); });
   var drop = $("pDrop");
@@ -247,19 +324,22 @@
   ["dragleave", "drop"].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove("drag"); }); });
   drop.addEventListener("drop", function (e) { pickFile(e.dataTransfer.files[0]); });
 
-  function uploadImage(file) {
+  function uploadImage(file, folder) {
     var ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
-    var path = "products/" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
+    var path = (folder || "products") + "/" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
     return sb.storage.from(cfg.bucket).upload(path, file, { cacheControl: "31536000", upsert: false, contentType: file.type })
       .then(function (r) {
         if (r.error) throw r.error;
         return sb.storage.from(cfg.bucket).getPublicUrl(path).data.publicUrl;
       });
   }
-  /* delete an image we uploaded earlier (only files inside our bucket) */
-  function removeStoredImage(url) {
+  /* delete an image or video we uploaded earlier (only files inside our bucket) */
+  function removeStoredImage(url, ownerId) {
     var marker = "/storage/v1/object/public/" + cfg.bucket + "/";
     if (!url || url.indexOf(marker) === -1) return;
+    /* duplicated products share files — keep it while anyone else uses it */
+    var shared = state.products.some(function (x) { return x.id !== ownerId && (x.image_url === url || x.video_url === url); });
+    if (shared) return;
     sb.storage.from(cfg.bucket).remove([decodeURIComponent(url.split(marker)[1])]);
   }
 
@@ -274,12 +354,19 @@
     var price = numOrNull($("pPrice").value), old = numOrNull($("pOld").value);
     if (price != null && old != null && old <= price) { $("pError").textContent = "המחיר לפני הנחה צריך להיות גבוה מהמחיר."; return; }
 
+    var videoLink = $("pVideo").value.trim();
+    if (videoLink && !/^https?:\/\//i.test(videoLink)) { $("pError").textContent = "קישור הסרטון צריך להתחיל ב-https://"; return; }
+
     $("pSave").disabled = true;
-    $("pSave").textContent = state.uploadFile ? "מעלה תמונה..." : "שומרת...";
+    $("pSave").textContent = state.videoFile ? "מעלה סרטון..." : state.uploadFile ? "מעלה תמונה..." : "שומרת...";
     var prevImage = state.editing ? state.editing.image_url : null;
+    var prevVideo = state.editing ? state.editing.video_url : null;
     var imgStep = state.uploadFile ? uploadImage(state.uploadFile) : Promise.resolve(strOrNull($("pImg").value));
-    imgStep.then(function (imageUrl) {
+    var vidStep = state.videoFile ? uploadImage(state.videoFile, "videos") : Promise.resolve(strOrNull(videoLink));
+    var imageUrl;
+    imgStep.then(function (url) { imageUrl = url; return vidStep; }).then(function (videoUrl) {
       var row = {
+        video_url: videoUrl, sticker_style: state.sticker || "pink",
         title: title, slug: slug, category_key: $("pCat").value || null,
         badge: strOrNull($("pBadge").value), short: strOrNull($("pShort").value), description: strOrNull($("pDesc").value),
         price: price, old_price: old, coupon: strOrNull($("pCoupon").value),
@@ -291,7 +378,8 @@
         : sb.from("eden_rec_products").insert(row);
       return q.then(function (r) {
         if (r.error) throw r.error;
-        if (prevImage && prevImage !== imageUrl) removeStoredImage(prevImage);
+        if (prevImage && prevImage !== imageUrl) removeStoredImage(prevImage, state.editing && state.editing.id);
+        if (prevVideo && prevVideo !== row.video_url) removeStoredImage(prevVideo, state.editing && state.editing.id);
         closeDrawers();
         toast(state.editing ? "המוצר עודכן — מופיע מיד באתר" : "המוצר נוסף לחנות");
         return loadAll();

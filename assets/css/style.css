@@ -1982,16 +1982,16 @@ body.qv-open { overflow: hidden; }
 .sticker-gold { background: #ffcf4d; color: var(--heading); border-color: rgba(22,27,134,.25); }
 @keyframes stickerIn { from { scale: .4; rotate: -20deg; opacity: 0; } }
 .pd-main .sticker { min-width: 84px; height: 84px; font-size: 20px; top: 18px; inset-inline-end: 18px; }
-.pcard-badge.fav { top: auto; bottom: 10px; inset-inline-start: 10px; }
-/* quick-view button now sits bottom-centre of the image (sticker owns the corner) */
-.pcard-quick { top: auto; bottom: calc(100% - 8px - (100% - 16px)); inset-inline-end: auto; inset-inline-start: 50%; translate: -50% 6px; }
-.pcard { --media: 0; }
-.pcard-media + .pcard-video, .pcard-media + .pcard-quick { }
+/* image corner layout: sticker top-end · favourite top-start · demo bottom-end · quick view bottom-start */
+.pcard-top { position: relative; margin: 8px 8px 0; }
+.pcard-top .pcard-media { margin: 0; }
+.pcard-top .pcard-badge.fav { top: 10px; inset-inline-start: 10px; }
+.pcard-top .pcard-quick { top: auto; bottom: 10px; inset-inline-start: 10px; inset-inline-end: auto; }
 .pcard-video {
-  position: absolute; z-index: 3; inset-inline-end: 18px; top: calc(8px + 46%);
+  position: absolute; z-index: 3; bottom: 10px; inset-inline-end: 10px;
   display: inline-flex; align-items: center; gap: 5px;
-  background: rgba(22,27,58,.78); color: #fff; font-size: 12px; font-weight: 700;
-  padding: 6px 11px; border-radius: var(--r-pill); backdrop-filter: blur(6px);
+  background: rgba(22,27,58,.8); color: #fff; font-size: 12px; font-weight: 700;
+  padding: 7px 12px; border-radius: var(--r-pill); backdrop-filter: blur(6px);
 }
 .pcard-video:hover { background: var(--primary); }
 #productRelated .pcard-video { display: none; }
@@ -2012,6 +2012,6 @@ body.qv-open { overflow: hidden; }
 .store-group-more { font-size: 14px; font-weight: 700; color: var(--primary); white-space: nowrap; padding: 8px 14px; border-radius: var(--r-pill); background: #eef0ff; }
 .store-group-more:hover { background: var(--primary); color: #fff; }
 @media (max-width: 720px) {
-  .sticker { min-width: 46px; height: 46px; font-size: 12px; }
-  .pcard-video { top: auto; bottom: calc(100% - 8px - (100vw - 64px) / 2 + 30px); }
+  .sticker { min-width: 46px; height: 46px; font-size: 12px; top: 6px; inset-inline-end: 6px; }
+  .pcard-video { bottom: 6px; inset-inline-end: 6px; padding: 5px 9px; }
 }

@@ -80,6 +80,28 @@
     .ra-drop { display: block; border: 2px dashed rgba(35,45,206,.35); border-radius: 16px; padding: 16px; text-align: center; font-size: 14px; font-weight: 700; color: var(--primary); cursor: pointer; background: #fff; }
     .ra-drop:hover, .ra-drop.drag { background: #eef0ff; }
     .ra-drop input { display: none; }
+    .ra-box { border: 1px solid var(--hairline); border-radius: 18px; padding: 14px 16px 16px; margin: 4px 0 18px; background: #fff; }
+    .ra-box legend { font-weight: 700; font-size: 15px; padding: 0 6px; color: var(--heading); }
+    .ra-box .opt { font-weight: 400; color: var(--ink-48); font-size: 13px; }
+    .ra-box input[type=text], .ra-box input:not([type]) { width: 100%; font: inherit; font-size: 15px; padding: 11px 13px; border: 1px solid var(--hairline); border-radius: 12px; }
+    .ra-sticker { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; }
+    .ra-sticker-preview { position: relative; width: 120px; height: 120px; border-radius: 16px; overflow: hidden; background: var(--parchment); }
+    .ra-sticker-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .ra-sticker-preview .sticker { top: 6px; inset-inline-end: 6px; min-width: 50px; height: 50px; font-size: 13px; }
+    .ra-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .ra-presets button { font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 99px; background: var(--parchment); color: var(--heading); border: 1px solid var(--hairline); }
+    .ra-presets button:hover { background: var(--pink-soft); }
+    .ra-presets .clear { color: var(--ink-48); }
+    .ra-swatches { display: flex; gap: 8px; margin-top: 10px; }
+    .ra-swatches button { width: 28px; height: 28px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 1px var(--hairline); }
+    .ra-swatches button.on { box-shadow: 0 0 0 2px var(--heading); }
+    .sw-pink { background: var(--pink); } .sw-blue { background: var(--primary); } .sw-red { background: #e63e62; }
+    .sw-dark { background: var(--heading); } .sw-gold { background: #ffcf4d; }
+    .ra-video-now { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 14px; }
+    .ra-video-now video { width: 72px; height: 110px; object-fit: cover; border-radius: 10px; background: #000; }
+    .ra-video-now a { color: var(--primary); word-break: break-all; }
+    .ra-video-now button { margin-inline-start: auto; font-size: 13px; font-weight: 700; color: #c0213f; padding: 6px 10px; border-radius: 99px; background: #ffe0e6; }
+    @media (max-width: 640px) { .ra-sticker { grid-template-columns: 1fr; } }
     .ra-checks { display: flex; gap: 20px; margin: 6px 0 18px; }
     .ra-checks label { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; }
     .ra-checks input { width: 18px; height: 18px; accent-color: var(--primary); }
@@ -174,10 +196,32 @@
         </div>
       </div>
       <div class="form-field"><label for="pTitle">שם המוצר *</label><input id="pTitle" required></div>
-      <div class="ra-grid2">
-        <div class="form-field"><label for="pCat">קטגוריה</label><select id="pCat"></select></div>
-        <div class="form-field"><label for="pBadge">תגית על התמונה</label><input id="pBadge" placeholder="למשל: חדש / רב מכר"></div>
-      </div>
+      <div class="form-field"><label for="pCat">קטגוריה</label><select id="pCat"></select></div>
+
+      <fieldset class="ra-box">
+        <legend>סטיקר על המוצר <span class="opt">(לא חובה)</span></legend>
+        <div class="ra-sticker">
+          <div class="ra-sticker-preview" aria-hidden="true"><img id="pStickerImg" src="assets/images/logo.png" alt=""><span class="sticker sticker-pink" id="pStickerPrev" hidden></span></div>
+          <div>
+            <input id="pBadge" maxlength="14" placeholder="למשל: 20%- / 1+1 / מבצע">
+            <div class="ra-presets" id="pPresets">
+              <button type="button" data-v="-10%">-10%</button><button type="button" data-v="-15%">-15%</button>
+              <button type="button" data-v="-20%">-20%</button><button type="button" data-v="-30%">-30%</button>
+              <button type="button" data-v="1+1">1+1</button><button type="button" data-v="מבצע">מבצע</button>
+              <button type="button" data-v="חדש">חדש</button><button type="button" data-v="רב מכר">רב מכר</button>
+              <button type="button" data-v="" class="clear">בלי סטיקר</button>
+            </div>
+            <div class="ra-swatches" id="pSwatches" role="radiogroup" aria-label="צבע הסטיקר">
+              <button type="button" data-s="pink" class="sw-pink" aria-label="ורוד"></button>
+              <button type="button" data-s="blue" class="sw-blue" aria-label="כחול"></button>
+              <button type="button" data-s="red" class="sw-red" aria-label="אדום"></button>
+              <button type="button" data-s="dark" class="sw-dark" aria-label="כחול כהה"></button>
+              <button type="button" data-s="gold" class="sw-gold" aria-label="צהוב"></button>
+            </div>
+            <div class="hint">אם אין סטיקר ומילאת "מחיר לפני הנחה" — אחוז ההנחה יופיע אוטומטית.</div>
+          </div>
+        </div>
+      </fieldset>
       <div class="form-field"><label for="pShort">תיאור קצר (בכרטיס)</label><input id="pShort" maxlength="140"></div>
       <div class="form-field"><label for="pDesc">תיאור מלא (בעמוד המוצר)</label><textarea id="pDesc"></textarea></div>
       <div class="ra-grid2">
@@ -187,6 +231,14 @@
         <div class="form-field"><label for="pSort">מיקום בתצוגה</label><input id="pSort" type="number" step="1"><div class="hint">מספר קטן = מופיע קודם</div></div>
       </div>
       <div class="form-field"><label for="pBuy">קישור לרכישה</label><input id="pBuy" type="url" dir="ltr" placeholder="https://..."></div>
+      <fieldset class="ra-box">
+        <legend>סרטון הדגמה של עדן <span class="opt">(לא חובה)</span></legend>
+        <div id="pVideoNow" class="ra-video-now" hidden></div>
+        <label class="ra-drop" id="pVDrop">גררו סרטון לכאן או לחצו להעלאה<input type="file" id="pVFile" accept="video/mp4,video/quicktime,video/webm"></label>
+        <input type="text" id="pVideo" placeholder="או הדביקו קישור: יוטיוב / אינסטגרם / טיקטוק" style="margin-top:8px" dir="ltr">
+        <div class="hint">MP4 / MOV / WEBM עד 50MB. סרטון שהועלה או קישור יוטיוב יתנגנו באתר; אינסטגרם וטיקטוק ייפתחו בלשונית חדשה.</div>
+      </fieldset>
+
       <div class="form-field"><label for="pSlug">כתובת המוצר (באנגלית)</label><input id="pSlug" dir="ltr" placeholder="ring-light"><div class="hint">product.html?id=<b id="pSlugPrev">…</b> · אותיות קטנות באנגלית, מספרים ומקפים</div></div>
       <div class="ra-checks">
         <label><input type="checkbox" id="pActive" checked> מוצג באתר</label>

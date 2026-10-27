@@ -123,11 +123,13 @@
     var buy = safeUrl(p.buy);
     return '' +
       '<article class="pcard">' +
-        '<a class="pcard-media" href="' + productUrl(p) + '">' +
-          '<img src="' + esc(safeUrl(p.img)) + '" alt="' + esc(p.title) + '" loading="lazy">' + badgeHTML(p) +
-        "</a>" +
-        (p.video ? '<button type="button" class="pcard-video" data-qv="' + esc(p.id) + '" data-play="1">' + PLAY + " הדגמה</button>" : "") +
-        '<button type="button" class="pcard-quick" data-qv="' + esc(p.id) + '">צפייה מהירה</button>' +
+        '<div class="pcard-top">' +
+          '<a class="pcard-media" href="' + productUrl(p) + '">' +
+            '<img src="' + esc(safeUrl(p.img)) + '" alt="' + esc(p.title) + '" loading="lazy">' +
+          "</a>" + badgeHTML(p) +
+          (p.video ? '<button type="button" class="pcard-video" data-qv="' + esc(p.id) + '" data-play="1">' + PLAY + " הדגמה</button>" : "") +
+          '<button type="button" class="pcard-quick" data-qv="' + esc(p.id) + '">צפייה מהירה</button>' +
+        "</div>" +
         '<div class="pcard-body">' +
           '<span class="pcard-cat">' + esc(catLabel(p.cat)) + "</span>" +
           '<a class="pcard-title" href="' + productUrl(p) + '">' + esc(p.title) + "</a>" +
