@@ -2348,3 +2348,15 @@ body.qv-open { overflow: hidden; }
 .sale-price s { color: var(--ink-48); }
 .sale-ends { margin-top: 4px; font-size: 15px; color: var(--ink-48); }
 .sale-box .countdown { margin-top: 10px; }
+
+/* Workshop card sticker (registration closed / opening soon) */
+.course-media { position: relative; }
+.ws-sticker {
+  position: absolute; top: 16px; inset-inline-start: 16px;
+  background: var(--pink); color: var(--ink); font-weight: 800; font-size: 15px;
+  padding: 8px 16px; border-radius: var(--r-pill);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .18); transform: rotate(-4deg);
+}
+
+/* landing pages without the site header */
+main.no-nav { padding-top: 28px; }
