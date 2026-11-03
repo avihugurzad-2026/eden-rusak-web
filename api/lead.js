@@ -1,7 +1,8 @@
 /* Eden Rusak — waitlist / interest lead endpoint (Vercel function).
    Stores the lead in Supabase (public.lms_leads, read in the courses admin),
    e-mails a welcome note to the lead and a notification to the owner.
-   Env: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY, MAIL_FROM,
+   Env: LEADS_SUPABASE_URL, LEADS_SUPABASE_SERVICE_KEY (the courses project — the site's own
+        SUPABASE_* vars belong to another integration), RESEND_API_KEY, MAIL_FROM,
         LEAD_NOTIFY_TO, MAIL_REPLY_TO (optional), LEADS_ADMIN_URL (optional). */
 
 const SOURCES = {
@@ -13,11 +14,11 @@ const esc = (v) =>
 const clean = (v, max) => String(v ?? "").replace(/\s+/g, " ").trim().slice(0, max);
 
 async function supabase(path, init) {
-  const res = await fetch(`${process.env.SUPABASE_URL}/rest/v1/${path}`, {
+  const res = await fetch(`${process.env.LEADS_SUPABASE_URL}/rest/v1/${path}`, {
     ...init,
     headers: {
-      apikey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-      Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+      apikey: process.env.LEADS_SUPABASE_SERVICE_KEY,
+      Authorization: `Bearer ${process.env.LEADS_SUPABASE_SERVICE_KEY}`,
       "Content-Type": "application/json",
       ...(init && init.headers),
     },
