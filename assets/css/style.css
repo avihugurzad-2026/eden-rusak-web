@@ -2318,7 +2318,7 @@ body.qv-open { overflow: hidden; }
 }
 .launch-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pink-deep); animation: launchPulse 1.4s ease-in-out infinite; }
 @keyframes launchPulse { 50% { opacity: .25; } }
-.countdown { display: flex; justify-content: center; gap: 12px; margin: 26px 0 8px; direction: rtl; }
+.countdown { display: flex; justify-content: center; gap: 12px; margin: 26px 0 8px; direction: ltr; } /* days on the left, seconds on the right */
 .countdown div { background: #fff; border: 1px solid var(--hairline); border-radius: var(--r-md); min-width: 74px; padding: 12px 8px; box-shadow: var(--shadow-soft); }
 .countdown b { display: block; font-size: 30px; color: var(--primary); line-height: 1; }
 .countdown span { font-size: 13px; color: var(--ink-48); }
