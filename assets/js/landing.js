@@ -15,7 +15,8 @@
   var d = DATA[key] || DATA[Object.keys(DATA)[0]];
   if (!d) return;
 
-  document.title = d.title + " — עדן רוסק";
+  /* forced-id pages (e.g. /ugc.html) keep their own SEO <title> */
+  if (!window.EDEN_FORCE_ID) document.title = d.title + " — עדן רוסק";
 
   /* optional: strip the global header/nav on focused landing pages (e.g. UGC) */
   if (d.hideHeader) {
