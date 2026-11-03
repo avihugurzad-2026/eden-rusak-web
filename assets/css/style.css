@@ -2334,3 +2334,17 @@ body.qv-open { overflow: hidden; }
 .module-list p { color: var(--ink-80); line-height: 1.65; }
 .launch-hero h1 { font-size: clamp(36px, 5.6vw, 64px); }
 @media (max-width: 860px) { .buy-bar { inset-inline-end: 84px; } }
+
+/* November sale box (academy hero) */
+.sale-box { margin: 22px auto 6px; text-align: center; }
+.sale-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink); color: #fff; border-radius: var(--r-pill);
+  padding: 7px 16px; font-weight: 800; font-size: 14px; letter-spacing: .06em; /* Latin-only label */
+}
+.sale-tag svg { color: var(--pink); }
+.sale-price { margin-top: 12px; font-size: 20px; color: var(--ink-80); }
+.sale-price b { font-size: 34px; color: var(--primary); }
+.sale-price s { color: var(--ink-48); }
+.sale-ends { margin-top: 4px; font-size: 15px; color: var(--ink-48); }
+.sale-box .countdown { margin-top: 10px; }
