@@ -2287,3 +2287,50 @@ body.qv-open { overflow: hidden; }
 .seo-table tr:last-child td {
   border-bottom: none;
 }
+
+/* ==========================================================================
+   Sticky buy bar (academy) + launch waitlist (UGC course)
+   ========================================================================== */
+.buy-bar {
+  position: fixed; inset-inline: 12px; bottom: 12px; z-index: 60;
+  max-width: 720px; margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  background: #fff; border: 1px solid var(--hairline); border-radius: var(--r-pill);
+  padding: 8px 8px 8px 20px; padding-inline-start: 22px;
+  box-shadow: var(--shadow-product);
+  transform: translateY(140%); transition: transform .35s ease;
+}
+.buy-bar.show { transform: none; }
+.buy-bar-txt { font-size: 15px; color: var(--ink); line-height: 1.3; }
+.buy-bar-price { color: var(--primary); font-weight: 700; margin-inline-start: 6px; white-space: nowrap; }
+.buy-bar-price s { color: var(--ink-48); font-weight: 400; margin-inline-start: 4px; }
+.buy-bar .btn { flex-shrink: 0; }
+@media (max-width: 540px) {
+  .buy-bar-txt { font-size: 13px; }
+  .buy-bar-txt b + * { display: block; }
+}
+
+.launch-hero { text-align: center; }
+.launch-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--pink-soft); color: var(--ink); border-radius: var(--r-pill);
+  padding: 8px 16px; font-weight: 600; font-size: 15px; margin-bottom: 18px;
+}
+.launch-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pink-deep); animation: launchPulse 1.4s ease-in-out infinite; }
+@keyframes launchPulse { 50% { opacity: .25; } }
+.countdown { display: flex; justify-content: center; gap: 12px; margin: 26px 0 8px; direction: rtl; }
+.countdown div { background: #fff; border: 1px solid var(--hairline); border-radius: var(--r-md); min-width: 74px; padding: 12px 8px; box-shadow: var(--shadow-soft); }
+.countdown b { display: block; font-size: 30px; color: var(--primary); line-height: 1; }
+.countdown span { font-size: 13px; color: var(--ink-48); }
+.waitlist-card { max-width: 560px; margin: 0 auto; }
+.waitlist-card .hp { position: absolute; inset-inline-start: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.waitlist-ok { text-align: center; padding: 10px 0; }
+.waitlist-ok h3 { color: var(--primary); margin-bottom: 8px; }
+.waitlist-err { color: #c0264b; margin-top: 12px; font-size: 15px; display: none; }
+.module-list { display: grid; gap: 14px; counter-reset: mod; max-width: 860px; margin: 32px auto 0; }
+.module-list li { list-style: none; background: #fff; border: 1px solid var(--hairline); border-radius: var(--r-lg); padding: 20px 24px; box-shadow: var(--shadow-soft); }
+.module-list h3 { font-size: 19px; margin-bottom: 6px; color: var(--ink); }
+.module-list h3::before { counter-increment: mod; content: counter(mod) ". "; color: var(--pink-deep); }
+.module-list p { color: var(--ink-80); line-height: 1.65; }
+.launch-hero h1 { font-size: clamp(36px, 5.6vw, 64px); }
+@media (max-width: 860px) { .buy-bar { inset-inline-end: 84px; } }
