@@ -230,6 +230,7 @@
   $("pImportBtn").addEventListener("click", async function () {
     var status = $("pImportStatus"), button = this, url = $("pImportUrl").value.trim();
     if (!/^https:\/\//i.test(url)) { status.textContent = "יש להזין קישור שמתחיל ב־https://"; return; }
+    var canRewrite = !$("pTitle").value.trim() && !$("pDesc").value.trim() && !$("pShort").value.trim();
     button.disabled = true; status.textContent = "בודקת את פרטי המוצר...";
     try {
       var session = await sb.auth.getSession();
@@ -245,7 +246,25 @@
       if (data.price != null && !$("pPrice").value) $("pPrice").value = data.price;
       var missing = []; if (!data.title) missing.push("שם"); if (!data.description) missing.push("תיאור"); if (!data.image) missing.push("תמונה"); if (data.price == null) missing.push("מחיר בשקלים");
       status.textContent = missing.length ? "חלק מהפרטים לא היו זמינים: " + missing.join(", ") + ". אפשר להשלים ידנית ולבדוק לפני השמירה." : "הפרטים יובאו. בדקי וערכי אותם לפני השמירה.";
+      if (canRewrite && (data.title || data.description)) $("pRewrite").click();
     } catch (err) { status.textContent = err.message || "לא ניתן לייבא מהקישור. אפשר למלא את הפרטים ידנית."; }
+    button.disabled = false;
+  });
+
+  $("pRewrite").addEventListener("click", async function () {
+    var status = $("pRewriteStatus"), button = this;
+    var title = $("pTitle").value.trim(), description = $("pDesc").value.trim() || $("pShort").value.trim();
+    if (!title && !description) { status.textContent = "יש להזין שם מוצר או תיאור לפני יצירת הנוסח."; return; }
+    button.disabled = true; status.textContent = "מכינה הצעת נוסח בעברית...";
+    try {
+      var session = await sb.auth.getSession(); var token = session.data.session && session.data.session.access_token;
+      if (!token) throw new Error("יש להתחבר מחדש.");
+      var response = await fetch("/api/rewrite-product", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + token }, body: JSON.stringify({ title: title, description: description }) });
+      var draft = await response.json(); if (!response.ok) throw new Error(draft.error || "לא ניתן ליצור נוסח.");
+      $("pTitle").value = draft.title; $("pTitle").dispatchEvent(new Event("input"));
+      $("pShort").value = draft.short; $("pDesc").value = draft.description;
+      status.textContent = "ההצעה מוכנה. בדקי את נכונותה וערכי לפי הצורך לפני השמירה.";
+    } catch (err) { status.textContent = err.message || "יצירת הנוסח נכשלה."; }
     button.disabled = false;
   });
 

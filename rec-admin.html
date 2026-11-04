@@ -200,7 +200,7 @@
         <div class="form-field"><label for="pBadge">תגית על התמונה</label><input id="pBadge" placeholder="למשל: חדש / רב מכר"></div>
       </div>
       <div class="form-field"><label for="pShort">תיאור קצר (בכרטיס)</label><input id="pShort" maxlength="140"></div>
-      <div class="form-field"><label for="pDesc">תיאור מלא (בעמוד המוצר)</label><textarea id="pDesc"></textarea></div>
+      <div class="form-field"><label for="pDesc">תיאור מלא (בעמוד המוצר)</label><textarea id="pDesc"></textarea><button class="btn btn-outline btn-sm" id="pRewrite" type="button" style="margin-top:10px">ניסוח בעברית עם Gemini</button><p class="hint" id="pRewriteStatus">המילים שתזינו יישלחו ל־Gemini ליצירת הצעה. יש לבדוק את הנוסח לפני שמירה.</p></div>
       <div class="ra-grid2">
         <div class="form-field"><label for="pPrice">מחיר (₪)</label><input id="pPrice" type="number" min="0" step="0.01" inputmode="decimal"></div>
         <div class="form-field"><label for="pOld">מחיר לפני הנחה (₪)</label><input id="pOld" type="number" min="0" step="0.01" inputmode="decimal"></div>
@@ -243,6 +243,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
   <script src="assets/js/supabase-config.js"></script>
-  <script src="assets/js/rec-admin.js?v=20261105-1"></script>
+  <script src="assets/js/rec-admin.js?v=20261105-2"></script>
 </body>
 </html>
