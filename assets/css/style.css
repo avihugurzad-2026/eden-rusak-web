@@ -2379,3 +2379,19 @@ main.no-nav { padding-top: 28px; }
 
 /* Keep decorative icons away from landing-page headings. */
 @media (max-width: 1100px) { .fh-sm .fh-float.i2 { display: none; } }
+
+/* Academy, workshops and portfolio additions */
+.brand-band .bb-label { color: #fff; font-size: clamp(20px, 2.6vw, 32px); font-weight: 700; }
+.reel-nav { display: flex; flex-direction: row; justify-content: center; gap: 14px; }
+.reel-nav button { position: static; display: inline-flex; align-items: center; justify-content: center; }
+.workshop-pink { color: var(--pink); }
+.workshop-company { max-width: 920px; margin: 34px auto 0; padding: clamp(26px, 5vw, 48px); border-radius: var(--r-xl); background: #fff; box-shadow: var(--shadow-soft); }
+.workshop-company p:not(.eyebrow) { max-width: 700px; margin: 14px 0 24px; }
+.workshop-company .btn-row { justify-content: flex-start; }
+.academy-course-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.academy-course-grid .course-body { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.academy-course-grid .course-body .btn { margin-top: auto; }
+.portfolio-video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 18px; }
+.portfolio-video-grid video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: #111; border-radius: 20px; }
+.portfolio-brand-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 16px; align-items: center; }
+.portfolio-brand-grid img { width: 100%; height: 90px; object-fit: contain; padding: 12px; background: white; border-radius: 14px; }

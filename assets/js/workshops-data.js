@@ -14,9 +14,14 @@ window.EDEN_WORKSHOPS = [
   },
   {
     id: "content-workshop", tag: "קבוצתי", title: "סדנה ליצירת תוכן",
-    text: "", cap: "עד 12 משתתפים",
+    text: "יום אחד של יצירה, למידה והתנסות, שבסופו תצאו עם כלים מעשיים ותוכן מוכן לפרסום. בסדנאות יצירת התוכן הפרונטליות שלי, המיועדות לעסקים, ליוצרות UGC, לצוותים ולקבוצות, נלמד איך להפוך רעיון לסרטון רילס מוכן.", cap: "עד 12 משתתפים",
     status: "", sticker: "ההרשמה נפתחת בקרוב",
     price: "", img: "assets/images/eden-portrait-2.jpg", imgPos: "center 38%",
     link: "", linkText: "", active: true
+  },
+  {
+    id: "social-workshop", tag: "השתלמות", title: "סדנת ניהול סושיאל",
+    text: "כלים לתכנון תוכן, ניהול נוכחות ברשתות ופיתוח העבודה המקצועית.",
+    img: "assets/images/work/work-20.jpg", link: "#contact-cta", linkText: "לקבלת פרטים", active: true
   }
 ];

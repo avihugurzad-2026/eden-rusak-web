@@ -6,6 +6,11 @@
   if (!host) return;
   var LIST = (window.EDEN_DB ? EDEN_DB.get("workshops", window.EDEN_WORKSHOPS || []) : (window.EDEN_WORKSHOPS || []))
     .filter(function (w) { return w.active !== false; });
+  // Older browser-saved workshop lists predate this format. Preserve them and add the new card.
+  if (!LIST.some(function (w) { return w.id === "social-workshop"; })) {
+    var social = (window.EDEN_WORKSHOPS || []).find(function (w) { return w.id === "social-workshop"; });
+    if (social && social.active !== false) LIST.push(social);
+  }
 
   host.innerHTML = LIST.map(function (w) {
     return '<div class="course-card">' +
