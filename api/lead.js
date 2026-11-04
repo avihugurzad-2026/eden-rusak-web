@@ -7,6 +7,7 @@
 
 const SOURCES = {
   "ugc-course": { label: "קורס UGC דיגיטלי — רשימת השקה" },
+  "newsletter": { label: "הרשמה לעדכוני מוצרים" },
 };
 
 const esc = (v) =>
@@ -126,12 +127,14 @@ module.exports = async (req, res) => {
   if (full_name.length < 2) errors.push("name");
   if (phone.replace(/\D/g, "").length < 9) errors.push("phone");
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errors.push("email");
+  if (source === "newsletter" && b.consent !== true) errors.push("consent");
   if (errors.length) return res.status(400).json({ ok: false, errors });
 
   const utm = {};
   for (const k of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid", "gclid"])
     if (b.utm && b.utm[k]) utm[k] = clean(b.utm[k], 200);
   const page = clean(b.page, 300);
+  if (source === "newsletter") utm.newsletter_consent = "yes";
 
   try {
     // same e-mail on the same list in the last day → don't store or mail twice
@@ -150,13 +153,13 @@ module.exports = async (req, res) => {
 
     const firstName = full_name.split(" ")[0];
     const results = await Promise.allSettled([
-      sendMail({ to: email, replyTo: process.env.MAIL_REPLY_TO, ...welcomeMail(firstName) }),
+      source === "newsletter" ? Promise.resolve(null) : sendMail({ to: email, replyTo: process.env.MAIL_REPLY_TO, ...welcomeMail(firstName) }),
       process.env.LEAD_NOTIFY_TO
         ? sendMail({ to: process.env.LEAD_NOTIFY_TO, replyTo: email, ...ownerMail(lead, SOURCES[source].label) })
         : Promise.resolve(),
     ]);
     results.forEach((r) => r.status === "rejected" && console.error("lead mail failed:", r.reason));
-    if (results[0].status === "fulfilled")
+    if (source !== "newsletter" && results[0].status === "fulfilled")
       await supabase(`lms_leads?id=eq.${lead.id}`, { method: "PATCH", body: JSON.stringify({ email_sent: true }) });
 
     return res.status(200).json({ ok: true });

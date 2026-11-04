@@ -111,7 +111,14 @@
       return '<div class="demo-embed"><iframe src="https://www.youtube-nocookie.com/embed/' + yt + (autoplay ? "?autoplay=1&mute=1" : "") +
         '" title="' + esc(p.title) + '" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>';
     }
-    return ""; /* Instagram / TikTok links open in a new tab instead */
+    try {
+      var parsed = new URL(u, location.href), host = parsed.hostname.replace(/^www\./, ""), m;
+      if (host === "instagram.com" && (m = parsed.pathname.match(/^\/(p|reel)\/([\w-]+)/)))
+        return '<div class="demo-embed"><iframe src="https://www.instagram.com/' + m[1] + '/' + m[2] + '/embed/" title="סרטון הדגמה של עדן" loading="lazy" allowfullscreen></iframe></div>';
+      if ((host === "tiktok.com" || host.endsWith(".tiktok.com")) && (m = parsed.pathname.match(/\/video\/(\d+)/)))
+        return '<div class="demo-embed"><iframe src="https://www.tiktok.com/embed/v2/' + m[1] + '" title="סרטון הדגמה של עדן" loading="lazy" allowfullscreen></iframe></div>';
+    } catch (_) {}
+    return "";
   }
   function videoLinkHTML(p) {
     var u = safeUrl(p.video);
@@ -126,16 +133,14 @@
         '<a class="pcard-media" href="' + productUrl(p) + '">' +
           '<img src="' + esc(safeUrl(p.img)) + '" alt="' + esc(p.title) + '" loading="lazy">' + badgeHTML(p) +
         "</a>" +
-        (p.video ? '<button type="button" class="pcard-video" data-qv="' + esc(p.id) + '" data-play="1">' + PLAY + " הדגמה</button>" : "") +
-        '<button type="button" class="pcard-quick" data-qv="' + esc(p.id) + '">צפייה מהירה</button>' +
         '<div class="pcard-body">' +
           '<span class="pcard-cat">' + esc(catLabel(p.cat)) + "</span>" +
           '<a class="pcard-title" href="' + productUrl(p) + '">' + esc(p.title) + "</a>" +
           '<p class="pcard-text">' + esc(p.short) + "</p>" +
           priceHTML(p) +
           '<div class="pcard-actions">' +
-            (buy ? '<a class="btn btn-primary pcard-buy" href="' + esc(buy) + '" target="_blank" rel="noopener sponsored">לרכישה</a>' : "") +
-            (p.coupon ? '<button type="button" class="pcard-coupon" data-copy="' + esc(p.coupon) + '" title="העתקת קוד">קוד: <b>' + esc(p.coupon) + "</b></button>" : "") +
+            '<a class="btn btn-primary pcard-buy" href="' + productUrl(p) + '">לפרטי המוצר</a>' +
+            (p.coupon ? '<a class="pcard-coupon" href="' + productUrl(p) + '">קוד: <b>' + esc(p.coupon) + "</b></a>" : "") +
           "</div>" +
         "</div>" +
       "</article>";
@@ -330,7 +335,7 @@
       '<div class="spot-info"><span class="spot-tag">המוצר של השבוע</span>' +
       '<a class="spot-title" href="' + productUrl(p) + '">' + esc(p.title) + "</a>" +
       priceHTML(p) +
-      (p.coupon ? '<button type="button" class="pcard-coupon" data-copy="' + esc(p.coupon) + '">קוד: <b>' + esc(p.coupon) + "</b></button>" : "") +
+      (p.coupon ? '<a class="pcard-coupon" href="' + productUrl(p) + '">קוד: <b>' + esc(p.coupon) + "</b></a>" : "") +
       "</div>";
   }
   function renderHeroCats() {
@@ -390,9 +395,9 @@
     if (related) {
       var same = DATA.products.filter(function (x) { return x.id !== p.id && x.cat === p.cat; });
       var other = DATA.products.filter(function (x) { return x.id !== p.id && x.cat !== p.cat; });
-      var pick = same.concat(other).slice(0, 8);
+      var pick = same.concat(other).slice(0, 4);
       related.innerHTML = pick.length
-        ? '<div class="wrap"><div class="sec-head"><h2 class="h2">עוד מוצרים שאני אוהבת</h2>' +
+        ? '<div class="wrap"><div class="sec-head"><h2 class="h2">מי שאהבה את זה אהבה גם</h2>' +
           '<a class="btn btn-outline" href="recommendations.html#store">לכל המוצרים</a></div>' +
           '<div class="store-grid">' + pick.map(cardHTML).join("") + "</div></div>"
         : "";

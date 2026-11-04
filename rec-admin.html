@@ -165,6 +165,7 @@
   <div class="ra-drawer" id="pDrawer" hidden>
     <form class="ra-panel" id="pForm" novalidate>
       <h2><span id="pFormTitle">מוצר חדש</span><button type="button" class="ra-icon" data-close aria-label="סגירה">×</button></h2>
+      <div class="form-field"><label for="pImportUrl">ייבוא פרטי מוצר מקישור</label><input id="pImportUrl" type="url" dir="ltr" placeholder="https://..."><button class="btn btn-outline" type="button" id="pImportBtn" style="margin-top:10px">ייבוא פרטים</button><p class="hint" id="pImportStatus">הפרטים שנמצאים ימולאו בטופס לבדיקה וניתנים לעריכה. באתרים מסוימים הייבוא עשוי להיות מוגבל.</p></div>
       <div class="form-field">
         <label>תמונת המוצר</label>
         <div class="ra-img">
@@ -189,6 +190,7 @@
         <div class="form-field"><label for="pCoupon">קוד קופון</label><input id="pCoupon" dir="ltr" placeholder="EDEN10"></div>
         <div class="form-field"><label for="pSort">מיקום בתצוגה</label><input id="pSort" type="number" step="1"><div class="hint">מספר קטן = מופיע קודם</div></div>
       </div>
+      <div class="form-field"><label for="pVideo">קישור לסרטון הדגמה של עדן</label><input id="pVideo" type="url" dir="ltr" placeholder="https://..."><div class="hint">אפשר להוסיף קישור לסרטון MP4, YouTube, אינסטגרם או טיקטוק.</div></div>
       <div class="form-field"><label for="pBuy">קישור לרכישה</label><input id="pBuy" type="url" dir="ltr" placeholder="https://..."></div>
       <div class="form-field"><label for="pSlug">כתובת המוצר (באנגלית)</label><input id="pSlug" dir="ltr" placeholder="ring-light"><div class="hint">product.html?id=<b id="pSlugPrev">…</b> · אותיות קטנות באנגלית, מספרים ומקפים</div></div>
       <div class="ra-checks">

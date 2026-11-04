@@ -7,14 +7,14 @@
   var FALLBACK_P = window.EDEN_STORE_PRODUCTS || [];
   var FALLBACK_C = window.EDEN_STORE_CATEGORIES || [];
   var PRODUCTS = (window.EDEN_DB ? EDEN_DB.get("storeProducts", FALLBACK_P) : FALLBACK_P)
-    .filter(function (p) { return p.active !== false; });
+    .filter(function (p) { return p.active !== false && ["hooks-100", "prompts-20", "reels-guide", "capcut-zero", "story-templates"].indexOf(p.id) === -1; });
   var CATS = window.EDEN_DB ? EDEN_DB.get("storeCategories", FALLBACK_C) : FALLBACK_C;
 
   var WA = "https://wa.me/972552629091";
 
   function byId(id) { for (var i = 0; i < PRODUCTS.length; i++) { if (PRODUCTS[i].id === id) return PRODUCTS[i]; } return null; }
   function catLabel(key) { for (var i = 0; i < CATS.length; i++) { if (CATS[i].key === key) return CATS[i].label; } return ""; }
-  function fmtPrice(n) { return Number(n) === 0 ? "חינם" : Number(n) + "₪"; }
+  function fmtPrice(n) { return n === null || n === undefined || n === "" ? "" : Number(n) === 0 ? "חינם" : Number(n) + "₪"; }
   function soldOut(p) { return p.stock !== "" && p.stock !== null && p.stock !== undefined && Number(p.stock) <= 0; }
   function lowStock(p) { return p.stock !== "" && p.stock !== null && p.stock !== undefined && Number(p.stock) > 0 && Number(p.stock) <= 5; }
   function couponOf(p) {
@@ -32,7 +32,7 @@
 
   function badgeHTML(p) {
     if (soldOut(p)) return '<span class="store-badge store-badge-out">אזל מהמלאי</span>';
-    if (Number(p.price) === 0) return '<span class="store-badge store-badge-free">חינם</span>';
+    if (p.price !== null && p.price !== "" && Number(p.price) === 0) return '<span class="store-badge store-badge-free">חינם</span>';
     if (p.oldPrice) return '<span class="store-badge store-badge-sale">מבצע</span>';
     return "";
   }
@@ -44,7 +44,7 @@
 
   function cardHTML(p) {
     var c = couponOf(p);
-    return '<a class="store-card reveal" href="shop-product.html?id=' + encodeURIComponent(p.id) + '" data-cat="' + p.cat + '">' +
+    return '<a class="store-card reveal" href="' + (p.id === 'editit' ? 'editit.html' : p.id === 'carousel-secrets' ? 'landing.html?id=carousel' : 'shop-product.html?id=' + encodeURIComponent(p.id)) + '" data-cat="' + p.cat + '">' +
       '<span class="store-card-media">' + badgeHTML(p) +
         '<img src="' + p.img + '" alt="' + p.title + '" loading="lazy"></span>' +
       '<span class="store-card-body">' +
@@ -110,7 +110,7 @@
     var buyBtn = soldOut(p)
       ? '<span class="btn btn-primary btn-lg pd-buy pd-buy-disabled" aria-disabled="true">אזל מהמלאי</span>'
       : '<a class="btn btn-primary btn-lg pd-buy" href="' + buyUrl(p) + '" target="_blank" rel="noopener">' +
-        (Number(p.price) === 0 ? "להורדה ללא עלות" : "לרכישה מיידית") + "</a>";
+        (p.price === null || p.price === undefined || p.price === "" ? "לפרטים על המוצר" : Number(p.price) === 0 ? "להורדה ללא עלות" : "לרכישה מיידית") + "</a>";
 
     detail.innerHTML =
       '<div class="wrap"><nav class="pd-breadcrumb"><a href="shop.html">החנות</a> <span>›</span> <span>' + catLabel(p.cat) + "</span></nav>" +
@@ -123,7 +123,7 @@
           stockNote +
           '<p class="pd-desc">' + p.desc + "</p>" +
           includes + couponBlock + buyBtn +
-          '<p class="fine pd-affiliate">מוצר דיגיטלי — הגישה נשלחת מיד לאחר הרכישה. לשאלות אני כאן ב-whatsapp.</p>' +
+          '<p class="fine pd-affiliate">לשאלות ולפרטים נוספים אני כאן ב-whatsapp.</p>' +
         "</div>" +
       "</div></div>";
 

@@ -202,6 +202,8 @@
     slugTouched = !!p;
     $("pFormTitle").textContent = p ? "עריכת מוצר" : "מוצר חדש";
     $("pTitle").value = p ? p.title : "";
+    $("pImportUrl").value = "";
+    $("pImportStatus").textContent = "הפרטים שנמצאים ימולאו בטופס לבדיקה וניתנים לעריכה. באתרים מסוימים הייבוא עשוי להיות מוגבל.";
     $("pCat").value = p ? (p.category_key || "") : ($("pFilter").value || (state.cats[0] || {}).key || "");
     $("pBadge").value = p ? (p.badge || "") : "";
     $("pShort").value = p ? (p.short || "") : "";
@@ -211,6 +213,7 @@
     $("pCoupon").value = p ? (p.coupon || "") : "";
     $("pSort").value = p ? p.sort : (state.products.length ? Math.max.apply(null, state.products.map(function (x) { return x.sort; })) + 1 : 0);
     $("pBuy").value = p ? (p.buy_url || "") : "";
+    $("pVideo").value = p ? (p.video_url || "") : "";
     $("pSlug").value = p ? p.slug : "";
     $("pSlugPrev").textContent = $("pSlug").value || "…";
     $("pActive").checked = p ? p.active : true;
@@ -223,6 +226,27 @@
     $("pTitle").focus();
   }
   $("addProduct").addEventListener("click", function () { openProduct(null); });
+  $("pImportBtn").addEventListener("click", async function () {
+    var status = $("pImportStatus"), button = this, url = $("pImportUrl").value.trim();
+    if (!/^https:\/\//i.test(url)) { status.textContent = "יש להזין קישור שמתחיל ב־https://"; return; }
+    button.disabled = true; status.textContent = "בודקת את פרטי המוצר...";
+    try {
+      var session = await sb.auth.getSession();
+      var token = session.data.session && session.data.session.access_token;
+      if (!token) throw new Error("יש להתחבר מחדש כדי לייבא מוצר.");
+      var response = await fetch("/api/product-import", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + token }, body: JSON.stringify({ url: url }) });
+      var data = await response.json(); if (!response.ok) throw new Error(data.error || "לא ניתן לייבא פרטים.");
+      $("pBuy").value = url;
+      if (data.title && !$("pTitle").value.trim()) { $("pTitle").value = data.title; $("pTitle").dispatchEvent(new Event("input")); }
+      if (data.description && !$("pDesc").value.trim()) $("pDesc").value = data.description;
+      if (data.description && !$("pShort").value.trim()) $("pShort").value = data.description.slice(0,140);
+      if (data.image && !$("pImg").value.trim() && !state.uploadFile) { $("pImg").value = data.image; $("pImgPreview").src = data.image; }
+      if (data.price != null && !$("pPrice").value) $("pPrice").value = data.price;
+      status.textContent = "הפרטים הזמינים יובאו. בדקי וערכי אותם לפני השמירה; מחיר ומטבע לא תמיד זמינים.";
+    } catch (err) { status.textContent = err.message || "לא ניתן לייבא מהקישור. אפשר למלא את הפרטים ידנית."; }
+    button.disabled = false;
+  });
+
   $("pTitle").addEventListener("input", function () {
     if (!slugTouched) { $("pSlug").value = slugify($("pTitle").value); $("pSlugPrev").textContent = $("pSlug").value; }
   });
@@ -283,7 +307,7 @@
         title: title, slug: slug, category_key: $("pCat").value || null,
         badge: strOrNull($("pBadge").value), short: strOrNull($("pShort").value), description: strOrNull($("pDesc").value),
         price: price, old_price: old, coupon: strOrNull($("pCoupon").value),
-        sort: Number($("pSort").value) || 0, buy_url: strOrNull(buy), image_url: imageUrl,
+        sort: Number($("pSort").value) || 0, buy_url: strOrNull(buy), image_url: imageUrl, video_url: strOrNull($("pVideo").value),
         active: $("pActive").checked, featured: $("pFeatured").checked
       };
       var q = state.editing
