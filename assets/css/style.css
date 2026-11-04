@@ -2360,3 +2360,7 @@ body.qv-open { overflow: hidden; }
 
 /* landing pages without the site header */
 main.no-nav { padding-top: 28px; }
+
+/* social proof line above the sale box (academy hero) */
+.proof-badge { margin-top: 18px; font-size: 17px; color: var(--ink-80); }
+.proof-badge b { color: var(--primary); font-size: 22px; margin-inline-end: 4px; }
