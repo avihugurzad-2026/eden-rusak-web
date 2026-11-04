@@ -140,10 +140,14 @@
           priceHTML(p) +
           '<div class="pcard-actions">' +
             '<a class="btn btn-primary pcard-buy" href="' + productUrl(p) + '">לפרטי המוצר</a>' +
-            (p.coupon ? '<a class="pcard-coupon" href="' + productUrl(p) + '">קוד: <b>' + esc(p.coupon) + "</b></a>" : "") +
+            (p.coupon ? '<button type="button" class="pcard-coupon" data-copy="' + esc(p.coupon) + '" aria-label="העתקת קוד הקופון ' + esc(p.coupon) + '">קוד: <b>' + esc(p.coupon) + '</b> · העתקה</button>' : "") +
           "</div>" +
         "</div>" +
       "</article>";
+  }
+
+  function priceNote(p) {
+    return (p.price === null || p.price === undefined || p.price === "") ? "" : '<p class="price-note">המחיר עשוי להשתנות באתר המוכר ואינו באחריותנו.</p>';
   }
 
   function copyCode(btn, code) {
@@ -167,7 +171,7 @@
       '<div class="qv-info">' +
         '<span class="pcard-cat">' + esc(catLabel(p.cat)) + "</span>" +
         '<h3 class="qv-title" id="qvTitle">' + esc(p.title) + "</h3>" +
-        priceHTML(p) +
+        priceHTML(p) + priceNote(p) +
         '<p class="qv-desc">' + esc(p.desc || p.short) + "</p>" +
         (p.coupon ? '<div class="pd-coupon"><span class="pd-coupon-label">קוד קופון של עדן</span><div class="pd-coupon-row"><code>' + esc(p.coupon) + '</code><button type="button" class="pd-copy" data-copy="' + esc(p.coupon) + '">העתקה</button></div></div>' : "") +
         '<div class="btn-row">' +
@@ -335,7 +339,7 @@
       '<div class="spot-info"><span class="spot-tag">המוצר של השבוע</span>' +
       '<a class="spot-title" href="' + productUrl(p) + '">' + esc(p.title) + "</a>" +
       priceHTML(p) +
-      (p.coupon ? '<a class="pcard-coupon" href="' + productUrl(p) + '">קוד: <b>' + esc(p.coupon) + "</b></a>" : "") +
+      (p.coupon ? '<button type="button" class="pcard-coupon" data-copy="' + esc(p.coupon) + '" aria-label="העתקת קוד הקופון ' + esc(p.coupon) + '">קוד: <b>' + esc(p.coupon) + '</b> · העתקה</button>' : "") +
       "</div>";
   }
   function renderHeroCats() {
@@ -381,7 +385,7 @@
         '<div class="pd-info">' +
           '<span class="pd-cat">' + esc(catLabel(p.cat)) + "</span>" +
           '<h1 class="pd-title">' + esc(p.title) + "</h1>" +
-          priceHTML(p) +
+          priceHTML(p) + priceNote(p) +
           '<p class="pd-desc">' + esc(p.desc || p.short) + "</p>" +
           couponBlock +
           (buy ? '<a class="btn btn-primary btn-lg pd-buy" href="' + esc(buy) + '" target="_blank" rel="noopener sponsored">לרכישת המוצר</a>' : "") +

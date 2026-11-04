@@ -124,9 +124,11 @@
     if (rej) rej.addEventListener("click", function () { decide("rejected"); });
   }
 
-  /* ---------- Reels: hover-play on desktop, autoplay-in-view + tap on touch ---------- */
-  (function () {
-    var items = document.querySelectorAll(".reel-item");
+  /* ---------- Reels: hover-play on desktop, autoplay-in-view + tap on touch ----------
+     exposed so site-content.js can re-run it after placing the videos chosen in the admin */
+  window.EDEN_initReels = function () {
+    var items = document.querySelectorAll(".reel-item:not([data-ready])");
+    items.forEach(function (i) { i.setAttribute("data-ready", ""); });
     if (!items.length) return;
     var coarse = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
@@ -190,7 +192,8 @@
         try { video.currentTime = 0; } catch (e) {}
       });
     });
-  })();
+  };
+  window.EDEN_initReels();
 
   /* ---------- Contact form (no backend — friendly handoff) ---------- */
   var form = document.getElementById("contactForm");
@@ -357,4 +360,27 @@
       this.setCustomValidity("");
     });
   }
+})();
+
+/* ---------- anonymous visit counter (shown in Eden's admin hub) ----------
+   Sends only the page path, the referring site, utm_source and the device class.
+   No cookies and no IDs: a per-tab sessionStorage flag marks the first page of a visit. */
+(function () {
+  "use strict";
+  try {
+    var host = location.hostname;
+    if (!/(^|\.)edenrusak\.com$/.test(host) || navigator.webdriver || /admin/i.test(location.pathname)) return;
+    var isNew = !sessionStorage.getItem("eden_visit");
+    sessionStorage.setItem("eden_visit", "1");
+    var ref = "";
+    try { var r = document.referrer && new URL(document.referrer); if (r && r.hostname !== host) ref = r.hostname.replace(/^www\./, "").slice(0, 200); } catch (e) {}
+    var w = Math.min(screen.width, window.innerWidth || screen.width);
+    var device = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? "mobile" : (/iPad|Tablet/i.test(navigator.userAgent) || (w >= 600 && w < 1024 && "ontouchstart" in window)) ? "tablet" : "desktop";
+    var utm = (new URLSearchParams(location.search).get("utm_source") || "").slice(0, 100);
+    fetch("https://lefqtffubkmxbsenptrc.supabase.co/rest/v1/eden_page_views", {
+      method: "POST", keepalive: true,
+      headers: { "Content-Type": "application/json", apikey: "sb_publishable_P2XYPTQ1k6DkqUZ5txXGgw_j7v-hIqn", Prefer: "return=minimal" },
+      body: JSON.stringify({ path: (location.pathname || "/").slice(0, 300), referrer_host: ref || null, utm_source: utm || null, device: device, new_visit: isNew })
+    }).catch(function () {});
+  } catch (e) {}
 })();

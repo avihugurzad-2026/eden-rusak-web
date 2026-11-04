@@ -311,7 +311,7 @@
         <h2 class="h2">הצצה לתכנים שיצרנו</h2>
       </div>
       <div class="reel-row">
-        <div class="reel-track" id="reelTrack">
+        <div class="reel-track" id="reelTrack" data-slot="home-reels">
           <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-01.jpg" alt="סרטון UGC לדוגמה 1" loading="lazy"><video src="assets/videos/reel-01.mp4" muted loop playsinline preload="metadata"></video><span class="reel-play">▶</span></div>
           <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-02.jpg" alt="סרטון UGC לדוגמה 2" loading="lazy"><video src="assets/videos/reel-02.mp4" muted loop playsinline preload="metadata"></video><span class="reel-play">▶</span></div>
           <div class="reel-item"><img class="reel-poster" src="assets/images/posters/reel-03.jpg" alt="סרטון רילס לעסק 3" loading="lazy"><video src="assets/videos/reel-03.mp4" muted loop playsinline preload="metadata"></video><span class="reel-play">▶</span></div>
@@ -352,7 +352,7 @@
         <div class="academy-pill">
           <span class="tag">תכנית הדגל</span>
           <h3>תכנית ההכשרה ליצירת תוכן ו-UGC</h3>
-          <div class="price">99₪<s>597₪</s></div>
+          <div class="price"><span data-p="editit" data-f="price">99₪</span><s data-p="editit" data-f="old">597₪</s></div>
           <ul>
             <li>כל הסודות הכי כמוסים בתחום יצירת התוכן, המיתוג האישי והנראות בסושיאל</li>
             <li>מתאים למתחילות, לבעלות עסקים וליוצרות ותיקות</li>
@@ -501,5 +501,6 @@
 
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/site-content.js?v=2"></script>
 </body>
 </html>

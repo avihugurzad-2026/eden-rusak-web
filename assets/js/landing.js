@@ -57,17 +57,20 @@
   function li(arr) { return arr.map(function (x) { return "<li>" + boldLead(x) + "</li>"; }).join(""); }
   function esc(s) { return String(s); }
 
+  /* landings that sell a catalog product: price + checkout link follow the admin (site-content.js) */
+  var pid = { editit: "editit", carousel: "carousel-secrets" }[key] || "";
+  var bind = function (f) { return pid ? ' data-p="' + pid + '" data-f="' + f + '"' : ""; };
   var priceHTML = "";
   if (d.price) {
-    priceHTML = '<div class="landing-price">' + d.price +
-      (d.oldPrice ? ' <span class="old">' + d.oldPrice + "</span>" : "") + "</div>";
+    priceHTML = '<div class="landing-price"><span' + bind("price") + ">" + d.price + "</span>" +
+      (d.oldPrice || pid ? ' <span class="old"' + bind("old") + (d.oldPrice ? "" : " hidden") + ">" + d.oldPrice + "</span>" : "") + "</div>";
   }
   var dateHTML = d.dateNote ? '<p class="landing-date">' + d.dateNote + "</p>" : "";
 
   var ctaAttr = d.ctaUrl.indexOf("http") === 0 ? ' target="_blank" rel="noopener"' : "";
   var ctaSecondaryText = d.ctaSecondaryText || "השארת פרטים";
   function ctaBtn(extraClass) {
-    return '<a class="btn ' + accentBtn + ' btn-lg ' + (extraClass || "") + '" href="' +
+    return '<a' + bind("buy") + ' class="btn ' + accentBtn + ' btn-lg ' + (extraClass || "") + '" href="' +
       d.ctaUrl + '"' + ctaAttr + ">" + d.ctaText + "</a>";
   }
 
@@ -237,6 +240,7 @@
   if (ctaBtnEl) {
     ctaBtnEl.textContent = d.enrollCtaText || d.ctaText;
     ctaBtnEl.setAttribute("href", d.ctaUrl);
+    if (pid) { ctaBtnEl.setAttribute("data-p", pid); ctaBtnEl.setAttribute("data-f", "buy"); }
     ctaBtnEl.className = "btn " + accentBtn + " btn-lg";
     if (d.ctaUrl.indexOf("http") === 0) { ctaBtnEl.setAttribute("target", "_blank"); ctaBtnEl.setAttribute("rel", "noopener"); }
   }

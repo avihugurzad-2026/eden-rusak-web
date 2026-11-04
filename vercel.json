@@ -15,6 +15,26 @@
       "source": "/index.html",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/rec-admin.html",
+      "destination": "https://academy.edenrusak.com/admin/site/products",
+      "permanent": false
+    },
+    {
+      "source": "/rec-admin",
+      "destination": "https://academy.edenrusak.com/admin/site/products",
+      "permanent": false
+    },
+    {
+      "source": "/site-admin.html",
+      "destination": "https://academy.edenrusak.com/admin/site/catalog",
+      "permanent": false
+    },
+    {
+      "source": "/site-admin",
+      "destination": "https://academy.edenrusak.com/admin/site/catalog",
+      "permanent": false
     }
   ],
   "headers": [
