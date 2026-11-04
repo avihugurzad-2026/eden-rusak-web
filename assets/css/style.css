@@ -2366,3 +2366,7 @@ main.no-nav { padding-top: 28px; }
 .proof-num { font-size: 18px; color: var(--ink-80); font-weight: 600; }
 .proof-num b { font-size: 46px; color: var(--primary); font-weight: 800; margin-inline-start: 4px; }
 .proof-cap { margin-top: 6px; font-size: 16px; color: var(--ink-80); }
+
+/* masonry variant for real student messages of varying length */
+.testi-masonry { display: block; columns: 3 300px; column-gap: 22px; }
+.testi-masonry .testimonial { break-inside: avoid; margin-bottom: 22px; }
