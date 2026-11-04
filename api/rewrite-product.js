@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: 'application/json', temperature: 0.2 } }),
       signal: AbortSignal.timeout(20000)
     });
-    if (!resp.ok) return res.status(502).json({ error: 'לא ניתן ליצור נוסח כרגע. נסו שוב או ערכו ידנית.' });
+    if (!resp.ok) { console.error('Gemini request failed with status', resp.status); const error = resp.status === 429 ? 'מכסת Gemini זמנית אינה זמינה. נסו שוב מאוחר יותר.' : resp.status === 403 || resp.status === 401 ? 'חיבור Gemini נדחה. יש לבדוק את הגדרות המפתח והפרויקט.' : 'לא ניתן ליצור נוסח כרגע. נסו שוב או ערכו ידנית.'; return res.status(502).json({ error }); }
     const result = await resp.json();
     const text = (result.candidates && result.candidates[0] && result.candidates[0].content && result.candidates[0].content.parts || []).map(p => p.text || '').join('');
     const draft = JSON.parse(text);
