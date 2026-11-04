@@ -1675,7 +1675,7 @@ h1, h2, h3, .display, .h2 { color: var(--heading); }
 /* ---------- Inner pages (academy / workshops / contact) ---------- */
 .fh.fh-sm { min-height: clamp(520px, 74vh, 700px); }
 .fh-sm .fh-float.phone { border-radius: 16px; }
-.fh-sm .fh-float.i2 { top: 7%; inset-inline-end: 34%; }
+.fh-sm .fh-float.i2 { top: 7%; inset-inline-end: 12%; }
 .fh-sm .fh-float.c2 { bottom: 6%; }
 .stack-card:nth-child(5) { rotate: -1.2deg; top: calc(var(--bar-h) + var(--nav-h) + 94px); background: #fff; }
 .stack-card:nth-child(5) h3 { color: var(--heading); }
@@ -2370,3 +2370,6 @@ main.no-nav { padding-top: 28px; }
 /* masonry variant for real student messages of varying length */
 .testi-masonry { display: block; columns: 3 300px; column-gap: 22px; }
 .testi-masonry .testimonial { break-inside: avoid; margin-bottom: 22px; }
+
+/* Keep decorative icons away from landing-page headings. */
+@media (max-width: 1100px) { .fh-sm .fh-float.i2 { display: none; } }
