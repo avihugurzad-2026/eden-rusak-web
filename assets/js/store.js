@@ -2,11 +2,15 @@
    Renders the store grid on shop.html and the product page on
    shop-product.html?id=<key>. Data: store-data.js, merged with admin
    overrides via EDEN_DB (admin.html). */
-(function () {
+(async function () {
   "use strict";
+  var managed = window.EDEN_CATALOG ? await window.EDEN_CATALOG : null;
+  function escapeText(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function(c) { return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); }
+  function safeLink(s) { if (!s) return ""; try { var u = new URL(s, location.origin); return u.protocol === "https:" ? escapeText(s) : ""; } catch (_) { return ""; } }
+  function safeProduct(p) { var x = Object.assign({}, p); ["id","cat","title","short","desc"].forEach(function(k) { x[k] = escapeText(x[k]); }); ["img","buy","landing"].forEach(function(k) { x[k] = safeLink(x[k]); }); x.includes = Array.isArray(x.includes) ? x.includes.map(escapeText) : []; x.coupon = null; x.price = x.price == null ? null : Number(x.price); x.oldPrice = x.oldPrice == null ? null : Number(x.oldPrice); return x; }
   var FALLBACK_P = window.EDEN_STORE_PRODUCTS || [];
   var FALLBACK_C = window.EDEN_STORE_CATEGORIES || [];
-  var PRODUCTS = (window.EDEN_DB ? EDEN_DB.get("storeProducts", FALLBACK_P) : FALLBACK_P)
+  var PRODUCTS = ((managed && Array.isArray(managed.products) ? managed.products.map(safeProduct) : FALLBACK_P))
     .filter(function (p) { return p.active !== false && ["hooks-100", "prompts-20", "reels-guide", "capcut-zero", "story-templates"].indexOf(p.id) === -1; });
   var CATS = window.EDEN_DB ? EDEN_DB.get("storeCategories", FALLBACK_C) : FALLBACK_C;
 
@@ -44,7 +48,7 @@
 
   function cardHTML(p) {
     var c = couponOf(p);
-    return '<a class="store-card reveal" href="' + (p.id === 'editit' ? 'editit.html' : p.id === 'carousel-secrets' ? 'landing.html?id=carousel' : 'shop-product.html?id=' + encodeURIComponent(p.id)) + '" data-cat="' + p.cat + '">' +
+    return '<a class="store-card reveal" href="' + (p.landing || (p.id === 'editit' ? 'editit.html' : p.id === 'carousel-secrets' ? 'landing.html?id=carousel' : 'shop-product.html?id=' + encodeURIComponent(p.id))) + '" data-cat="' + p.cat + '">' +
       '<span class="store-card-media">' + badgeHTML(p) +
         '<img src="' + p.img + '" alt="' + p.title + '" loading="lazy"></span>' +
       '<span class="store-card-body">' +
