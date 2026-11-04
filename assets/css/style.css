@@ -2362,10 +2362,16 @@ body.qv-open { overflow: hidden; }
 main.no-nav { padding-top: 28px; }
 
 /* social proof stat above the sale box (academy hero) */
-.proof-stat { display: flex; flex-direction: column; align-items: center; margin-top: 20px; line-height: 1.1; }
-.proof-num { font-size: 18px; color: var(--ink-80); font-weight: 600; }
-.proof-num b { font-size: 46px; color: var(--primary); font-weight: 800; margin-inline-start: 4px; }
-.proof-cap { margin-top: 6px; font-size: 16px; color: var(--ink-80); }
+.proof-chip {
+  display: inline-flex; align-items: center; gap: 12px; margin-top: 20px;
+  background: #fff; border: 1px solid var(--hairline); border-radius: var(--r-pill);
+  padding: 8px 18px 8px 10px; box-shadow: var(--shadow-soft);
+}
+.proof-avatars { display: inline-flex; }
+.proof-avatars img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; margin-inline-start: -10px; }
+.proof-avatars img:first-child { margin-inline-start: 0; }
+.proof-text { font-size: 16px; color: var(--ink-80); }
+.proof-text b { color: var(--primary); font-size: 20px; font-weight: 800; }
 
 /* masonry variant for real student messages of varying length */
 .testi-masonry { display: block; columns: 3 300px; column-gap: 22px; }
