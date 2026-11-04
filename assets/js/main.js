@@ -9,9 +9,9 @@
     var TT = '<svg viewBox="0 0 24 24"><path d="M14.5 3h2.8c.2 1.9 1.4 3.3 3.2 3.5v2.8c-1.2 0-2.3-.4-3.2-1v6.3a5.4 5.4 0 1 1-5.4-5.4c.3 0 .6 0 .9.1v2.9a2.6 2.6 0 1 0 1.7 2.4V3Z" fill="#fff"/></svg>';
     var STAR = '<svg viewBox="0 0 24 24"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z" fill="#fff"/></svg>';
     var reel = function (n, video) {
-      var src = "assets/images/posters/reel-" + n + ".jpg";
+      var src = "assets/images/posters/fly/reel-" + n + ".jpg"; /* small 240px copies for the flying tiles */
       return { cls: "fly-tile", html: video
-        ? '<video src="assets/videos/reel-' + n + '.mp4" poster="' + src + '" autoplay muted loop playsinline preload="none"></video>'
+        ? '<video src="assets/videos/fly/reel-' + n + '.mp4" poster="' + src + '" autoplay muted loop playsinline preload="none"></video>'
         : '<img src="' + src + '" alt="" decoding="async">' };
     };
     var chip = function (t) { return { cls: "fly-tile fly-chip", html: '<span class="heart">♥</span><b>' + t + "</b>" }; };
