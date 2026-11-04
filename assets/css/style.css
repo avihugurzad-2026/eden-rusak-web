@@ -2361,6 +2361,8 @@ body.qv-open { overflow: hidden; }
 /* landing pages without the site header */
 main.no-nav { padding-top: 28px; }
 
-/* social proof line above the sale box (academy hero) */
-.proof-badge { margin-top: 18px; font-size: 17px; color: var(--ink-80); }
-.proof-badge b { color: var(--primary); font-size: 22px; margin-inline-end: 4px; }
+/* social proof stat above the sale box (academy hero) */
+.proof-stat { display: flex; flex-direction: column; align-items: center; margin-top: 20px; line-height: 1.1; }
+.proof-num { font-size: 18px; color: var(--ink-80); font-weight: 600; }
+.proof-num b { font-size: 46px; color: var(--primary); font-weight: 800; margin-inline-start: 4px; }
+.proof-cap { margin-top: 6px; font-size: 16px; color: var(--ink-80); }
