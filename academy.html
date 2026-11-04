@@ -141,7 +141,7 @@
         <div class="sale-box" id="saleBox">
           <span class="sale-tag"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg> NOVEMBER SALE</span>
           <p class="sale-price"><b>99₪</b> במקום <s>597₪</s></p>
-          <p class="sale-ends">המבצע מסתיים בעוד</p>
+          <p class="sale-ends">הטבת ההצטרפות בתוקף עד 15.11 ומסתיימת בעוד</p>
           <div class="countdown" id="saleCountdown" aria-label="זמן עד סוף המבצע">
             <div><b data-u="d">0</b><span>ימים</span></div>
             <div><b data-u="h">00</b><span>שעות</span></div>
@@ -195,7 +195,7 @@
           <span class="tag">תוכנית הדגל · Editit</span>
           <h3>קורס יצירת תוכן מאפס למאה</h3>
           <div class="price">99₪<s>597₪</s></div>
-          <p class="fine" style="margin-top:6px">מחיר מבצע נובמבר</p>
+          <p class="fine" style="margin-top:6px">הטבת הצטרפות עד 15.11</p>
           <ul>
             <li><b>מעל 1,500 קורסיסטיות</b> כבר הצטרפו לתוכנית</li>
             <li>גישה לכל השיעורים, מכל מקום וגם מהנייד, בקצב שלך</li>
@@ -404,8 +404,8 @@
       new IntersectionObserver(function (e) { bar.classList.toggle("show", !e[0].isIntersecting); }).observe(hero);
     })();
     (function () {
-      /* November sale end — a real deadline; change here if the sale is extended */
-      var END = new Date("2026-11-30T23:59:59+02:00").getTime();
+      /* early-bird offer end (real deadline): change here when the next offer is decided */
+      var END = new Date("2026-11-15T23:59:59+02:00").getTime();
       var box = document.getElementById("saleBox"), cd = document.getElementById("saleCountdown");
       function tick() {
         var t = END - Date.now();
