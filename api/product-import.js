@@ -61,8 +61,9 @@ module.exports = async (req, res) => {
     for (const match of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) { try { found.push(...products(JSON.parse(match[1]))); } catch (_) {} }
     const p = found[0] || {}, offer = Array.isArray(p.offers) ? p.offers[0] : p.offers || {};
     let img = Array.isArray(p.image) ? p.image[0] : p.image; if (img && typeof img === 'object') img = img.url;
-    try { img = new URL(img || meta(html,'og:image'),url).href; if (!/^https:\/\//i.test(img)) img = ''; } catch (_) { img = ''; }
+    img = img || meta(html,'og:image:secure_url') || meta(html,'og:image') || meta(html,'twitter:image') || meta(html,'twitter:image:src');
+    try { img = img ? new URL(img, url).href : ''; if (!/^https:\/\//i.test(img)) img = ''; } catch (_) { img = ''; }
     const price = String(offer.priceCurrency || '').toUpperCase() === 'ILS' && offer.price != null && String(offer.price).trim() !== '' && Number.isFinite(Number(offer.price)) ? Number(offer.price) : null;
-    return res.status(200).json({ title: decode(p.name || meta(html,'og:title')).slice(0,180), description: decode(p.description || meta(html,'og:description') || meta(html,'description')).replace(/<[^>]*>/g,'').slice(0,3000), image: img, price, url });
+    return res.status(200).json({ title: decode(p.name || meta(html,'og:title') || meta(html,'twitter:title') || ((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1])).slice(0,180), description: decode(p.description || meta(html,'og:description') || meta(html,'twitter:description') || meta(html,'description')).replace(/<[^>]*>/g,'').slice(0,3000), image: img, price, url });
   } catch (_) { return res.status(422).json({ error: 'לא ניתן לייבא מהקישור הזה. אפשר למלא את הפרטים ידנית.' }); }
 };

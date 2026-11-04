@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
-    body { background: var(--cream); min-height: 100vh; }
+    body { background: #f7f6fb; min-height: 100vh; }
     .ra-top { position: sticky; top: 0; z-index: 20; background: var(--heading); color: #fff; }
     .ra-top .wrap { display: flex; align-items: center; gap: 16px; height: 64px; }
     .ra-top img { height: 22px; filter: brightness(0) invert(1); }
@@ -100,6 +100,22 @@
       .ra-grid2 { grid-template-columns: 1fr; }
       .ra-top .ra-user { display: none; }
     }
+    [hidden] { display: none !important; }
+    .ra-main > .wrap { max-width: 1160px; }
+    .ra-main { padding-top: 36px; }
+    .ra-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+    .ra-stat { padding: 20px; }
+    .ra-tabs { overflow-x: auto; padding-bottom: 4px; }
+    .ra-tabs button { white-space: nowrap; }
+    .ra-row { padding: 16px; box-shadow: 0 4px 16px rgba(30,27,75,.04); }
+    .ra-row .t { font-size: 17px; }
+    .ra-row .acts { flex-wrap: wrap; }
+    .ra-panel { width: min(660px, 100%); }
+    .ra-panel .form-field { margin-bottom: 18px; }
+    .ra-panel input:focus-visible, .ra-panel textarea:focus-visible, .ra-panel select:focus-visible { outline: 3px solid #b3b9ff; outline-offset: 2px; }
+    .ra-error { overflow-wrap: anywhere; }
+    @media (max-width: 640px) { .ra-top .wrap { gap: 8px; } .ra-top img { max-width: 105px; } .ra-top .ra-title { display: none; } .ra-main { padding-top: 20px; } .ra-stat { min-width: 0; padding: 14px; } .ra-tabs { margin-bottom: 14px; } }
+
   </style>
 <script defer src="https://buyz.co.il/assets/js/st.js?v=2" data-site="va7gb5edvrfzfynw"></script>
 </head>
@@ -227,6 +243,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
   <script src="assets/js/supabase-config.js"></script>
-  <script src="assets/js/rec-admin.js"></script>
+  <script src="assets/js/rec-admin.js?v=20261105-1"></script>
 </body>
 </html>

@@ -87,6 +87,7 @@
           "כדי לקבל הרשאה, שלחי את המזהה הזה למי שמנהל את האתר:<br><code>" + esc(session.user.id) + "</code>";
         return;
       }
+      $("notAdmin").hidden = true;
       $("adminArea").hidden = false;
       loadAll();
     });
@@ -242,7 +243,8 @@
       if (data.description && !$("pShort").value.trim()) $("pShort").value = data.description.slice(0,140);
       if (data.image && !$("pImg").value.trim() && !state.uploadFile) { $("pImg").value = data.image; $("pImgPreview").src = data.image; }
       if (data.price != null && !$("pPrice").value) $("pPrice").value = data.price;
-      status.textContent = "הפרטים הזמינים יובאו. בדקי וערכי אותם לפני השמירה; מחיר ומטבע לא תמיד זמינים.";
+      var missing = []; if (!data.title) missing.push("שם"); if (!data.description) missing.push("תיאור"); if (!data.image) missing.push("תמונה"); if (data.price == null) missing.push("מחיר בשקלים");
+      status.textContent = missing.length ? "חלק מהפרטים לא היו זמינים: " + missing.join(", ") + ". אפשר להשלים ידנית ולבדוק לפני השמירה." : "הפרטים יובאו. בדקי וערכי אותם לפני השמירה.";
     } catch (err) { status.textContent = err.message || "לא ניתן לייבא מהקישור. אפשר למלא את הפרטים ידנית."; }
     button.disabled = false;
   });
