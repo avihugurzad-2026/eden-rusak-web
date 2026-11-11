@@ -297,6 +297,43 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px}
   .footer-row{flex-direction:column;align-items:flex-start}
 }
 
+/* the workshop table */
+.table-shot{margin:0;position:relative;border-radius:32px;overflow:hidden;box-shadow:0 30px 70px -35px #161b8680;aspect-ratio:16/9}
+.table-shot img{width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block;transform:scale(1.08);transition:transform 1.6s var(--ease)}
+.table-shot.in img{transform:none}
+.table-shot:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#161b86cc,transparent 55%)}
+.table-cap{position:absolute;z-index:1;bottom:28px;right:32px;left:32px;color:#fff;display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.table-cap h3{font-size:clamp(26px,3.2vw,40px);line-height:1.15}
+.table-cap .tags{display:flex;gap:8px;flex-wrap:wrap}
+.table-cap .tags span{background:#ffffffe6;color:var(--navy);border-radius:100px;padding:8px 16px;font-weight:700;font-size:16px}
+
+/* reviews */
+.reviews{background:linear-gradient(180deg,var(--cream),#fff0f4 30%,#fff0f4 70%,var(--cream))}
+.stars{color:#ffb800;font-size:22px;letter-spacing:2px;direction:ltr;display:inline-block}
+.review-feature{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;background:#fff;border-radius:30px;padding:38px 40px;border:1px solid var(--line);box-shadow:0 30px 70px -40px #161b8666;margin-bottom:26px;position:relative;overflow:hidden}
+.review-feature:before{content:'”';position:absolute;top:-40px;left:24px;font-size:220px;line-height:1;color:var(--pink);opacity:.35;font-family:Georgia,serif}
+.review-feature .avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--blue));display:grid;place-items:center;color:#fff;font-size:30px}
+.review-feature blockquote{margin:10px 0 0;font-size:21px;line-height:1.7;color:var(--ink);position:relative}
+.review-feature cite{display:block;margin-top:16px;font-style:normal;font-weight:700;color:var(--blue);font-size:17px}
+.bubbles{columns:3;column-gap:20px}
+.bubble{break-inside:avoid;margin:0 0 20px;background:#fff;border-radius:22px 22px 22px 6px;padding:22px 24px 18px;border:1px solid var(--line);box-shadow:0 18px 40px -30px #161b8655;position:relative;transition:transform .35s var(--ease)}
+.bubble:hover{transform:translateY(-6px) rotate(-.6deg)}
+.bubble.wa-style{background:#e7ffdb;border-color:#cdeebc}
+.bubble.ig-style{background:linear-gradient(135deg,#fff,#f3eeff)}
+.bubble p{font-size:18.5px;line-height:1.65;margin:0 0 12px;color:var(--ink)}
+.bubble .meta{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#6b6d85}
+.bubble .meta b{color:var(--navy)}
+.reviews .cta-row{justify-content:center;margin-top:30px}
+
+/* gallery */
+.gallery-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(240px,1fr);gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px;scrollbar-width:thin}
+.gallery-track figure{margin:0;scroll-snap-align:start;border-radius:24px;overflow:hidden;position:relative;aspect-ratio:3/4;box-shadow:0 20px 44px -28px #161b8670}
+.gallery-track img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease)}
+.gallery-track figure:hover img{transform:scale(1.06)}
+.gallery-track figcaption{position:absolute;bottom:12px;right:12px;left:12px;background:#ffffffeb;border-radius:14px;padding:9px 14px;font-weight:700;font-size:16px;color:var(--navy)}
+@media(max-width:900px){.bubbles{columns:2}.review-feature{grid-template-columns:1fr;padding:30px 24px;gap:14px}.table-shot{aspect-ratio:4/5;border-radius:26px}.table-cap{right:20px;left:20px;bottom:20px}}
+@media(max-width:600px){.bubbles{columns:1}.review-feature blockquote{font-size:19px}.gallery-track{grid-auto-columns:78%}.table-cap .tags span{font-size:14px;padding:7px 12px}}
+
 /* privacy checkbox, legal links, cookie banner, accessibility widget (same behavior as the main site) */
 .consent a{color:var(--blue);text-decoration:underline;font-weight:700}
 .consent.bad span{color:#c4294b}
@@ -353,7 +390,7 @@ html.a11y-contrast .a11y-panel,html.a11y-contrast .a11y-opt{background:#000!impo
 
 <header id="hdr"><div class="wrap nav">
   <a class="logo" href="#top" aria-label="עדן רוסק, לראש הדף"><img src="/ugc-workshop/assets/eden-logo.svg" alt="עדן רוסק" width="150" height="25"></a>
-  <nav aria-label="ניווט ראשי"><a href="#about">על הסדנה</a><a href="#learn">מה נלמד?</a><a href="#takeaway">מה מקבלים?</a><a href="#faq">שאלות</a></nav>
+  <nav aria-label="ניווט ראשי"><a href="#about">על הסדנה</a><a href="#learn">מה נלמד?</a><a href="#takeaway">מה מקבלים?</a><a href="#reviews">מה אמרו</a><a href="#faq">שאלות</a></nav>
   <a class="btn btn-main" href="#register" data-track="header">שמרי לי מקום</a>
 </div></header>
 
@@ -404,6 +441,12 @@ html.a11y-contrast .a11y-panel,html.a11y-contrast .a11y-opt{background:#000!impo
   </div>
 </section>
 
+<div class="wrap" style="padding-bottom:30px">
+  <figure class="table-shot rv"><img src="/ugc-workshop/assets/workshop-table.jpg" alt="שולחן הסדנה מוכן לפני תחילת היום: לכל משתתפת חצובה, מחברת ומתנות" width="1000" height="1572" loading="lazy">
+    <figcaption class="table-cap"><h3>ככה נראה השולחן<br>שמחכה לך בבוקר.</h3><div class="tags"><span>🎁 מתנות לכל משתתפת</span><span>📱 חצובה אישית</span><span>🥐 כיבוד</span></div></figcaption>
+  </figure>
+</div>
+
 <section id="audience" class="audience section"><div class="wrap">
   <div class="section-head rv"><div><div class="kicker">יש מקום גם להתחלה שלך</div><h2>למי ההכשרה מתאימה?</h2></div><p>לכל מי שרוצה להיכנס לעולם יצירת תוכן UGC, לרכוש מקצוע מבוקש ולהפוך את היצירתיות שלה להזדמנות עסקית.</p></div>
   <div class="cards">
@@ -434,6 +477,37 @@ html.a11y-contrast .a11y-panel,html.a11y-contrast .a11y-opt{background:#000!impo
   </div>
   <div class="cta-row rv"><a class="btn btn-main" href="#register" data-track="benefits">אני רוצה את כל זה</a><a class="btn btn-wa wa" href="#register" data-track="benefits"><svg aria-hidden="true"><use href="#wa"/></svg>לדבר עם עדן</a></div>
 </div></section>
+
+<section id="reviews" class="reviews section"><div class="wrap">
+  <div class="section-head rv"><div><div class="kicker">ההודעות ששוות את הכול</div><h2>מה אמרו הבנות<br>אחרי הסדנה.</h2></div><p>הודעות אמיתיות שקיבלתי מבוגרות הסדנאות הקודמות, מילה במילה.</p></div>
+  <article class="review-feature rv"><div class="avatar" aria-hidden="true">💗</div><div>
+    <span class="stars" aria-label="5 כוכבים">★★★★★</span>
+    <blockquote>רציתי להגיד לך שהיה לי מדהים!!!!! את מקצועית ברמות!! רואים שנתת את כל הלב שלך על הסדנא הזו ובכלל בכל דבר שאת עושה! השקעת בכל פרט ופרט, ולא ויתרת על תשומת לב וסבלנות לכל אחת אחת... זה שאפילו נתת טיפים להמשך לכל אחת אישית באמת אין לי מילים... ברגע האחרון נרשמתי וזו ההחלטה הכי טובה שעשיתי 💗💗 מגיע לעצמי לעשות משהו עבורי וזו הייתה בחירה מעולה 😍</blockquote>
+    <cite>בוגרת סדנה, בהודעת וואטסאפ</cite>
+  </div></article>
+  <div class="bubbles">
+    <div class="bubble wa-style rv"><p>הייי את מדהימה ומקצועית, לא מובן מאליו כל מה שקיבלתי ואני בתור אחת לא מהתחום בכלל, הבאת לי המון ובעיקר אמונה שזה אפשרי ❤️ ... היה שווה להגיע מאשקלון 🫶</p><div class="meta"><b>בוגרת סדנה</b><span>וואטסאפ</span></div></div>
+    <div class="bubble ig-style rv" style="--d:.08s"><p>אני באמת חושבת שהסדנא הייתה מושקעת ברמות ובאמת היה אכפת לך שנצא עם ידע וכלים להצליח!! את אלופה!!! והשראה!! תודה לך 💗</p><div class="meta"><b>בוגרת סדנה</b><span>אינסטגרם</span></div></div>
+    <div class="bubble rv" style="--d:.16s"><p>קודם כל הסדנה הייתה מהממת! נהנתי מכל רגע ואת הסברת נאדיר, חידדת לי כמה דברים שהייתי צריכה בשביל להתחיל! אז תודה לך</p><div class="meta"><b>בוגרת סדנה</b><span>וואטסאפ</span></div></div>
+    <div class="bubble wa-style rv"><p>וואי היה לי מושלם!!! למדתי המון דברים ודייקת לי 🤍 היה לי ממש כיף ומלמד תודה!!! 🙏🙏🙏</p><div class="meta"><b>בוגרת סדנה</b><span>וואטסאפ</span></div></div>
+    <div class="bubble ig-style rv" style="--d:.08s"><p>המתנה ליום הולדת הכי טובה שנתתי לעצמי!! 🎂</p><div class="meta"><b>בוגרת סדנה</b><span>אינסטגרם</span></div></div>
+    <div class="bubble rv" style="--d:.16s"><p>שמעי את מקצועית בטירוף והתחברתי אלייך גם ברמה האישית, רואים שהשקעת את הלב שלך בסדנא... השראה ממש!</p><div class="meta"><b>בוגרת סדנה</b><span>וואטסאפ</span></div></div>
+    <div class="bubble wa-style rv"><p>היי אהובה, היה מהמם תודה רבה מאוד נהניתי :)</p><div class="meta"><b>בוגרת סדנה</b><span>וואטסאפ</span></div></div>
+  </div>
+  <div class="cta-row rv"><a class="btn btn-main" href="#register" data-track="reviews">גם אני רוצה לחוות את זה</a><a class="btn btn-wa wa" href="#register" data-track="reviews"><svg aria-hidden="true"><use href="#wa"/></svg>לשאלות בוואטסאפ</a></div>
+</div></section>
+
+<section id="gallery" class="wrap section" style="padding-top:20px">
+  <div class="section-head rv"><div><div class="kicker">לא רק תיאוריה</div><h2>ככה נראה העולם<br>שאליו את נכנסת.</h2></div><p>מארזים שמגיעים ממותגים, וצילומים מאחורי הקלעים. גללי לצד כדי לראות עוד 👈</p></div>
+  <div class="gallery-track rv" tabindex="0" aria-label="גלריית תמונות">
+    <figure><img src="/ugc-workshop/assets/bts-tripod.jpg" alt="טלפון על חצובה מצלם מוצרים על הרצפה, מאחורי הקלעים של צילום" width="760" height="1014" loading="lazy"><figcaption>📱 מאחורי הקלעים של צילום</figcaption></figure>
+    <figure><img src="/ugc-workshop/assets/brand-mac.jpg" alt="מוצרי איפור של MAC וחצובה שהגיעו לשיתוף פעולה" width="760" height="1240" loading="lazy"><figcaption>💄 מארז ממותג איפור</figcaption></figure>
+    <figure><img src="/ugc-workshop/assets/brand-guilty.jpg" alt="קופסת מוצרי טיפוח פתוחה שהגיעה ממותג" width="760" height="1352" loading="lazy"><figcaption>📦 חבילה שהגיעה לצילום</figcaption></figure>
+    <figure><img src="/ugc-workshop/assets/brand-onlys.jpg" alt="מארז מוצרי טיפוח ובישום בקופסה סגולה" width="760" height="1352" loading="lazy"><figcaption>✨ עוד מארז, עוד סרטון</figcaption></figure>
+    <figure><img src="/ugc-workshop/assets/brand-gade.jpg" alt="קופסה עם מוצרי איפור של GA DE" width="760" height="1098" loading="lazy"><figcaption>🎁 מוצרים לצילום תוכן</figcaption></figure>
+    <figure><img src="/ugc-workshop/assets/brand-mikaella.jpg" alt="מוצרי טיפוח מצולמים באור טבעי" width="760" height="1352" loading="lazy"><figcaption>☀️ צילום מוצר באור טבעי</figcaption></figure>
+  </div>
+</section>
 
 <section id="register" class="wrap section register">
   <div class="register-copy rv">
