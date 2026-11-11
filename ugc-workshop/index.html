@@ -193,7 +193,7 @@ h1 em:after{content:'';position:absolute;right:-4px;left:-6px;bottom:.08em;heigh
 .field input:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 4px #232dce1f;background:#fff}
 .field input[aria-invalid=true]{border-color:#d93458}
 .field input[dir=ltr]{text-align:right}
-.roles{display:flex;flex-wrap:wrap;gap:8px;border:0;padding:0;margin:0 0 18px}
+.roles{display:flex;flex-wrap:wrap;gap:8px;border:0;padding:0;margin:0 0 24px}
 .roles label{cursor:pointer}
 .roles input{position:absolute;opacity:0;pointer-events:none}
 .roles span{display:inline-block;padding:9px 16px;border-radius:100px;border:1.5px solid #dcdde8;font-size:16.5px;transition:all .2s}
@@ -296,6 +296,49 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px}
   footer{padding-bottom:96px}
   .footer-row{flex-direction:column;align-items:flex-start}
 }
+
+/* privacy checkbox, legal links, cookie banner, accessibility widget (same behavior as the main site) */
+.consent a{color:var(--blue);text-decoration:underline;font-weight:700}
+.consent.bad span{color:#c4294b}
+.legal-links{display:flex;gap:18px;flex-wrap:wrap}
+.legal-links a{color:#666780;font-weight:400;text-decoration:underline;text-underline-offset:3px}
+.cookie-banner{position:fixed;inset-inline:16px;bottom:16px;z-index:200;max-width:500px;margin-inline:auto;background:#1b1d3aeb;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#fff;border-radius:22px;padding:22px 24px;box-shadow:0 16px 44px #0006;transform:translateY(160%);transition:transform .45s var(--ease)}
+.cookie-banner.show{transform:none}
+.cookie-banner h4{margin:0 0 8px;font-size:19px}
+.cookie-banner p{font-size:16px;line-height:1.55;color:#dcdcf0;margin:0 0 16px}
+.cookie-banner p a{color:var(--pink);text-decoration:underline}
+.cookie-actions{display:flex;gap:10px;flex-wrap:wrap}
+.cookie-actions button{flex:1;min-width:120px;border:0;border-radius:100px;padding:12px 18px;font:inherit;font-weight:700;font-size:16px;cursor:pointer}
+#cookieAccept{background:#fff;color:var(--navy)}
+#cookieReject{background:#ffffff24;color:#fff}
+.a11y-launcher{position:fixed;inset-inline-start:24px;bottom:24px;z-index:40;width:56px;height:56px;border-radius:50%;border:0;cursor:pointer;background:var(--blue);color:#fff;display:grid;place-items:center;box-shadow:0 10px 26px #232dce55;transition:transform .2s}
+.a11y-launcher:hover{transform:scale(1.06)}
+.a11y-panel{position:fixed;inset-inline-start:24px;bottom:92px;z-index:40;width:290px;max-width:calc(100vw - 40px);background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 50px #0000002e;padding:18px}
+.a11y-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.a11y-head h4{margin:0;font-size:20px;color:var(--ink)}
+.a11y-close{border:0;background:none;font-size:28px;line-height:1;cursor:pointer;color:#6b6d85}
+.a11y-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;font-size:16px}
+.a11y-stepper{display:flex;align-items:center;gap:8px}
+.a11y-stepper button{width:38px;height:34px;border:1px solid var(--line);background:var(--cream);border-radius:8px;cursor:pointer;font-weight:700;font-family:inherit}
+.a11y-val{min-width:24px;text-align:center;font-weight:700}
+.a11y-opt{display:block;width:100%;text-align:start;margin-bottom:8px;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font:inherit;font-size:16px;color:var(--ink)}
+.a11y-opt[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.a11y-reset{display:block;width:100%;margin-top:6px;padding:11px;border:0;border-radius:12px;background:var(--pink-soft);color:#c4294b;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.a11y-link{display:block;text-align:center;margin-top:10px;font-size:14px;color:var(--blue);text-decoration:underline}
+html.a11y-font body{zoom:var(--a11y-font-scale,1)}
+html.a11y-readable *{font-family:Arial,Helvetica,sans-serif!important}
+html.a11y-links a:not(.btn){text-decoration:underline!important;text-underline-offset:3px;font-weight:700!important}
+html.a11y-gray{filter:grayscale(1)}
+html.a11y-stop *,html.a11y-stop *:before,html.a11y-stop *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+html.a11y-stop .rv,html.a11y-stop .fade-in,html.a11y-stop .scene{opacity:1!important;transform:none!important}
+html.a11y-stop h1 .ln>span,html.a11y-stop h1 em:after,html.a11y-stop .check{transform:none!important}
+html.a11y-contrast,html.a11y-contrast body,html.a11y-contrast header,html.a11y-contrast section,html.a11y-contrast .card,html.a11y-contrast .lesson,html.a11y-contrast .form-card,html.a11y-contrast .steps li,html.a11y-contrast .facts,html.a11y-contrast .hero-bg,html.a11y-contrast footer{background:#000!important;color:#fff!important}
+html.a11y-contrast h1,html.a11y-contrast h2,html.a11y-contrast h3,html.a11y-contrast p,html.a11y-contrast li,html.a11y-contrast span,html.a11y-contrast label,html.a11y-contrast .kicker,html.a11y-contrast .eyebrow{color:#fff!important}
+html.a11y-contrast a:not(.btn){color:#ffe500!important}
+html.a11y-contrast .btn-main{background:#ffe500!important;color:#000!important}
+html.a11y-contrast .blob{display:none}
+html.a11y-contrast .a11y-panel,html.a11y-contrast .a11y-opt{background:#000!important;color:#fff;border-color:#fff}
+@media(max-width:600px){.a11y-launcher{bottom:88px;inset-inline-start:14px;width:50px;height:50px}.a11y-panel{bottom:146px;inset-inline-start:14px}.cookie-banner{bottom:12px;z-index:60}}
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
@@ -399,7 +442,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px}
     <p>השאירי פרטים, ואחזור אלייך אישית עם כל מה שצריך לדעת: המועד הקרוב, המיקום והמחיר. בלי התחייבות.</p>
     <ol class="steps">
       <li><span class="n">1</span><div><b>ממלאת פרטים</b>פחות מדקה, ממש כאן</div></li>
-      <li><span class="n">2</span><div><b>מקבלת ממני מייל</b>אישור שהפרטים אצלי, עם הפתעה קטנה</div></li>
+      <li><span class="n">2</span><div><b>מקבלת ממני מייל</b>אישור שהפרטים אצלי</div></li>
       <li><span class="n">3</span><div><b>חוזרת אלייך עם הפרטים</b>מועד, מיקום, מחיר ושמירת מקום</div></li>
     </ol>
   </div>
@@ -416,7 +459,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px}
         <label><input type="radio" name="role" value="creator"><span>יוצרת תוכן / סושיאל</span></label>
         <label><input type="radio" name="role" value="other"><span>אחר</span></label>
       </fieldset>
-      <label class="consent"><input type="checkbox" name="consent" checked><span>אשמח לקבל ממך במייל טיפים ועדכונים על יצירת תוכן וסדנאות (אפשר להסיר בכל רגע)</span></label>
+      <label class="consent" id="privacyRow"><input type="checkbox" name="privacy" required><span>קראתי ואני מסכימה ל<a href="/terms.html#privacy" target="_blank" rel="noopener">מדיניות הפרטיות</a>, ולכך שעדן תיצור איתי קשר בנוגע לסדנה</span></label>
       <div class="hp" aria-hidden="true"><label>אתר<input name="website" tabindex="-1" autocomplete="off"></label></div>
       <button class="btn btn-main" type="submit">שלחי לי את הפרטים</button>
       <p class="err" id="err" role="alert"></p>
@@ -450,7 +493,14 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px}
 </section>
 </main>
 
-<footer><div class="wrap footer-row"><b>עדן רוסק / מרעיון לתוכן.</b><span>סדנה פרונטלית · 10:00–17:00 · 4-6 משתתפות</span><a class="wa" href="#register" data-track="footer">יצירת קשר בוואטסאפ</a></div></footer>
+<footer><div class="wrap footer-row"><b>עדן רוסק / מרעיון לתוכן.</b><span>סדנה פרונטלית · 10:00–17:00 · 4-6 משתתפות</span><a class="wa" href="#register" data-track="footer">יצירת קשר בוואטסאפ</a></div>
+<div class="wrap footer-row" style="margin-top:14px"><nav class="legal-links" aria-label="מידע משפטי"><a href="/terms.html">תקנון</a><a href="/terms.html#privacy">מדיניות פרטיות</a><a href="/terms.html#privacy">מדיניות עוגיות</a><a href="/accessibility.html">הצהרת נגישות</a></nav><span>© <span id="yr"></span> עדן רוסק</span></div></footer>
+
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="הסכמה לשימוש בעוגיות">
+  <h4>אנחנו משתמשים בעוגיות 🍪</h4>
+  <p>האתר משתמש בעוגיות (Cookies) לתפעול תקין, לאיסוף נתונים סטטיסטיים ולהתאמת החוויה אלייך. למידע נוסף ראי את <a href="/terms.html#privacy">מדיניות הפרטיות</a>.</p>
+  <div class="cookie-actions"><button type="button" id="cookieAccept">אישור</button><button type="button" id="cookieReject">רק ההכרחי</button></div>
+</div>
 
 <a class="wa-float wa" id="waFloat" href="#register" data-track="float" aria-label="שליחת הודעה בוואטסאפ"><svg aria-hidden="true"><use href="#wa"/></svg><span class="tip">שאלה? כתבי לי</span></a>
 <div class="mobile-bar" id="mobileBar"><a class="btn btn-main" href="#register" data-track="mobile-bar">שמרי לי מקום</a><a class="btn btn-wa wa" href="#register" data-track="mobile-bar" aria-label="וואטסאפ"><svg aria-hidden="true"><use href="#wa"/></svg></a></div>
@@ -500,6 +550,54 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px}
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches)
     setInterval(function () { s = (s + 1) % 60; timer.textContent = "00:" + (s < 10 ? "0" : "") + s; }, 1000);
 
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  /* cookie consent — the same key as the rest of the site, so a choice made there carries over */
+  var KEY = "eden_cookie_consent", banner = document.getElementById("cookieBanner"), saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (!saved) setTimeout(function () { banner.classList.add("show"); }, 900);
+  function decide(v) { try { localStorage.setItem(KEY, v); } catch (e) {} banner.classList.remove("show"); }
+  document.getElementById("cookieAccept").addEventListener("click", function () { decide("accepted"); });
+  document.getElementById("cookieReject").addEventListener("click", function () { decide("rejected"); });
+
+  /* accessibility widget — same options and saved settings as the rest of the site */
+  (function () {
+    var K = "eden_a11y", root = document.documentElement;
+    var st = { font: 0, contrast: false, links: false, readable: false, gray: false, stop: false };
+    try { var x = JSON.parse(localStorage.getItem(K) || "{}"); for (var k in x) if (k in st) st[k] = x[k]; } catch (e) {}
+    var btn = document.createElement("button");
+    btn.className = "a11y-launcher"; btn.type = "button";
+    btn.setAttribute("aria-label", "תפריט נגישות"); btn.setAttribute("aria-expanded", "false");
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><circle cx="12" cy="3.6" r="2.1"/><path d="M20.5 7.4c0 .66-.49 1.18-1.15 1.27l-4.35.55v3.05l2.12 6.64a1.3 1.3 0 1 1-2.48.79L13 13.9h-2l-1.66 5.8a1.3 1.3 0 1 1-2.48-.8l2.12-6.63V9.22l-4.35-.55A1.28 1.28 0 0 1 4.83 6.1l4.32.55c1.9.24 3.8.24 5.7 0l4.32-.55c.7-.09 1.33.46 1.33 1.18v.12Z"/></svg>';
+    var pn = document.createElement("div");
+    pn.className = "a11y-panel"; pn.hidden = true;
+    pn.setAttribute("role", "dialog"); pn.setAttribute("aria-label", "אפשרויות נגישות");
+    pn.innerHTML = '<div class="a11y-head"><h4>נגישות</h4><button class="a11y-close" type="button" aria-label="סגירה">&times;</button></div>' +
+      '<div class="a11y-row"><span>גודל טקסט</span><div class="a11y-stepper"><button type="button" data-act="down" aria-label="הקטנת טקסט">A−</button><span class="a11y-val" data-val>0</span><button type="button" data-act="up" aria-label="הגדלת טקסט">A+</button></div></div>' +
+      '<button class="a11y-opt" type="button" data-t="contrast">ניגודיות גבוהה</button><button class="a11y-opt" type="button" data-t="links">הדגשת קישורים</button>' +
+      '<button class="a11y-opt" type="button" data-t="readable">גופן קריא</button><button class="a11y-opt" type="button" data-t="gray">גווני אפור</button>' +
+      '<button class="a11y-opt" type="button" data-t="stop">עצירת אנימציות</button><button class="a11y-reset" type="button">איפוס הגדרות</button>' +
+      '<a class="a11y-link" href="/accessibility.html">להצהרת הנגישות</a>';
+    document.body.appendChild(btn); document.body.appendChild(pn);
+    function apply() {
+      pn.querySelector("[data-val]").textContent = (st.font > 0 ? "+" : "") + st.font;
+      root.style.setProperty("--a11y-font-scale", (1 + st.font * 0.1).toFixed(2));
+      root.classList.toggle("a11y-font", st.font !== 0);
+      ["contrast", "links", "readable", "gray", "stop"].forEach(function (k) { root.classList.toggle("a11y-" + k, !!st[k]); });
+      pn.querySelectorAll("[data-t]").forEach(function (b) { b.setAttribute("aria-pressed", st[b.getAttribute("data-t")] ? "true" : "false"); });
+      try { localStorage.setItem(K, JSON.stringify(st)); } catch (e) {}
+    }
+    function close() { pn.hidden = true; btn.setAttribute("aria-expanded", "false"); }
+    btn.addEventListener("click", function () { pn.hidden = !pn.hidden; btn.setAttribute("aria-expanded", String(!pn.hidden)); });
+    pn.querySelector(".a11y-close").addEventListener("click", close);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+    pn.querySelector('[data-act="up"]').addEventListener("click", function () { if (st.font < 5) st.font++; apply(); });
+    pn.querySelector('[data-act="down"]').addEventListener("click", function () { if (st.font > -2) st.font--; apply(); });
+    pn.querySelectorAll("[data-t]").forEach(function (b) { b.addEventListener("click", function () { var k = b.getAttribute("data-t"); st[k] = !st[k]; apply(); }); });
+    pn.querySelector(".a11y-reset").addEventListener("click", function () { st = { font: 0, contrast: false, links: false, readable: false, gray: false, stop: false }; apply(); });
+    apply();
+  })();
+
   /* registration */
   var form = document.getElementById("regForm"), err = document.getElementById("err");
   var utm = {}, qs = new URLSearchParams(location.search);
@@ -516,12 +614,15 @@ footer{border-top:1px solid var(--line);padding:28px 0 36px}
       bad(form.phone, phone.replace(/\D/g, "").length < 9) && "טלפון",
       bad(form.email, !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) && "אימייל",
     ].filter(Boolean);
-    if (wrong.length) { err.textContent = "כמעט! חסר או לא תקין: " + wrong.join(", "); form.querySelector("[aria-invalid=true]").focus(); return; }
+    var priv = form.privacy.checked;
+    document.getElementById("privacyRow").classList.toggle("bad", !priv);
+    if (!priv) wrong.push("אישור מדיניות הפרטיות");
+    if (wrong.length) { err.textContent = "כמעט! חסר או לא תקין: " + wrong.join(", "); (form.querySelector("[aria-invalid=true]") || form.privacy).focus(); return; }
     var role = form.querySelector("input[name=role]:checked");
     var btn = form.querySelector("button"); btn.disabled = true; btn.textContent = "שולחת...";
     fetch("/api/lead", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ source: "ugc-workshop", name: name, phone: phone, email: email, role: role ? role.value : "", consent: form.consent.checked, website: form.website.value, utm: utm, page: location.pathname })
+      body: JSON.stringify({ source: "ugc-workshop", name: name, phone: phone, email: email, role: role ? role.value : "", privacy: true, website: form.website.value, utm: utm, page: location.pathname })
     }).then(function (r) { if (!r.ok) throw Error(r.status); return r.json(); }).then(function () {
       track("generate_lead", { form: "ugc-workshop" });
       try { window.fbq && fbq("track", "Lead", { content_name: "UGC workshop" }); } catch (e) {}
