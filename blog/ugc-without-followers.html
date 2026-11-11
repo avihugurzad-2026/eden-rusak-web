@@ -288,7 +288,15 @@
     </div>
   </footer>
 
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="הסכמה לשימוש בעוגיות">
+    <h4>אנחנו משתמשים בעוגיות</h4>
+    <p>האתר משתמש בעוגיות (Cookies) לתפעול תקין, לאיסוף נתונים סטטיסטיים ולהתאמת החוויה אליכם. למידע נוסף ראו <a href="../terms.html#privacy">מדיניות הפרטיות</a>.</p>
+    <div class="cookie-actions">
+      <button class="btn btn-primary" id="cookieAccept">אישור</button>
+      <button class="btn btn-cookie-reject" id="cookieReject">רק ההכרחי</button>
+    </div>
+  </div>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
   <script src="../assets/js/main.js"></script>
 </body>
 </html>
