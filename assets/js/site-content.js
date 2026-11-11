@@ -38,7 +38,38 @@
         else if (f === "buy") { var b = url(p.buy); if (b) el.href = b; }
         else if (f === "title" && p.title) el.textContent = p.title;
         else if (f === "short" && p.short) el.textContent = p.short;
-        else if (f === "img") { var i = url(p.img); if (i) el.src = i; }
+        else if (f === "img") { var i = url(p.img); if (i) { el.src = i; if (p.title) el.alt = p.title; } }
+      });
+    });
+  }
+
+  /* Course cards (academy page). A card marked data-card="<product id>" disappears when the product is
+     hidden or removed in the admin; a grid marked data-courses also gets a card for every other active course. */
+  function link(s) {
+    if (!s) return "";
+    if (/^[a-z0-9][\w\-./]*\.html([?#][\w\-=&%.]*)?$/i.test(s)) return s;
+    return url(s);
+  }
+  function applyCards(catalog) {
+    if (!catalog || !Array.isArray(catalog.products)) return;
+    var byId = {};
+    catalog.products.forEach(function (p) { if (p && p.id) byId[p.id] = p; });
+    document.querySelectorAll("[data-card]").forEach(function (el) {
+      var p = byId[el.getAttribute("data-card")];
+      if (!p || p.active === false) el.remove();
+    });
+    document.querySelectorAll("[data-courses]").forEach(function (grid) {
+      catalog.products.forEach(function (p) {
+        if (!p || !p.id || p.active === false || p.cat !== "courses" || !p.title) return;
+        if (grid.querySelector('[data-card="' + p.id + '"]')) return;
+        var href = esc(link(p.landing) || "shop-product.html?id=" + encodeURIComponent(p.id)), img = url(p.img), title = esc(p.title);
+        var card = document.createElement("article");
+        card.className = "course-card";
+        card.setAttribute("data-card", p.id);
+        card.innerHTML = '<a class="course-media" href="' + href + '">' + (img ? '<img src="' + esc(img) + '" alt="' + title + '" loading="lazy">' : "") + '</a>' +
+          '<div class="course-body"><span class="tag">קורס דיגיטלי</span><h3 class="h3">' + title + '</h3><p>' + esc(p.short || "") + '</p>' +
+          '<a href="' + href + '" class="btn btn-primary">לפרטים על הקורס</a></div>';
+        grid.appendChild(card);
       });
     });
   }
@@ -72,6 +103,7 @@
 
   rows.then(function (r) {
     try { applyProducts(r.catalog); } catch (e) {}
+    try { applyCards(r.catalog); } catch (e) {}
     try { applyMedia(r.media, r.catalog); } catch (e) {}
   });
 })();
