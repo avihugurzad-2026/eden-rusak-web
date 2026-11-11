@@ -8,7 +8,9 @@
 const SOURCES = {
   "ugc-course": { label: "קורס UGC דיגיטלי — רשימת השקה" },
   "newsletter": { label: "הרשמה לעדכוני מוצרים" },
+  "ugc-workshop": { label: "סדנת UGC פרונטלית" },
 };
+const ROLES = { beginner: "מתחילה מאפס", business: "בעלת עסק / עצמאית", creator: "מנהלת סושיאל / יוצרת תוכן", other: "אחר" };
 
 const esc = (v) =>
   String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -28,7 +30,7 @@ async function supabase(path, init) {
   return res.status === 204 ? null : res.json();
 }
 
-async function sendMail({ to, subject, html, text, replyTo }) {
+async function sendMail({ to, subject, html, text, replyTo, scheduledAt }) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
@@ -39,6 +41,7 @@ async function sendMail({ to, subject, html, text, replyTo }) {
       html,
       text,
       ...(replyTo ? { reply_to: replyTo } : {}),
+      ...(scheduledAt ? { scheduled_at: scheduledAt } : {}),
     }),
   });
   if (!res.ok) throw new Error(`resend ${res.status}: ${await res.text()}`);
@@ -84,12 +87,130 @@ https://www.instagram.com/eden.rusak/`;
   return { subject: `${firstName ? firstName + ", " : ""}את ברשימת ההשקה של קורס ה-UGC 💗`, html, text };
 }
 
+/* ---------- UGC workshop: a confirmation now, and (with marketing consent) two short teasers ---------- */
+
+const WA = "https://wa.me/972552629091?text=" + encodeURIComponent("היי עדן, השארתי פרטים לסדנת ה-UGC ואשמח לשמוע עוד 💗");
+const SITE = "https://edenrusak.com/ugc-workshop";
+
+/** ISO time `days` from today at `hour`:00 Israel time (the hour is never in the past). */
+function atIsrael(days, hour) {
+  const now = new Date();
+  const part = (d) => Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Jerusalem", hourCycle: "h23", year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric" })
+    .formatToParts(d).filter((x) => x.type !== "literal").map((x) => [x.type, Number(x.value)]));
+  const n = part(now);
+  const offset = Date.UTC(n.year, n.month - 1, n.day, n.hour, n.minute, n.second) - Math.floor(now.getTime() / 1000) * 1000;
+  const at = new Date(Date.UTC(n.year, n.month - 1, n.day + days, hour) - offset);
+  return (at > now ? at : new Date(now.getTime() + 36e5)).toISOString();
+}
+
+function shell(inner, footer) {
+  return `<!doctype html>
+<html lang="he" dir="rtl"><body style="margin:0;background:#fdf9f8;font-family:Arial,Helvetica,sans-serif;color:#1b1d3a">
+  <div style="max-width:560px;margin:0 auto;padding:28px 16px">
+    <div style="text-align:center;font-size:26px;color:#232dce;margin-bottom:18px" dir="ltr">eden rusak</div>
+    <div style="background:#ffffff;border-radius:24px;padding:32px 28px;text-align:right;line-height:1.75;font-size:17px;border:1px solid #ece6ea">${inner}</div>
+    <p style="text-align:center;font-size:12px;color:#86868b;margin-top:18px;line-height:1.6">${footer}</p>
+  </div>
+</body></html>`;
+}
+const p = (t, extra = "") => `<p style="margin:0 0 14px;${extra}">${t}</p>`;
+const button = (href, label, bg = "#232dce") =>
+  `<div style="text-align:center;margin:24px 0 8px"><a href="${href}" style="display:inline-block;background:${bg};color:#ffffff;text-decoration:none;border-radius:999px;padding:14px 30px;font-weight:bold">${label}</a></div>`;
+const box = (t) => `<div style="background:#ffeef2;border-radius:16px;padding:18px 20px;margin:22px 0">${t}</div>`;
+const sign = p("מחכה לראות אותך יוצרת,<br><b>עדן רוסק</b>", "margin:22px 0 0");
+const unsub = "קיבלת את המייל כי השארת פרטים לסדנת ה-UGC באתר edenrusak.com.<br>לא רוצה לקבל ממני עוד מיילים? השיבי \"הסרה\" ואוריד אותך מהרשימה.";
+
+function workshopConfirmMail(first) {
+  const hi = first ? `${esc(first)}, קיבלתי! 💗` : "קיבלתי! 💗";
+  const html = shell(
+    p(hi, "font-size:22px;font-weight:bold") +
+      p("איזה כיף שאת רוצה להיות בצד היוצר של המצלמה. הפרטים שלך אצלי, ו<b>בימים הקרובים אחזור אלייך אישית</b> עם כל מה שצריך לדעת: המועד הקרוב, המיקום, המחיר ואיך שומרים מקום.") +
+      box(
+        `<p style="margin:0 0 8px;font-weight:bold">מה קורה עכשיו?</p><p style="margin:0">✓ הפרטים שלך נשמרו<br>✓ אני עוברת עליהם בעצמי, לא רובוט ולא מוקד<br>✓ אחזור אלייך עם הפרטים המלאים, בטלפון או בוואטסאפ</p>`
+      ) +
+      p("<b>ובינתיים, משימה קטנה בשבילך:</b> תסתכלי סביבך בבית ותמצאי פינה אחת עם אור טבעי יפה. חלון, שולחן, אדן. לא משנה מה. צלמי אותה, ושמרי את התמונה.") +
+      p("בסדנה נגלה למה דווקא הפינה הזו יכולה להפוך לסט צילום שמותגים משלמים עליו 😉") +
+      p("הקבוצה קטנה מאוד, 4-6 משתתפות בלבד. אם את רוצה לשמוע את הפרטים כבר היום, כתבי לי:", "margin-top:20px") +
+      button(WA, "לשיחה איתי בוואטסאפ", "#1faa59") +
+      sign,
+    "קיבלת את המייל כי השארת פרטים לסדנת ה-UGC באתר edenrusak.com."
+  );
+  const text = `${first ? first + ", " : ""}קיבלתי!
+הפרטים שלך אצלי, ובימים הקרובים אחזור אלייך אישית עם כל מה שצריך לדעת: המועד הקרוב, המיקום, המחיר ואיך שומרים מקום.
+
+משימה קטנה בינתיים: מצאי בבית פינה אחת עם אור טבעי יפה וצלמי אותה. בסדנה נגלה למה היא יכולה להפוך לסט צילום שמותגים משלמים עליו.
+
+רוצה לשמוע את הפרטים כבר היום? ${WA}
+
+עדן רוסק`;
+  return { subject: `${first ? first + ", " : ""}המקום שלך בסדנה כמעט שמור 🎬`, html, text };
+}
+
+function workshopTeaserHooks(first) {
+  const html = shell(
+    p(`${first ? esc(first) + ", " : ""}יש לך 3 שניות.`, "font-size:22px;font-weight:bold") +
+      p("זה כל הזמן שיש לסרטון כדי לעצור את האגודל. אחרי 3 שניות היא כבר בסרטון הבא, ואף אחד לא ראה את המוצר המהמם שצילמת.") +
+      p("ומה שהכי מפתיע: מה שעוצר אנשים הוא כמעט אף פעם לא הצילום היפה. זה <b>המשפט הראשון</b>.") +
+      box(
+        `<p style="margin:0 0 8px;font-weight:bold">שלושה פתיחים שעובדים כמעט על כל מוצר:</p><p style="margin:0">1. "לא האמנתי שזה יעבוד, אבל..."<br>2. "הטעות שכולן עושות עם ___"<br>3. "אם יש לך ___, את חייבת לראות את זה"</p>`
+      ) +
+      p("בסדנה נכתוב יחד פתיחים כאלה למוצר אמיתי, נצלם אותם ונערוך אותם לסרטון שנכנס לתיק העבודות שלך. ביום אחד.") +
+      p("עוד לא דיברנו? כתבי לי ואספר לך על המועד הקרוב:", "margin-top:20px") +
+      button(WA, "אני רוצה את הפרטים", "#1faa59") +
+      sign,
+    unsub
+  );
+  const text = `${first ? first + ", " : ""}יש לך 3 שניות.
+זה כל הזמן שיש לסרטון כדי לעצור את האגודל. ומה שעוצר אנשים הוא כמעט אף פעם לא הצילום היפה, זה המשפט הראשון.
+
+שלושה פתיחים שעובדים כמעט על כל מוצר:
+1. "לא האמנתי שזה יעבוד, אבל..."
+2. "הטעות שכולן עושות עם ___"
+3. "אם יש לך ___, את חייבת לראות את זה"
+
+בסדנה נכתוב פתיחים כאלה למוצר אמיתי, נצלם ונערוך אותם לסרטון לתיק העבודות שלך.
+לפרטים: ${WA}
+
+עדן רוסק
+להסרה מהרשימה השיבי "הסרה".`;
+  return { subject: "הסוד של 3 השניות הראשונות 👀", html, text };
+}
+
+function workshopTeaserBrands(first) {
+  const html = shell(
+    p(`${first ? esc(first) + ", " : ""}מה מותגים באמת מחפשים?`, "font-size:22px;font-weight:bold") +
+      p("לא מצלמה יקרה. לא סטודיו. ולא מיליון עוקבות.") +
+      p("הם מחפשים מישהי שיודעת לגרום למוצר להרגיש <b>אמיתי</b>. כזה שמישהי בבית משתמשת בו, אוהבת אותו וממליצה עליו לחברה. זה כל הסוד של UGC, וזו בדיוק הסיבה שאפשר לעשות את זה מהבית, עם הטלפון שכבר יש לך.") +
+      box(
+        `<p style="margin:0 0 8px;font-weight:bold">ביום הסדנה את:</p><p style="margin:0">🎬 מצלמת מוצרים אמיתיים בסביבה ביתית<br>✍️ כותבת תסריט ופתיחים שמחזיקים צפייה<br>✂️ עורכת ב-CapCut סרטון שלם משלך<br>🎁 יוצאת עם ערכת ציוד במתנה וסרטון לתיק העבודות</p>`
+      ) +
+      p("ואנחנו רק 4-6 בקבוצה, אז כל אחת מקבלת ממני יחס, הכוונה ומשוב אישי לאורך כל היום.") +
+      button(SITE + "#register", "לכל הפרטים על הסדנה") +
+      p(`או פשוט <a href="${WA}" style="color:#232dce;font-weight:bold">כתבי לי בוואטסאפ</a> ונדבר.`, "text-align:center") +
+      sign,
+    unsub
+  );
+  const text = `${first ? first + ", " : ""}מה מותגים באמת מחפשים?
+לא מצלמה יקרה, לא סטודיו ולא מיליון עוקבות. הם מחפשים מישהי שיודעת לגרום למוצר להרגיש אמיתי. וזה אפשרי מהבית, עם הטלפון שכבר יש לך.
+
+ביום הסדנה: מצלמות מוצרים אמיתיים, כותבות תסריט ופתיחים, עורכות ב-CapCut ויוצאות עם ערכת ציוד במתנה וסרטון לתיק העבודות. רק 4-6 בקבוצה.
+
+לפרטים: ${SITE}
+וואטסאפ: ${WA}
+
+עדן רוסק
+להסרה מהרשימה השיבי "הסרה".`;
+  return { subject: "מה מותגים באמת מחפשים (זה לא מה שחשבת)", html, text };
+}
+
 function ownerMail(lead, sourceLabel) {
   const rows = [
     ["שם", lead.full_name],
     ["טלפון", lead.phone],
     ["אימייל", lead.email],
     ["מקור", sourceLabel],
+    ["מה מתאר אותה", lead.notes || ""],
+    ["מיילים שיווקיים", lead.utm && lead.utm.marketing_consent ? "אישרה" : ""],
     ["עמוד", lead.page || ""],
     ["UTM", Object.entries(lead.utm || {}).map(([k, v]) => `${k}=${v}`).join(", ")],
   ];
@@ -135,6 +256,9 @@ module.exports = async (req, res) => {
     if (b.utm && b.utm[k]) utm[k] = clean(b.utm[k], 200);
   const page = clean(b.page, 300);
   if (source === "newsletter") utm.newsletter_consent = "yes";
+  const consent = source === "ugc-workshop" && b.consent === true;
+  if (consent) utm.marketing_consent = "yes";
+  const role = source === "ugc-workshop" && ROLES[b.role] ? ROLES[b.role] : null;
 
   try {
     // same e-mail on the same list in the last day → don't store or mail twice
@@ -148,16 +272,26 @@ module.exports = async (req, res) => {
     const [lead] = await supabase("lms_leads", {
       method: "POST",
       headers: { Prefer: "return=representation" },
-      body: JSON.stringify({ source, full_name, phone, email, utm, page }),
+      body: JSON.stringify({ source, full_name, phone, email, utm, page, ...(role ? { notes: `מה מתאר אותה: ${role}` } : {}) }),
     });
 
     const firstName = full_name.split(" ")[0];
+    const replyTo = process.env.MAIL_REPLY_TO;
+    const welcome = source === "ugc-workshop" ? workshopConfirmMail(firstName) : welcomeMail(firstName);
     const results = await Promise.allSettled([
-      source === "newsletter" ? Promise.resolve(null) : sendMail({ to: email, replyTo: process.env.MAIL_REPLY_TO, ...welcomeMail(firstName) }),
+      source === "newsletter" ? Promise.resolve(null) : sendMail({ to: email, replyTo, ...welcome }),
       process.env.LEAD_NOTIFY_TO
         ? sendMail({ to: process.env.LEAD_NOTIFY_TO, replyTo: email, ...ownerMail(lead, SOURCES[source].label) })
         : Promise.resolve(),
     ]);
+    if (consent) {
+      /* teasers go out by Resend's scheduler: tomorrow 10:00 and the day after 19:00, Israel time */
+      const later = await Promise.allSettled([
+        sendMail({ to: email, replyTo, scheduledAt: atIsrael(1, 10), ...workshopTeaserHooks(firstName) }),
+        sendMail({ to: email, replyTo, scheduledAt: atIsrael(2, 19), ...workshopTeaserBrands(firstName) }),
+      ]);
+      later.forEach((r) => r.status === "rejected" && console.error("workshop teaser failed:", r.reason));
+    }
     results.forEach((r) => r.status === "rejected" && console.error("lead mail failed:", r.reason));
     if (source !== "newsletter" && results[0].status === "fulfilled")
       await supabase(`lms_leads?id=eq.${lead.id}`, { method: "PATCH", body: JSON.stringify({ email_sent: true }) });
