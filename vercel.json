@@ -64,6 +64,19 @@
           "value": "noindex, follow"
         }
       ]
+    },
+    {
+      "source": "/proposals/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
     }
   ],
   "rewrites": [
@@ -79,5 +92,12 @@
       "source": "/google-tag-gateway/:path*",
       "destination": "/api/google-tag-gateway?gateway_path=:path*"
     }
-  ]
+  ],
+  "functions": {
+    "api/agreement.js": {
+      "memory": 2048,
+      "maxDuration": 60,
+      "includeFiles": "{proposals/**/index.html,node_modules/@sparticuz/chromium/bin/**}"
+    }
+  }
 }

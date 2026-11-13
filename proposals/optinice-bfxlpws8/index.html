@@ -7,13 +7,21 @@
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
   <meta name="googlebot" content="noindex, nofollow">
   <meta name="referrer" content="no-referrer">
-  <title>הצעת מחיר 40198 — Optinice</title>
+  <title>הסכם עבודה 40198 — Optinice</title>
   <link rel="icon" type="image/svg+xml" href="a-digital-logo.svg">
   <meta name="author" content="a-digital">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="fonts/noto-sans-hebrew-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
   <style>
+    /* Hebrew fallback served locally, so the server-rendered PDF never misses a glyph */
+    @font-face { font-family: "Noto Sans Hebrew"; font-style: normal; font-weight: 100 900; font-display: swap;
+      src: url(fonts/noto-sans-hebrew-hebrew-wght-normal.woff2) format("woff2");
+      unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+    @font-face { font-family: "Noto Sans Hebrew"; font-style: normal; font-weight: 100 900; font-display: swap;
+      src: url(fonts/noto-sans-hebrew-latin-wght-normal.woff2) format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
     :root {
       --cream: #fdf9f8;
       --parchment: #fff5f7;
@@ -42,7 +50,7 @@
     * { margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 84px; }
     body {
-      font-family: "Google Sans", system-ui, -apple-system, sans-serif;
+      font-family: "Google Sans", "Noto Sans Hebrew", system-ui, -apple-system, sans-serif;
       font-optical-sizing: auto;
       background: var(--cream); color: var(--ink);
       line-height: 1.65; font-size: 17px;
@@ -54,6 +62,7 @@
     button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
     .wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
     .latin { direction: ltr; unicode-bidi: isolate; }
+    [hidden] { display: none !important; }
 
     /* Labels: tracking is allowed on Latin only (.eyebrow); Hebrew labels use .kicker */
     .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--primary); }
@@ -364,6 +373,65 @@
     .closing .btn { margin-top: 24px; }
     @media screen and (max-width: 640px) { .sign { grid-template-columns: 1fr; } }
 
+    /* ---------- Preamble ---------- */
+    .preamble { max-width: 880px; margin: 0 auto 18px; background: var(--parchment); border-radius: var(--r-lg); padding: 22px 26px; display: grid; gap: 8px; }
+    .preamble p { font-size: 15.5px; color: var(--ink-80); }
+    .preamble strong { color: var(--ink); }
+
+    /* ---------- Details & e-signature ---------- */
+    .sign { align-items: start; grid-template-columns: 1.35fr 1fr; max-width: 1040px; }
+    .sign-status { max-width: 1040px; margin: 0 auto 16px; border-radius: var(--r-md); padding: 14px 18px; font-size: 15px; font-weight: 600; background: var(--blush); color: var(--heading); }
+    .sign-status:empty { display: none; }
+    .sign-status.ok { background: #e6f6ec; color: #17603a; }
+    .sign-form { display: grid; gap: 16px; }
+    .sign-form fieldset { border: 0; display: grid; gap: 12px; padding: 0; }
+    .sign-form legend { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 8px; padding: 0; }
+    .in { display: grid; gap: 5px; min-width: 0; }
+    .in > span { font-size: 13.5px; color: var(--ink-80); font-weight: 500; }
+    .in input {
+      font: inherit; font-size: 16px; color: var(--ink); background: var(--cream); width: 100%;
+      border: 1px solid var(--hairline); border-radius: 12px; padding: 11px 14px; transition: border-color .2s, background .2s;
+    }
+    .in input:focus { outline: none; border-color: var(--primary); background: #fff; }
+    .in input[dir="ltr"] { text-align: left; }
+    .in-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .invalid input, input.invalid, .pad.invalid { border-color: #d3355b !important; background: #fff5f7 !important; }
+    .tick { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; color: var(--ink-80); line-height: 1.5; cursor: pointer; }
+    .tick input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--primary); flex: none; }
+    .tick.invalid { color: #b3264a; }
+    .pad-wrap { display: grid; gap: 6px; }
+    .pad-head { display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; color: var(--ink-80); font-weight: 500; }
+    .pad { width: 100%; height: 170px; border: 1.5px dashed #cfc8d4; border-radius: 14px; background: #fff; touch-action: none; cursor: crosshair; display: block; }
+    .pad-wrap small { font-size: 12.5px; color: var(--ink-48); }
+    .pad-clear, .link-btn { font-size: 13.5px; font-weight: 600; color: var(--primary); padding: 2px 4px; }
+    .link-btn { justify-self: start; }
+    .step-code { display: grid; gap: 6px; padding: 16px; border-radius: var(--r-md); background: #f1f2ff; }
+    .code-in { font-size: 24px !important; letter-spacing: .35em; text-align: center !important; font-weight: 700; }
+    .form-msg { font-size: 14.5px; font-weight: 600; color: #b3264a; }
+    .form-msg:empty { display: none; }
+    .form-msg.ok { color: #17603a; }
+    .sign-btn { width: 100%; padding: 14px 24px; font-size: 16px; }
+    .sign-btn[disabled] { opacity: .6; cursor: progress; }
+    .muted { font-size: 14.5px; color: var(--ink-80); }
+    .provider-gate { display: grid; gap: 12px; }
+    .signed-view { display: grid; gap: 12px; }
+    .signed-badge { display: inline-flex; align-items: center; gap: 8px; justify-self: start; font-size: 13.5px; font-weight: 700; padding: 6px 14px; border-radius: var(--r-pill); background: #e6f6ec; color: #17603a; }
+    .sig-img { width: 100%; max-width: 320px; height: auto; border-bottom: 1px dashed #cfc8d4; }
+    .print-lines { display: none; gap: 16px; }
+    .field b.tall { min-height: 70px; }
+    .audit { max-width: 1040px; margin: 18px auto 0; border: 1px solid var(--hairline); border-radius: var(--r-lg); padding: 22px 26px; background: var(--cream); }
+    .audit h3 { font-size: 16px; color: var(--heading); margin-bottom: 10px; }
+    .audit-rows { display: grid; gap: 10px; }
+    .audit-row { font-size: 13.5px; color: var(--ink-80); line-height: 1.6; }
+    .audit-row b { color: var(--ink); }
+    .audit code, .audit-row code { font-family: ui-monospace, Menlo, monospace; font-size: 12px; word-break: break-all; color: var(--ink-80); }
+    .audit-hash { margin-top: 12px; font-size: 13px; color: var(--ink-48); }
+    .closing .pdf-btn { margin-top: 24px; display: inline-flex; width: auto; }
+    .signed-view bdi { unicode-bidi: isolate; }
+    .pdf-btn.busy { opacity: .7; pointer-events: none; }
+    @media screen and (max-width: 860px) { .sign { grid-template-columns: 1fr; } }
+    @media screen and (max-width: 520px) { .in-row { grid-template-columns: 1fr; } .sign-box { padding: 20px 16px; } }
+
     .foot { padding-block: 34px; border-top: 1px solid var(--hairline); background: #fff; }
     .foot .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: var(--ink-48); }
 
@@ -415,6 +483,15 @@
       .cat-body h4 { break-after: avoid; }
       .price { box-shadow: none; }
       .foot { display: none !important; }
+      .sign { grid-template-columns: 1fr 1fr; }
+      .sign-status, .sign-form, .provider-gate, .lead.no-print { display: none !important; }
+      .sign-box:not(.is-signed) .print-lines { display: grid; }
+      .sign-box { break-inside: avoid; }
+      .signed-view { grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+      .signed-view .signed-badge, .signed-view .sig-field { grid-column: 1 / -1; }
+      .sign-box.is-signed .signed-view .field b { font-size: 14px; }
+      .audit { break-inside: avoid; background: #fff; }
+      .closing .pdf-btn { display: none !important; }
     }
   </style>
 </head>
@@ -423,35 +500,37 @@
   <header class="topbar">
     <div class="wrap topbar-inner">
       <a class="brand latin" href="#top" aria-label="a-digital, לראש העמוד"><img src="a-digital-logo.svg" alt=""><b>a-digital</b></a>
-      <nav class="topbar-nav" aria-label="ניווט בהצעה">
+      <nav class="topbar-nav" aria-label="ניווט בהסכם">
         <a href="#brief">על הרשת</a>
         <a href="#vision">החזון</a>
         <a href="#refs">רפרנסים</a>
         <a href="#scope">מה כלול</a>
         <a href="#price">מחיר</a>
         <a href="#terms">תנאים</a>
+        <a href="#sign">פרטים וחתימה</a>
       </nav>
-      <a class="btn btn-dark" href="optinice-proposal-40198.pdf" download="הצעת מחיר 40198 - Optinice.pdf">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-        הורדת PDF
+      <a class="btn btn-dark" href="#sign">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M6.5 16.5l9.8-9.8a2.1 2.1 0 013 3l-9.8 9.8L5 20l1.5-3.5z"/></svg>
+        לחתימה על ההסכם
       </a>
     </div>
   </header>
 
   <main id="top">
 
+<!-- AGREEMENT-START -->
     <!-- ===== Hero ===== -->
     <section class="hero">
       <div class="wrap">
         <img class="print-only cover-logo" src="a-digital-logo.svg" alt="a-digital">
-        <span class="hero-badge"><span class="dot"></span>הצעת מחיר אישית · מס׳ 40198</span>
+        <span class="hero-badge"><span class="dot"></span>הסכם עבודה · מס׳ 40198</span>
         <h1>אופטינייס<span class="en latin">Optinice</span></h1>
-        <p class="lead">ליווי שיווקי מלא לרשת: אסטרטגיה, שפה ויזואלית חדשה, הפקת תוכן, ניהול רשתות חברתיות וקמפיינים ממומנים, לקראת ההתרחבות לכלל הקהלים ברחבי הארץ.</p>
+        <p class="lead">הסכם לליווי שיווקי מלא לרשת: אסטרטגיה, שפה ויזואלית חדשה, הפקת תוכן, ניהול רשתות חברתיות וקמפיינים ממומנים, לקראת ההתרחבות לכלל הקהלים ברחבי הארץ.</p>
         <div class="hero-meta">
-          <div><span>תאריך ההצעה</span><strong>1.11.2026</strong></div>
-          <div><span>בתוקף עד</span><strong>21.11.2026</strong></div>
+          <div><span>מספר הסכם</span><strong>40198</strong></div>
+          <div><span>תאריך עריכה</span><strong>13.11.2026</strong></div>
           <div><span>היקף</span><strong>ריטיינר חודשי</strong></div>
-          <div><span>מגיש ההצעה</span><strong class="latin">a-digital</strong></div>
+          <div><span>נותן השירות</span><strong class="latin">a-digital</strong></div>
         </div>
         <ul class="services" aria-label="תחומי שירות">
           <li>אסטרטגיה</li><li>מיתוג</li><li>עיצוב גרפי</li><li>ניהול קמפיינים (<span class="latin">PPC</span>)</li><li>סושיאל ויצירת תוכן</li><li>אוטומציות</li>
@@ -511,7 +590,7 @@
         <div class="sec-head rv">
           <span class="kicker">החזון שלנו לקמפיין</span>
           <h2 class="h2">לא עוד חנות משקפיים. מותג שרוצים להיות חלק ממנו.</h2>
-          <p class="lead">לאחר מחקר מעמיק ובחינת המתחרים בשוק, ומתוך הבנה שבתחום הזה חייבים להישאר צעד אחד לפני כולם, בנינו תוכנית עבודה שנשענת על שישה צירים מרכזיים:</p>
+          <p class="lead">לאחר מחקר מעמיק ובחינת המתחרים בשוק, ומתוך הבנה שבתחום הזה חייבים להישאר צעד אחד לפני כולם, בנינו תוכנית עבודה שנשענת על חמישה צירים מרכזיים:</p>
         </div>
         <div class="pillars">
           <article class="pillar rv">
@@ -526,21 +605,16 @@
           </article>
           <article class="pillar rv">
             <span class="num">03</span>
-            <h3>צמיחת מועדון הלקוחות</h3>
-            <p>הנעה להצטרפות למועדון הלקוחות של הרשת ותפעולו השוטף: הטבת הצטרפות, תקשורת חוזרת ומבצעים ייעודיים לחברים. כך כל לקוח חדש הופך ללקוח חוזר.</p>
-          </article>
-          <article class="pillar rv">
-            <span class="num">04</span>
             <h3>שפה ויזואלית חדשה</h3>
             <p>בניית נראות ושפה עיצובית מרעננת לרשתות החברתיות ולגרפיקה, על בסיס הלוגו הקיים. רענון ולא מהפכה: מוכר מספיק כדי לשמור על המוניטין, חדש מספיק כדי למשוך קהל חדש.</p>
           </article>
           <article class="pillar rv">
-            <span class="num">05</span>
+            <span class="num">04</span>
             <h3>יוצרי תוכן ומשפיענים</h3>
             <p>שיתופי פעולה בברטר ובתשלום עם יוצרי תוכן ומשפיענים, שיבקרו בסניפים, יתנסו בשירות ויספרו עליו. כך נבסס את השם של הרשת בקהלים חדשים, בקול אמין ואותנטי.</p>
           </article>
           <article class="pillar rv">
-            <span class="num">06</span>
+            <span class="num">05</span>
             <h3>תוכן צעיר, קליל ואלגנטי</h3>
             <p>תכנים בשפה צעירה, קלילה, אלגנטית, חדשנית ומושכת. משקפיים כפריט אופנה וכחלק מסגנון החיים, ולא רק כמוצר רפואי.</p>
           </article>
@@ -607,9 +681,9 @@
     <section class="sec" id="scope">
       <div class="wrap">
         <div class="sec-head rv">
-          <span class="kicker">מהות ההצעה</span>
-          <h2 class="h2">מה כלול בחבילה החודשית</h2>
-          <p class="lead">בהמשך לשיחתנו על הרשת ועל מוצריה, החבילה מחולקת לארבעה תחומי עבודה. כל הרכיבים הבאים כלולים במחיר החודשי:</p>
+          <span class="kicker">תכולת השירות</span>
+          <h2 class="h2">השירותים הכלולים בהסכם</h2>
+          <p class="lead">במסגרת הסכם זה נותן השירות יספק לרשת שירותים בארבעה תחומי עבודה. כל הרכיבים הבאים כלולים בתמורה החודשית:</p>
         </div>
 
         <div class="cats">
@@ -618,14 +692,14 @@
             <div class="cat-side">
               <span class="cat-num">01</span>
               <h3 id="cat1">ניהול קמפיינים</h3>
-              <p>הפרסום של הרשת בדיגיטל, בקניונים ומול מועדון הלקוחות, בדגש על הבאת לקוחות חדשים לחנויות ולאתר והחזרת לקוחות קיימים.</p>
+              <p>הפרסום של הרשת בדיגיטל ובקניונים, בדגש על הבאת לקוחות חדשים לחנויות ולאתר והחזרת לקוחות קיימים.</p>
             </div>
             <div class="cat-body">
               <h4>קמפיינים ממומנים</h4>
               <ul class="checks">
                 <li><strong><span class="latin">Meta</span>:</strong> ניהול קמפיינים ממומנים באינסטגרם ובפייסבוק, וב-<span class="latin">Threads</span> במידת הרלוונטיות.</li>
                 <li><strong><span class="latin">Google</span>:</strong> ניהול קמפיינים ברשת החיפוש (לא כולל <span class="latin">Google Merchant</span> / שופינג).</li>
-                <li><strong>משפך שיווקי חכם:</strong> קהלי רימרקטינג, לקוחות קיימים, חברי מועדון הלקוחות וקהלים חדשים, בפילוח גאוגרפי סביב הסניפים.</li>
+                <li><strong>משפך שיווקי חכם:</strong> קהלי רימרקטינג, לקוחות קיימים וקהלים חדשים, בפילוח גאוגרפי סביב הסניפים.</li>
                 <li><strong>קמפיינים בקניונים:</strong> ניהול קמפייני השיווק של החנויות מול הקניונים והגופים הרלוונטיים (כגון עזריאלי, קניוני עופר, <span class="latin">BIG</span> ועוד).</li>
               </ul>
               <div class="budget-box">
@@ -634,14 +708,8 @@
                   <div class="brow"><b><span class="latin">Meta</span> (אינסטגרם + פייסבוק)</b><span class="amt"><span class="latin">140–250</span> ₪ ליום</span><small>כ-<span class="latin">4,200–7,500</span> ₪ בחודש</small></div>
                   <div class="brow"><b><span class="latin">Google</span> (רשת החיפוש)</b><span class="amt"><span class="latin">70–110</span> ₪ ליום</span><small>כ-<span class="latin">2,100–3,300</span> ₪ בחודש</small></div>
                 </div>
-                <p class="note">ההמלצה מבוססת על פילוח השוק ובחינת התקציבים המקובלים בתחום, והתקציב גמיש וניתן לשינוי בכל עת לפי החלטת הרשת.</p>
+                <p class="note">ההמלצה מבוססת על פילוח השוק ובחינת התקציבים המקובלים בתחום. התקציב גמיש וניתן לשינוי בכל עת לפי החלטת הרשת.</p>
               </div>
-              <h4>ניהול דיוורים למועדון הלקוחות</h4>
-              <ul class="checks">
-                <li>ניהול הדיוורים לחברי מועדון הלקוחות, בהתאם לקמפיינים ולמבצעים של הרשת.</li>
-                <li>התממשקות למערכת הדיוור ולמועדון הלקוחות הקיימים של הרשת, ועבודה בתוכם.</li>
-              </ul>
-              <p class="cat-note">רלוונטי רק אם לרשת יש מערכת דיוור ומועדון לקוחות פעילים.</p>
             </div>
           </article>
 
@@ -707,7 +775,7 @@
                 <li><strong>ברטר:</strong> חלק מהיוצרים עובדים בברטר. הם מגיעים לסניף, מתעדים, ומקבלים מוצר מהרשת בתמורה לסיקור, ללא תשלום נוסף.</li>
                 <li><strong>בתשלום:</strong> חלק מהיוצרים ידרשו תשלום בנוסף למוצר או במקומו. כל שיתוף בתשלום יוצג לרשת מראש ויתבצע רק באישורה.</li>
               </ul>
-              <p class="cat-note">התשלום ליוצרי תוכן ושווי המוצרים שהרשת מעניקה להם אינם כלולים במחיר החבילה.</p>
+              <p class="cat-note">התשלום ליוצרי תוכן ושווי המוצרים שהרשת מעניקה להם אינם כלולים בתמורה החודשית.</p>
             </div>
           </article>
 
@@ -723,7 +791,7 @@
                 <li>אסטרטגיה שיווקית וייעוץ פרסומי למהלכים שיווקיים בחנויות, ברשתות החברתיות ובגוגל.</li>
                 <li>פגישה או שיחת זום אחת לחודשיים, לבניית התוכנית האסטרטגית לקידום הרשת בתקופה הקרובה.</li>
                 <li>אפיון מלא של אתר הרשת ושל הנכסים הדיגיטליים הרלוונטיים, והעברת דוח מפורט עם המלצות לתיקון ולשיפור.</li>
-                <li><strong>גרפיקה לפרינט בקמפיינים גדולים:</strong> עיצוב חומרי הדפוס של כל קמפיין גדול בשפה הכוללת של המבצע, כמו רולאפ, שלט, לוח קאפה ואלמנטים נוספים לחנות. <span class="free">כלול בחבילה</span></li>
+                <li><strong>גרפיקה לפרינט בקמפיינים גדולים:</strong> עיצוב חומרי הדפוס של כל קמפיין גדול בשפה הכוללת של המבצע, כמו רולאפ, שלט, לוח קאפה ואלמנטים נוספים לחנות. <span class="free">כלול בהסכם</span></li>
               </ul>
             </div>
           </article>
@@ -735,21 +803,21 @@
     <section class="sec tile-white" id="price">
       <div class="wrap">
         <div class="sec-head rv">
-          <h2 class="h2">מחיר החבילה</h2>
+          <h2 class="h2">התמורה</h2>
         </div>
         <div class="price rv">
           <div>
-            <h3>מחיר החבילה החודשית</h3>
-            <div class="amount"><strong>14,000 ₪</strong><span>+ מע״מ לחודש</span></div>
+            <h3>התמורה החודשית</h3>
+            <div class="amount"><strong>12,500 ₪</strong><span>+ מע״מ לחודש</span></div>
           </div>
           <ul>
-            <li>המחיר כולל את כל הרכיבים בארבעת תחומי העבודה המפורטים למעלה.</li>
-            <li><strong>המחיר אינו כולל את תקציב הפרסום</strong> ב-<span class="latin">Meta</span> ובגוגל, שישולם על ידי המזמין ישירות לפלטפורמה הרלוונטית (ראו ״תקציב פרסום מומלץ ליום״).</li>
-            <li>כל שינוי בתכולת החבילה עשוי להשפיע על המחיר.</li>
+            <li>התמורה כוללת את כל הרכיבים בארבעת תחומי העבודה המפורטים למעלה.</li>
+            <li><strong>התמורה אינה כוללת את תקציב הפרסום</strong> ב-<span class="latin">Meta</span> ובגוגל, שישולם על ידי המזמין ישירות לפלטפורמה הרלוונטית (ראו ״תקציב פרסום מומלץ ליום״).</li>
+            <li>שינוי בתכולת השירותים יחייב עדכון של התמורה, בהסכמת שני הצדדים.</li>
           </ul>
         </div>
         <div class="period">
-          <div class="rv"><span>תאריך תחילת העבודה</span><strong>ייקבע במעמד החתימה</strong></div>
+          <div class="rv"><span>תאריך תחילת העבודה</span><strong>כפי שימולא בפרטי המזמין בעת החתימה</strong></div>
           <div class="rv"><span>תקופת התקשרות מינימלית</span><strong>3 חודשים</strong></div>
           <div class="rv"><span>חידוש וסיום</span><strong>לאחר 3 החודשים: חידוש אוטומטי מדי חודש · ביטול בהודעה של חודש מראש</strong></div>
         </div>
@@ -760,22 +828,27 @@
     <section class="sec" id="terms">
       <div class="wrap">
         <div class="sec-head center rv">
-          <h2 class="h2">תנאי ההתקשרות</h2>
+          <h2 class="h2">תנאי ההסכם</h2>
+        </div>
+        <div class="preamble rv">
+          <p>הסכם זה נערך ונחתם בין <strong><span class="latin">a-digital</span> (עדן ואביהו גורזאד), ח.פ. 207297292</strong> (להלן: ״נותן השירות״), לבין החברה המפורטת בחלק ״פרטים וחתימה״ שבסוף המסמך (להלן: ״המזמין״ או ״הרשת״).</p>
+          <p>הרקע והחזון, תכולת השירות, התמורה והתנאים המפורטים במסמך זה מהווים יחד את ההסכם המלא בין הצדדים.</p>
         </div>
         <ol class="terms">
           <li class="term rv">
             <h3>סודיות וזכויות במסמך</h3>
-            <p>הצעה זו, לרבות התכולה, האפיון, האסטרטגיה והמחירים המפורטים בה, מיועדת לרשת אופטינייס בלבד. אין להעבירה, כולה או חלקה, לצד שלישי או לנותן שירות מתחרה. כל הזכויות במסמך שמורות לנותן השירות.</p>
+            <p>הסכם זה, לרבות התכולה, האפיון, האסטרטגיה והתמורה המפורטים בו, חסוי. אין להעבירו, כולו או חלקו, לצד שלישי או לנותן שירות מתחרה, למעט ליועצים המקצועיים של הצדדים. כל הזכויות בתוכנית העבודה ובאסטרטגיה שבמסמך שמורות לנותן השירות.</p>
+            <p>כל צד ישמור בסודיות מידע עסקי של הצד השני שהגיע אליו במסגרת העבודה, גם לאחר סיום ההתקשרות.</p>
           </li>
           <li class="term rv">
             <h3>תקופת ההתקשרות וסיומה</h3>
-            <p>תקופת ההתקשרות המינימלית היא 3 חודשי קמפיין, החל מתאריך תחילת העבודה שייקבע במעמד החתימה.</p>
+            <p>תקופת ההתקשרות המינימלית היא 3 חודשי קמפיין, החל מתאריך תחילת העבודה שמולא בפרטי המזמין בעת החתימה.</p>
             <p><strong>סיום ההתקשרות</strong> יתאפשר בתום שלושת חודשי הקמפיין, או בהודעה בכתב חודש מראש בכל עת לאחר סיום שלושת החודשים הראשונים.</p>
-            <p>כל עוד אף צד לא הודיע על סיום ההתקשרות, היא תתחדש אוטומטית מדי חודש. עבור חודש ההודעה המוקדמת ישולם התשלום החודשי במלואו.</p>
+            <p>כל עוד אף צד לא הודיע על סיום ההתקשרות, היא תתחדש אוטומטית מדי חודש. עבור חודש ההודעה המוקדמת תשולם התמורה החודשית במלואה.</p>
           </li>
           <li class="term rv">
             <h3>תנאי תשלום</h3>
-            <p>התשלום החודשי ישולם מראש, ביום הראשון של כל חודש התקשרות, בהעברה בנקאית, במזומן או בהמחאה, וזאת לפני תחילת מתן השירות לאותו חודש. כנגד כל תשלום תונפק חשבונית מס כדין. כל המחירים בהצעה אינם כוללים מע״מ.</p>
+            <p>התמורה החודשית תשולם מראש, ביום הראשון של כל חודש התקשרות, בהעברה בנקאית, במזומן או בהמחאה, וזאת לפני תחילת מתן השירות לאותו חודש. כנגד כל תשלום תונפק חשבונית מס כדין. כל הסכומים בהסכם אינם כוללים מע״מ, שיתווסף כדין.</p>
             <p>במקרה של עיכוב בתשלום של יותר מ-14 יום, נותן השירות רשאי להשהות את מתן השירותים עד להסדרת התשלום.</p>
           </li>
           <li class="term rv">
@@ -784,7 +857,7 @@
           </li>
           <li class="term rv">
             <h3>חומרים שמועברים על ידי הרשת</h3>
-            <p>האחריות לזכויות היוצרים ולכל היבט משפטי אחר בחומרים שהרשת מעבירה לנותן השירות, לרבות תמונות, סרטונים, מוזיקה, לוגואים וטקסטים, חלה על הרשת בלבד.</p>
+            <p>הרשת מצהירה כי היא רשאית להעביר לנותן השירות את החומרים שהיא מעבירה ולהשתמש בהם, לרבות תמונות, סרטונים, מוזיקה, לוגואים וטקסטים. האחריות לזכויות היוצרים ולכל היבט משפטי אחר בחומרים אלה חלה על הרשת בלבד.</p>
           </li>
           <li class="term rv">
             <h3>זכויות יוצרים ושימוש בתוצרים</h3>
@@ -792,8 +865,8 @@
             <p>נותן השירות רשאי להציג את העבודות בתיק העבודות שלו ובערוצי השיווק שלו, אלא אם סוכם אחרת בכתב.</p>
           </li>
           <li class="term rv">
-            <h3>מה אינו כלול בהצעה</h3>
-            <p>ההצעה אינה כוללת: שכירת סטודיו צילום, תשלום לדוגמנים ולפרזנטורים, תשלום ליוצרי תוכן ולמשפיענים, שווי המוצרים שהרשת מעניקה להם בברטר, דמי לוקיישן, ועלויות ההדפסה וההפקה של חומרי פרינט ושילוט (העיצוב שלהם כלול בחבילה).</p>
+            <h3>מה אינו כלול בהסכם</h3>
+            <p>ההסכם אינו כולל: שכירת סטודיו צילום, תשלום לדוגמנים ולפרזנטורים, תשלום ליוצרי תוכן ולמשפיענים, שווי המוצרים שהרשת מעניקה להם בברטר, דמי לוקיישן, ועלויות ההדפסה וההפקה של חומרי פרינט ושילוט (העיצוב שלהם כלול בהסכם).</p>
             <p>ימי הצילום אינם כוללים איפור, עיצוב שיער, סטיילינג וצוות הפקה נוסף. אלה אינם חובה, ויתווספו רק במידת הצורך ובהתאם לרצון הרשת.</p>
             <p>במידת הצורך נותן השירות יסייע בתיאום מול הגורמים הרלוונטיים ויגיש הצעת מחיר נפרדת, והכול באישור הרשת מראש ובמימונה.</p>
           </li>
@@ -803,49 +876,169 @@
           </li>
           <li class="term rv">
             <h3>שינויים בתכולת העבודה</h3>
-            <p>שינוי בתכולת העבודה, בהיקפה או בהגדרותיה לפני תחילת העבודה יחייב הצעת מחיר מעודכנת. שינוי כזה במהלך העבודה יחייב תוספת תשלום בהתאם, וזאת מבלי לגרוע מכל סעד או טענה של נותן השירות.</p>
+            <p>שינוי בתכולת העבודה, בהיקפה או בהגדרותיה יחייב עדכון של התמורה בהסכמת שני הצדדים, וזאת מבלי לגרוע מכל סעד או טענה של נותן השירות.</p>
           </li>
           <li class="term rv">
             <h3>תוצאות ואחריות</h3>
             <p>נותן השירות יפעל במיטב יכולתו המקצועית להשגת יעדי הקמפיין, אך אינו מתחייב לתוצאות עסקיות מסוימות, כמו היקף מכירות, פניות או חשיפה. נותן השירות אינו אחראי לשינויים במדיניות הפלטפורמות, לחסימות או לתקלות שאינן בשליטתו.</p>
           </li>
           <li class="term rv">
-            <h3>תוקף ההצעה</h3>
-            <p>הצעה זו בתוקף ל-20 יום מיום קבלתה.</p>
+            <h3>יחסי הצדדים</h3>
+            <p>נותן השירות מספק את השירותים כקבלן עצמאי. אין בהסכם זה כדי ליצור יחסי עובד ומעביד בין הרשת לבין נותן השירות או מי מטעמו.</p>
+          </li>
+          <li class="term rv">
+            <h3>חתימה אלקטרונית ועותקים</h3>
+            <p>הצדדים מסכימים שההסכם ייחתם בחתימה אלקטרונית, בהתאם לחוק חתימה אלקטרונית, התשס״א-2001, ושלחתימה זו יהיה תוקף זהה לחתימה בכתב יד. החתימה מתבצעת במערכת שבעמוד זה: אימות בקוד חד-פעמי שנשלח לדוא״ל של החותם, הזנת שם מלא ומספר זהות, חתימה ידנית על המסך ואישור מפורש של תנאי ההסכם.</p>
+            <p>לכל חתימה נשמרים מועד החתימה, כתובת ה-<span class="latin">IP</span> וטביעת אצבע דיגיטלית (<span class="latin">SHA-256</span>) של נוסח ההסכם, כך שכל שינוי בנוסח לאחר החתימה ניתן לזיהוי. לאחר כל חתימה יישלח לכל צד עותק של ההסכם בדוא״ל.</p>
+            <p>ניתן גם לחתום על עותק מודפס של ההסכם. עותק חתום שנסרק ונשלח בדוא״ל דינו כדין המקור.</p>
+          </li>
+          <li class="term rv">
+            <h3>כללי</h3>
+            <p>הסכם זה ממצה את ההסכמות בין הצדדים ובא במקום כל הצעה, מצג או התחייבות קודמים בעניינו. שינוי בהסכם ייעשה בכתב בלבד; הודעת דוא״ל שאושרה על ידי שני הצדדים תיחשב כשינוי בכתב.</p>
+            <p>הודעות לפי הסכם זה יישלחו לכתובות הדוא״ל של הצדדים כפי שמולאו בעת החתימה. על ההסכם יחול הדין הישראלי, וסמכות השיפוט הבלעדית בכל עניין הנוגע לו נתונה לבתי המשפט המוסמכים במחוז מרכז.</p>
           </li>
         </ol>
       </div>
     </section>
+<!-- AGREEMENT-END -->
 
-    <!-- ===== Signature ===== -->
+    <!-- ===== Details & signature ===== -->
     <section class="sec tile-white" id="sign">
       <div class="wrap">
         <div class="sec-head center rv">
-          <span class="kicker">אישור ההצעה</span>
-          <h2 class="h2">יוצאים לדרך</h2>
+          <span class="kicker">פרטים וחתימה</span>
+          <h2 class="h2">חתימה על ההסכם</h2>
+          <p class="lead no-print">ממלאים את פרטי החברה ואת פרטי מורשה החתימה, חותמים על המסך ומאמתים עם קוד שנשלח למייל. אחרי כל חתימה יישלח לשני הצדדים עותק PDF של ההסכם. מעדיפים לחתום על נייר? אפשר להוריד את ההסכם, להדפיס, לחתום ולשלוח אלינו סרוק.</p>
         </div>
+
+        <div class="sign-status no-print" id="signStatus" role="status" aria-live="polite"></div>
+
         <div class="sign">
-          <div class="sign-box rv">
+          <!-- Client -->
+          <div class="sign-box" id="box-client">
+            <h3>המזמין</h3>
+            <div class="signed-view" hidden></div>
+
+            <form class="sign-form no-print" data-party="client" novalidate>
+              <fieldset>
+                <legend>פרטי החברה</legend>
+                <label class="in"><span>שם החברה *</span><input name="details.company_name" autocomplete="organization" required></label>
+                <div class="in-row">
+                  <label class="in"><span>ח.פ. *</span><input name="details.company_reg" inputmode="numeric" maxlength="9" required></label>
+                  <label class="in"><span>תאריך תחילת העבודה *</span><input name="details.start_date" type="date" required></label>
+                </div>
+                <label class="in"><span>כתובת החברה *</span><input name="details.company_address" autocomplete="street-address" required></label>
+              </fieldset>
+
+              <fieldset>
+                <legend>איש קשר בחברה</legend>
+                <div class="in-row">
+                  <label class="in"><span>שם מלא *</span><input name="details.contact_name" autocomplete="name" required></label>
+                  <label class="in"><span>תפקיד</span><input name="details.contact_role" autocomplete="organization-title"></label>
+                </div>
+                <div class="in-row">
+                  <label class="in"><span>טלפון *</span><input name="details.contact_phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
+                  <label class="in"><span>מייל *</span><input name="details.contact_email" type="email" autocomplete="email" dir="ltr" required></label>
+                </div>
+                <label class="in"><span>מייל לחשבוניות (אם שונה)</span><input name="details.billing_email" type="email" dir="ltr"></label>
+              </fieldset>
+
+              <fieldset>
+                <legend>מורשה החתימה</legend>
+                <label class="tick"><input type="checkbox" data-same-as-contact> מורשה החתימה הוא איש הקשר</label>
+                <div class="in-row">
+                  <label class="in"><span>שם מלא *</span><input name="signer.name" autocomplete="name" required></label>
+                  <label class="in"><span>מספר תעודת זהות *</span><input name="signer.id_number" inputmode="numeric" maxlength="9" required></label>
+                </div>
+                <div class="in-row">
+                  <label class="in"><span>תפקיד *</span><input name="signer.role" autocomplete="organization-title" required></label>
+                  <label class="in"><span>מייל לקבלת קוד אימות *</span><input name="signer.email" type="email" autocomplete="email" dir="ltr" required></label>
+                </div>
+              </fieldset>
+
+              <div class="pad-wrap">
+                <div class="pad-head"><span>חתימה *</span><button type="button" class="pad-clear">ניקוי</button></div>
+                <canvas class="pad" aria-label="משטח חתימה: חתמו עם האצבע או העכבר" data-key="signature"></canvas>
+                <small>חתמו כאן עם האצבע או העכבר</small>
+              </div>
+              <label class="in"><span>הקלדת שמך המלא לאישור החתימה *</span><input name="typed_name" required></label>
+              <label class="tick consent" data-key="consent"><input type="checkbox" name="consent"> קראתי את ההסכם ואני מסכים/ה לתנאיו, אני מוסמך/ת לחתום עליו בשם המזמין, ואני מסכים/ה לחתום עליו בחתימה אלקטרונית ולקבל את עותקיו בדוא״ל.</label>
+
+              <div class="step-code" hidden>
+                <label class="in"><span>קוד האימות שנשלח למייל *</span><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" dir="ltr" class="code-in"></label>
+                <button type="button" class="link-btn resend">שליחת קוד חדש</button>
+              </div>
+              <p class="form-msg" role="alert"></p>
+              <button type="submit" class="btn btn-blue sign-btn">שליחת קוד אימות למייל</button>
+            </form>
+
+            <div class="print-lines">
+              <div class="field"><span>שם החברה</span><b></b></div>
+              <div class="field"><span>ח.פ.</span><b></b></div>
+              <div class="field"><span>כתובת</span><b></b></div>
+              <div class="field"><span>איש קשר, טלפון ומייל</span><b></b></div>
+              <div class="field"><span>תאריך תחילת העבודה</span><b></b></div>
+              <div class="field"><span>שם מורשה החתימה ות.ז.</span><b></b></div>
+              <div class="field"><span>תאריך</span><b></b></div>
+              <div class="field"><span>חתימה וחותמת</span><b class="tall"></b></div>
+            </div>
+          </div>
+
+          <!-- Provider -->
+          <div class="sign-box" id="box-provider">
             <h3>נותן השירות</h3>
             <div class="field"><span>שם</span><b><span class="latin">a-digital</span> (עדן ואביהו גורזאד)</b></div>
             <div class="field"><span>ח.פ.</span><b>207297292</b></div>
-            <div class="field"><span>תאריך</span><b>1.11.2026</b></div>
-            <div class="field"><span>חתימה</span><b></b></div>
-          </div>
-          <div class="sign-box rv">
-            <h3>המזמין</h3>
-            <div class="field"><span>שם החברה</span><b>אופטינייס</b></div>
-            <div class="field"><span>ח.פ.</span><b></b></div>
-            <div class="field"><span>תאריך</span><b></b></div>
-            <div class="field"><span>חתימה</span><b></b></div>
+            <div class="signed-view" hidden></div>
+
+            <div class="provider-gate no-print">
+              <p class="muted">החתימה של נותן השירות מתבצעת על ידי <span class="latin">a-digital</span>, עם קוד אימות שנשלח לכתובת המייל הרשומה של המשרד.</p>
+              <button type="button" class="btn btn-ghost open-provider">חתימת נותן השירות</button>
+            </div>
+            <form class="sign-form no-print" data-party="provider" novalidate hidden>
+              <div class="in-row">
+                <label class="in"><span>שם החותם *</span><input name="signer.name" autocomplete="name" required></label>
+                <label class="in"><span>מספר תעודת זהות *</span><input name="signer.id_number" inputmode="numeric" maxlength="9" required></label>
+              </div>
+              <div class="in-row">
+                <label class="in"><span>תפקיד *</span><input name="signer.role" value="בעלים" required></label>
+                <label class="in"><span>מייל רשום לקבלת קוד *</span><input name="signer.email" type="email" autocomplete="email" dir="ltr" required></label>
+              </div>
+              <div class="pad-wrap">
+                <div class="pad-head"><span>חתימה *</span><button type="button" class="pad-clear">ניקוי</button></div>
+                <canvas class="pad" aria-label="משטח חתימה" data-key="signature"></canvas>
+                <small>חתמו כאן עם האצבע או העכבר</small>
+              </div>
+              <label class="in"><span>הקלדת שמך המלא לאישור החתימה *</span><input name="typed_name" required></label>
+              <label class="tick consent" data-key="consent"><input type="checkbox" name="consent"> אני מאשר/ת את תנאי ההסכם ואת החתימה עליו בחתימה אלקטרונית בשם נותן השירות.</label>
+              <div class="step-code" hidden>
+                <label class="in"><span>קוד האימות שנשלח למייל *</span><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" dir="ltr" class="code-in"></label>
+                <button type="button" class="link-btn resend">שליחת קוד חדש</button>
+              </div>
+              <p class="form-msg" role="alert"></p>
+              <button type="submit" class="btn btn-blue sign-btn">שליחת קוד אימות למייל</button>
+            </form>
+
+            <div class="print-lines">
+              <div class="field"><span>שם החותם</span><b></b></div>
+              <div class="field"><span>תאריך</span><b></b></div>
+              <div class="field"><span>חתימה</span><b class="tall"></b></div>
+            </div>
           </div>
         </div>
+
+        <div class="audit" id="audit" hidden>
+          <h3>פרטי האימות של החתימות האלקטרוניות</h3>
+          <div class="audit-rows"></div>
+          <p class="audit-hash">טביעת האצבע הדיגיטלית של נוסח ההסכם (<span class="latin">SHA-256</span>): <code class="latin"></code></p>
+        </div>
+
         <div class="closing rv">
           <p>מחכים לצאת איתכם לדרך,</p>
           <strong>עדן ואביהו גורזאד, <span class="latin">a-digital</span></strong>
-          <a class="btn btn-blue" href="optinice-proposal-40198.pdf" download="הצעת מחיר 40198 - Optinice.pdf">
+          <a class="btn btn-ghost pdf-btn" href="/api/agreement?id=optinice-40198&amp;pdf=1">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-            הורדת ההצעה כ-PDF לחתימה
+            <span>הורדת ההסכם כ-PDF להדפסה וחתימה</span>
           </a>
         </div>
       </div>
@@ -855,7 +1048,7 @@
   <footer class="foot">
     <div class="wrap">
       <span class="brand latin"><img src="a-digital-logo.svg" alt=""><b>a-digital</b></span>
-      <span>מסמך אישי וחסוי · הצעת מחיר מס׳ 40198</span>
+      <span>מסמך אישי וחסוי · הסכם עבודה מס׳ 40198</span>
     </div>
   </footer>
 
@@ -954,6 +1147,254 @@
         if (e.key === 'ArrowRight') move(-1);
       });
 
+
+      // ===== Agreement: details, e-signature, status =====
+      var AGREEMENT_ID = 'optinice-40198';
+      var API = '/api/agreement';
+      var rt = (location.search.match(/[?&]rt=([^&]+)/) || [])[1];
+      var statusEl = document.getElementById('signStatus');
+      var ERR = {
+        'details.company_name': 'שם החברה', 'details.company_reg': 'ח.פ. (9 ספרות)', 'details.company_address': 'כתובת החברה',
+        'details.contact_name': 'שם איש הקשר', 'details.contact_phone': 'טלפון איש הקשר', 'details.contact_email': 'מייל איש הקשר',
+        'details.billing_email': 'מייל לחשבוניות', 'details.start_date': 'תאריך תחילת העבודה',
+        'signer.name': 'שם מלא של החותם (פרטי ומשפחה)', 'signer.id_number': 'מספר תעודת זהות תקין', 'signer.role': 'תפקיד החותם',
+        'signer.email': 'מייל לקבלת הקוד', signature: 'חתימה על המשטח', typed_name: 'הקלדת שם מלא זהה לשם החותם',
+        consent: 'אישור תנאי ההסכם', code: 'קוד אימות בן 6 ספרות'
+      };
+      var FAIL = {
+        provider_email: 'כתובת המייל אינה רשומה כמייל של נותן השירות.',
+        too_many_codes: 'נשלחו יותר מדי קודים. אפשר לנסות שוב בעוד כשעה.',
+        code_expired: 'הקוד פג תוקף או שלא נשלח לכתובת הזו. שלחו קוד חדש.',
+        too_many_attempts: 'יותר מדי ניסיונות שגויים. שלחו קוד חדש.',
+        already_signed: 'הצד הזה כבר חתם על ההסכם.',
+        text_changed: 'נוסח ההסכם השתנה מאז החתימה הראשונה, ולכן לא ניתן לחתום עליו. צרו קשר עם a-digital.',
+        not_found: 'ההסכם לא נמצא.', server: 'משהו השתבש. נסו שוב בעוד רגע.'
+      };
+      function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+      function heDay(iso) { if (!iso) return ''; var p = iso.split('-'); return +p[2] + '.' + +p[1] + '.' + p[0]; }
+      function validId(id) {
+        var d = String(id || '').replace(/\D/g, '');
+        if (d.length < 5 || d.length > 9) return false;
+        d = ('000000000' + d).slice(-9);
+        for (var i = 0, s = 0; i < 9; i++) { var n = +d[i] * ((i % 2) + 1); s += n > 9 ? n - 9 : n; }
+        return s % 10 === 0;
+      }
+
+      // Signature pad
+      function Pad(canvas) {
+        var ctx = canvas.getContext('2d'), drawing = false, ink = 0, last = null, self = this;
+        function size() {
+          var r = canvas.getBoundingClientRect(), dpr = Math.max(window.devicePixelRatio || 1, 2);
+          if (!r.width) return;
+          var keep = ink ? canvas.toDataURL() : null;
+          canvas.width = r.width * dpr; canvas.height = r.height * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#161b86';
+          if (keep) { var im = new Image(); im.onload = function () { ctx.drawImage(im, 0, 0, r.width, r.height); }; im.src = keep; }
+        }
+        function pt(e) { var r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+        canvas.addEventListener('pointerdown', function (e) { drawing = true; last = pt(e); canvas.setPointerCapture(e.pointerId); canvas.classList.remove('invalid'); e.preventDefault(); });
+        canvas.addEventListener('pointerup', function () { var f = canvas.closest('form'), m = f && f.querySelector('.form-msg'); if (m && !f.querySelector('.invalid') && !m.classList.contains('ok')) m.textContent = ''; });
+        canvas.addEventListener('pointermove', function (e) {
+          if (!drawing) return;
+          var p = pt(e); ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+          ink += Math.hypot(p.x - last.x, p.y - last.y); last = p;
+        });
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (t) { canvas.addEventListener(t, function () { drawing = false; }); });
+        this.clear = function () { ctx.clearRect(0, 0, canvas.width, canvas.height); ink = 0; };
+        this.empty = function () { return ink < 40; };
+        this.png = function () { return canvas.toDataURL('image/png'); };
+        this.size = size;
+        window.addEventListener('resize', size);
+        size();
+      }
+
+      function signedHtml(s, party) {
+        var d = s.details || {}, rows = [];
+        if (party === 'client') {
+          rows.push(['שם החברה', d.company_name], ['ח.פ.', d.company_reg], ['כתובת', d.company_address],
+            ['איש קשר', [d.contact_name, d.contact_role].filter(Boolean).join(', ')], ['טלפון', d.contact_phone], ['מייל', d.contact_email]);
+          if (d.billing_email) rows.push(['מייל לחשבוניות', d.billing_email]);
+          rows.push(['תאריך תחילת העבודה', heDay(d.start_date)]);
+        }
+        rows.push(['שם החותם', s.signer_name + (s.signer_role ? ', ' + s.signer_role : '')], ['ת.ז. החותם', s.signer_id_number], ['תאריך ושעת החתימה', s.signed_at_he]);
+        var LTR = { 'ח.פ.': 1, 'טלפון': 1, 'מייל': 1, 'מייל לחשבוניות': 1, 'ת.ז. החותם': 1 };
+        return '<span class="signed-badge">✓ נחתם אלקטרונית</span>' +
+          rows.map(function (r) { return '<div class="field"><span>' + r[0] + '</span><b>' + (LTR[r[0]] ? '<bdi dir="ltr">' + esc(r[1]) + '</bdi>' : esc(r[1])) + '</b></div>'; }).join('') +
+          '<div class="field sig-field"><span>חתימה</span><img class="sig-img" alt="חתימת ' + esc(s.signer_name) + '" src="' + s.signature_png + '"></div>';
+      }
+
+      function render(state) {
+        var byParty = {};
+        (state.signatures || []).forEach(function (s) { byParty[s.party] = s; });
+        ['client', 'provider'].forEach(function (party) {
+          var box = document.getElementById('box-' + party), s = byParty[party];
+          box.classList.toggle('is-signed', !!s);
+          var view = box.querySelector('.signed-view');
+          view.hidden = !s; view.innerHTML = s ? signedHtml(s, party) : '';
+          box.querySelectorAll('.sign-form, .provider-gate').forEach(function (el) {
+            if (s) el.hidden = true;
+            else if (el.classList.contains('provider-gate')) el.hidden = !box.querySelector('.sign-form').hidden;
+          });
+          if (!s && party === 'client') box.querySelector('.sign-form').hidden = false;
+        });
+        var n = (state.signatures || []).length;
+        statusEl.classList.toggle('ok', n === 2);
+        statusEl.textContent = n === 2 ? '✓ ההסכם נחתם על ידי שני הצדדים. עותק חתום נשלח לכל צד במייל.'
+          : n === 1 ? (byParty.client ? 'המזמין חתם על ההסכם. ממתין לחתימת נותן השירות.' : 'נותן השירות חתם על ההסכם. ממתין לחתימת המזמין.')
+          : 'ההסכם ממתין לחתימת שני הצדדים.';
+        if (state.text_changed) statusEl.textContent += ' שימו לב: נוסח ההסכם השתנה מאז החתימה הראשונה.';
+        var audit = document.getElementById('audit');
+        audit.hidden = !n;
+        if (n) {
+          audit.querySelector('.audit-rows').innerHTML = state.signatures.map(function (s) {
+            return '<div class="audit-row"><b>' + (s.party === 'client' ? 'המזמין' : 'נותן השירות') + ': ' + esc(s.signer_name) + '</b> · נחתם ' + esc(s.signed_at_he) +
+              ' · זהות אומתה בקוד חד-פעמי לכתובת <span class="latin">' + esc(s.signer_email) + '</span> (' + esc(s.otp_verified_at_he) + ')' +
+              (s.ip ? ' · <span class="latin">IP ' + esc(s.ip) + '</span>' : '') +
+              '<br>מזהה חתימה: <code class="latin">' + esc(s.signature_hash) + '</code></div>';
+          }).join('');
+          audit.querySelector('.audit-hash code').textContent = state.signatures[0].doc_hash;
+        }
+      }
+
+      function load() {
+        return fetch(API + '?id=' + AGREEMENT_ID + (rt ? '&rt=' + rt : ''), { cache: 'no-store' })
+          .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+          .then(function (st) { render(st); return st; });
+      }
+      function ready() {
+        var imgs = document.querySelectorAll('.sig-img');
+        Promise.all(Array.prototype.map.call(imgs, function (im) { return im.complete ? 1 : new Promise(function (r) { im.onload = im.onerror = r; }); }))
+          .then(function () { window.__agreementReady = true; });
+      }
+      load().then(ready, function () {
+        statusEl.textContent = 'מערכת החתימה אינה זמינה כרגע. אפשר להוריד את ההסכם, לחתום ולשלוח אלינו סרוק.';
+        ready();
+      });
+
+      document.querySelectorAll('.sign-form').forEach(function (form) {
+        var party = form.dataset.party, pad = null, codeSent = false;
+        var msg = form.querySelector('.form-msg'), btn = form.querySelector('.sign-btn'), stepCode = form.querySelector('.step-code');
+        var canvas = form.querySelector('.pad');
+        function ensurePad() { if (!pad) pad = new Pad(canvas); else pad.size(); }
+        if (!form.hidden) ensurePad();
+        form.querySelector('.pad-clear').addEventListener('click', function () { ensurePad(); pad.clear(); });
+        function val(n) { var el = form.elements[n]; return el ? (el.type === 'checkbox' ? el.checked : el.value.trim()) : ''; }
+        function payload() {
+          var o = { id: AGREEMENT_ID, party: party, signer: {}, details: {} };
+          Array.prototype.forEach.call(form.elements, function (el) {
+            if (!el.name || el.type === 'checkbox') return;
+            var k = el.name.split('.');
+            if (k.length === 2) o[k[0] === 'details' ? 'details' : 'signer'][k[1]] = el.value.trim();
+          });
+          o.typed_name = val('typed_name'); o.consent = val('consent'); o.code = val('code');
+          return o;
+        }
+        function mark(keys) {
+          form.querySelectorAll('.invalid').forEach(function (el) { el.classList.remove('invalid'); });
+          keys.forEach(function (k) {
+            var el = form.elements[k];
+            if (el) (el.closest('.in') || el).classList.add('invalid');
+            var d = form.querySelector('[data-key="' + k + '"]'); if (d) d.classList.add('invalid');
+          });
+          if (keys.length) {
+            msg.className = 'form-msg';
+            msg.textContent = 'חסר או לא תקין: ' + keys.map(function (k) { return ERR[k] || k; }).join(' · ');
+            var first = form.querySelector('.invalid'); if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+        function check(withCode) {
+          var o = payload(), bad = [];
+          if (party === 'client') {
+            ['company_name', 'company_address', 'contact_name', 'start_date'].forEach(function (k) { if (!o.details[k]) bad.push('details.' + k); });
+            if (o.details.company_reg.replace(/\D/g, '').length !== 9) bad.push('details.company_reg');
+            if (o.details.contact_phone.replace(/\D/g, '').length < 9) bad.push('details.contact_phone');
+            if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.details.contact_email)) bad.push('details.contact_email');
+            if (o.details.billing_email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.details.billing_email)) bad.push('details.billing_email');
+          }
+          if (o.signer.name.split(' ').filter(Boolean).length < 2) bad.push('signer.name');
+          if (!validId(o.signer.id_number)) bad.push('signer.id_number');
+          if (o.signer.role.length < 2) bad.push('signer.role');
+          if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.signer.email)) bad.push('signer.email');
+          if (!pad || pad.empty()) bad.push('signature');
+          if (!o.typed_name || o.typed_name.replace(/\s+/g, ' ') !== o.signer.name.replace(/\s+/g, ' ')) bad.push('typed_name');
+          if (!o.consent) bad.push('consent');
+          if (withCode && !/^\d{6}$/.test(o.code)) bad.push('code');
+          mark(bad);
+          return bad.length ? null : o;
+        }
+        function post(body) {
+          return fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+            .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'server' }; }); });
+        }
+        function busy(on, label) { btn.disabled = on; if (label) btn.textContent = label; }
+        function sendCode() {
+          var o = check(false); if (!o) return;
+          busy(true, 'שולח קוד…'); msg.textContent = '';
+          post({ action: 'code', id: AGREEMENT_ID, party: party, email: o.signer.email }).then(function (r) {
+            if (!r.ok) { busy(false, codeSent ? 'חתימה על ההסכם' : 'שליחת קוד אימות למייל'); if (r.errors) mark(r.errors); else { msg.className = 'form-msg'; msg.textContent = FAIL[r.error] || FAIL.server; } return; }
+            codeSent = true; stepCode.hidden = false;
+            msg.className = 'form-msg ok';
+            msg.textContent = 'שלחנו קוד בן 6 ספרות אל ' + o.signer.email + '. הקוד תקף ל-' + (r.ttl_min || 10) + ' דקות.';
+            busy(false, 'חתימה על ההסכם');
+            form.elements.code.focus();
+          }, function () { busy(false); msg.className = 'form-msg'; msg.textContent = FAIL.server; });
+        }
+        function sign() {
+          var o = check(true); if (!o) return;
+          o.action = 'sign'; o.signature = pad.png();
+          busy(true, 'חותם ושולח עותקים…'); msg.textContent = '';
+          post(o).then(function (r) {
+            if (!r.ok) {
+              busy(false, 'חתימה על ההסכם');
+              if (r.errors) mark(r.errors);
+              else { msg.className = 'form-msg'; msg.textContent = r.error === 'code_wrong' ? 'הקוד שגוי' + (r.left > 0 ? ' (נותרו ' + r.left + ' ניסיונות).' : '.') : (FAIL[r.error] || FAIL.server); }
+              if (r.error === 'already_signed') load();
+              return;
+            }
+            load().then(function () {
+              statusEl.textContent = r.complete ? '✓ ההסכם נחתם על ידי שני הצדדים. עותק חתום נשלח לכל צד במייל.'
+                : '✓ החתימה נקלטה ונשמרה. ' + (r.emailed ? 'עותק של ההסכם נשלח במייל.' : '');
+              statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+          }, function () { busy(false, 'חתימה על ההסכם'); msg.className = 'form-msg'; msg.textContent = FAIL.server; });
+        }
+        form.addEventListener('submit', function (e) { e.preventDefault(); codeSent ? sign() : sendCode(); });
+        form.querySelector('.resend').addEventListener('click', function () { codeSent = false; sendCode(); });
+        form.addEventListener('input', function (e) {
+          var w = e.target.closest('.invalid'); if (w) w.classList.remove('invalid'); e.target.classList.remove('invalid');
+          if (!form.querySelector('.invalid') && !msg.classList.contains('ok')) msg.textContent = '';
+        });
+        var same = form.querySelector('[data-same-as-contact]');
+        if (same) {
+          var sync = function () {
+            if (!same.checked) return;
+            form.elements['signer.name'].value = form.elements['details.contact_name'].value;
+            form.elements['signer.role'].value = form.elements['details.contact_role'].value;
+            form.elements['signer.email'].value = form.elements['details.contact_email'].value;
+            ['signer.name', 'signer.role', 'signer.email'].forEach(function (n) { var w = form.elements[n].closest('.in'); if (w) w.classList.remove('invalid'); });
+          };
+          same.addEventListener('change', sync);
+          ['details.contact_name', 'details.contact_role', 'details.contact_email'].forEach(function (n) { form.elements[n].addEventListener('input', sync); });
+        }
+        var open = form.parentNode.querySelector('.open-provider');
+        if (open) open.addEventListener('click', function () {
+          form.hidden = false; open.closest('.provider-gate').hidden = true; ensurePad();
+          form.elements['signer.name'].focus();
+        });
+      });
+
+      // PDF download: the server renders the current version of the agreement
+      var pdfBtn = document.querySelector('.pdf-btn');
+      pdfBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var label = pdfBtn.querySelector('span'), orig = label.textContent;
+        pdfBtn.classList.add('busy'); label.textContent = 'מכין את הקובץ…';
+        fetch(pdfBtn.href).then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); }).then(function (b) {
+          var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'הסכם עבודה 40198 - Optinice.pdf';
+          document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+        }).catch(function () { window.print(); }).then(function () { pdfBtn.classList.remove('busy'); label.textContent = orig; });
+      });
 
       // Reveal on scroll
       var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {

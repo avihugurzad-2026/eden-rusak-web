@@ -1,0 +1,9 @@
+{
+  "name": "eden-rusak-web",
+  "private": true,
+  "description": "Static site + Vercel functions. Dependencies are used only by api/agreement.js (PDF rendering).",
+  "dependencies": {
+    "@sparticuz/chromium": "^153.0.0",
+    "puppeteer-core": "^25.0.0"
+  }
+}
