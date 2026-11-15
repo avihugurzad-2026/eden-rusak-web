@@ -150,7 +150,7 @@
       ],
       blank: function () {
         return { id: "", cat: (DATA.recCategories[0] || {}).key || "", img: "", title: "",
-          short: "", desc: "", coupon: "", buy: "https://wa.me/972552629091", active: true };
+          short: "", desc: "", coupon: "", buy: "https://wa.me/972548148311", active: true };
       }
     },
     recCategories: {

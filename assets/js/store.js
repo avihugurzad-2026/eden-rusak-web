@@ -14,7 +14,7 @@
     .filter(function (p) { return p.active !== false && ["hooks-100", "prompts-20", "reels-guide", "capcut-zero", "story-templates"].indexOf(p.id) === -1; });
   var CATS = window.EDEN_DB ? EDEN_DB.get("storeCategories", FALLBACK_C) : FALLBACK_C;
 
-  var WA = "https://wa.me/972552629091";
+  var WA = "https://wa.me/972548148311";
 
   function byId(id) { for (var i = 0; i < PRODUCTS.length; i++) { if (PRODUCTS[i].id === id) return PRODUCTS[i]; } return null; }
   function catLabel(key) { for (var i = 0; i < CATS.length; i++) { if (CATS[i].key === key) return CATS[i].label; } return ""; }

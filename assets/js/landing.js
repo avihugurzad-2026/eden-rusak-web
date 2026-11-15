@@ -27,7 +27,7 @@
 
   /* accent → primary button colour (pink accent uses the pink button) */
   var accentBtn = d.accent === "blue" ? "btn-primary" : "btn-pink";
-  var WA_NUMBER = "972552629091";
+  var WA_NUMBER = "972548148311";
 
   /* optional: route the primary CTAs straight to a prefilled whatsapp chat */
   if (d.ctaWhatsapp) {

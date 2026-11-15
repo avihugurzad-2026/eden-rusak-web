@@ -207,7 +207,7 @@
       if (topic) { msg = "(" + topic + ") " + msg; }
       fireLeadConversion();
       var text = encodeURIComponent("שלום עדן, שמי " + name + ". " + msg);
-      window.open("https://wa.me/972552629091?text=" + text, "_blank");
+      window.open("https://wa.me/972548148311?text=" + text, "_blank");
       if (note) { note.style.display = "block"; }
       form.reset();
     });
@@ -352,7 +352,7 @@
 
       var text = "שלום עדן, שמי " + name + " ואשמח לקבל פרטים על האקדמיה. טלפון: " + phone;
       if (email) { text += ". מייל: " + email; }
-      window.open("https://wa.me/972552629091?text=" + encodeURIComponent(text), "_blank");
+      window.open("https://wa.me/972548148311?text=" + encodeURIComponent(text), "_blank");
       if (note) { note.style.display = "block"; }
       leadForm.reset();
     });

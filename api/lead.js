@@ -88,7 +88,7 @@ https://www.instagram.com/eden.rusak/`;
 
 /* ---------- UGC workshop: one friendly confirmation from Eden right after sign-up ---------- */
 
-const WA = "https://wa.me/972552629091?text=" + encodeURIComponent("היי עדן, השארתי פרטים לסדנת ה-UGC ואשמח לשמוע עוד 💗");
+const WA = "https://wa.me/972548148311?text=" + encodeURIComponent("היי עדן, השארתי פרטים לסדנת ה-UGC ואשמח לשמוע עוד 💗");
 
 function shell(inner, footer) {
   return `<!doctype html>
