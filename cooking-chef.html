@@ -204,24 +204,72 @@
       .cc-hero .wrap:first-of-type { text-align: center; }
       .cc-model { display: none; }
       .cc-kicker { letter-spacing: .24em; }
-      .cc-hero-grid, .cc-feat, .cc-gift { grid-template-columns: 1fr; gap: 26px; }
-      .cc-hero-img { order: -1; padding: 12px; width: min(100%, 290px); margin: 10px auto 0; }
+      .cc-feat, .cc-gift { grid-template-columns: 1fr; gap: 22px; }
+      /* phone hero order: kicker → headline → lead → product → offer */
+      .cc-hero-grid { grid-template-columns: 1fr; gap: 0; }
+      .cc-hero-grid > div:first-child { display: contents; }
+      .cc-kicker { order: 1; text-align: center; }
+      .cc-hero h1 { order: 2; text-align: center; margin-bottom: 12px; }
+      .cc-lead { order: 3; text-align: center; margin: 0 auto 22px; }
+      .cc-hero-img { order: 4; padding: 10px; width: min(64%, 250px); margin: 4px auto 24px; }
+      .cc-offer#offer { order: 5; }
       .cc-chip { font-size: 13px; padding: 6px 11px; }
       .cc-chip.c1 { top: -12px; inset-inline-end: 8px; }
       .cc-chip.c2 { bottom: 10px; inset-inline-start: -10px; }
       .cc-spark.s3 { display: none; }
+      .cc-spark.s1 { top: 62px; inset-inline-start: 16%; width: 20px; height: 20px; }
+      .cc-spark.s2 { top: 72px; bottom: auto; inset-inline-start: auto; inset-inline-end: 16%; width: 14px; height: 14px; }
       .cc-feat:nth-child(even) .cc-feat-img { order: 0; }
-      .cc-steps { grid-template-columns: 1fr; }
-      .cc-gallery { grid-template-columns: repeat(2, 1fr); }
+      .cc-steps { grid-template-columns: 1fr; gap: 12px; }
+      .cc-steps li { display: grid; grid-template-columns: 44px 1fr; column-gap: 14px; align-items: start; padding: 18px; }
+      .cc-steps li::before { margin: 0; grid-row: span 2; }
+      .cc-steps h3 { font-size: 18px; margin: 2px 0 4px; }
+      .cc-steps p { font-size: 15px; }
+      .cc-feats { gap: 44px; }
+      .cc-feat-img { aspect-ratio: 4 / 3; border-radius: var(--r-lg); }
+      .cc-feat-img.contain img { padding: 14px; }
+      .cc-feat h3 { font-size: 26px; margin-bottom: 8px; }
+      .cc-feat p { font-size: 16px; }
+      .cc-gallery { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .cc-gallery figure { border-width: 3px; border-radius: 16px; }
+      .cc-inbox { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .cc-inbox li { padding: 10px 12px; font-size: 14px; text-align: center; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
+      .cc-inbox li.gift, .cc-inbox li.wide { grid-column: 1 / -1; }
+      .cc-box { padding: 16px; }
       .cc-sec { padding: 56px 0; }
-      .cc-offer { max-width: none; padding: 20px; }
+      .cc-head { margin-bottom: 30px; }
+      .cc-head h2 { font-size: clamp(28px, 8vw, 40px); }
+      .cc-head p { font-size: 16px; }
+      .cc-offer { max-width: 560px; width: 100%; margin-inline: auto; padding: 20px; }
+      .cc-gift img { max-width: 560px; margin: 0 auto; }
+      .cc-gift h2 { font-size: clamp(28px, 8vw, 40px); }
+      .cc-faq summary { font-size: 16px; padding: 16px 0; }
+      .cc-faq details { padding: 0 16px; }
+      .cc-legal ul { font-size: 13px; }
+      body.cc-bar-on .a11y-launcher { bottom: calc(84px + env(safe-area-inset-bottom)); transition: bottom .25s ease; }
       .cc-bar { display: flex; }
       body.cc-page { padding-bottom: 76px; }
     }
-    @media (max-width: 420px) {
-      .cc-hero h1 { font-size: 36px; }
-      .cc-code .code { font-size: 24px; }
+    @media (min-width: 600px) and (max-width: 900px) {
+      .cc-feat-img { width: min(100%, 520px); margin-inline: auto; }
+      .cc-feat > div:last-child, .cc-gift > div { max-width: 560px; margin-inline: auto; width: 100%; }
+      .cc-steps { max-width: 560px; margin-inline: auto; }
     }
+    @media (max-width: 420px) {
+      .cc-hero h1 { font-size: clamp(31px, 9.4vw, 38px); }
+      .cc-code .code { font-size: 24px; }
+      .cc-price .now { font-size: 27px; }
+      .cc-cta { font-size: 17px; padding: 15px 18px; }
+      .cc-perks li { font-size: 16px; }
+      .cc-ad { font-size: 13px; padding: 8px 12px; }
+    }
+    @media (max-width: 340px) {
+      .cc-coupon .cc-code { flex-wrap: wrap; }
+      .cc-copy { width: 100%; }
+      .cc-bar .t { font-size: 13px; }
+    }
+    .cc-skip { position: absolute; top: 8px; inset-inline-start: 8px; z-index: 300; background: var(--heading); color: #fff; padding: 10px 16px; border-radius: var(--r-pill); font-weight: 700; transform: translateY(-160%); }
+    .cc-skip:focus { transform: none; }
     @media (prefers-reduced-motion: reduce) { .cc-bar { transition: none; } .cc-spark { animation: none; } }
     /* ---------- motion ---------- */
     @keyframes cc-up { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
@@ -303,7 +351,7 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <a class="skip-link" href="#offer" style="position:absolute;inset-inline-start:-9999px" onfocus="this.style.insetInlineStart='12px'" onblur="this.style.insetInlineStart='-9999px'">דילוג להטבה ולקוד הקופון</a>
+  <a class="cc-skip" href="#offer">דילוג להטבה ולקוד הקופון</a>
 
   <!-- landing page: no site header, so visitors stay on the offer (footer links remain) -->
   <main class="cc no-nav">
@@ -458,7 +506,7 @@
         </div>
         <div class="cc-box cc-r">
           <ul class="cc-inbox">
-            <li>וו לישה</li><li>מקצף</li><li>אביזר בחישה K</li><li>אביזר בחישה</li><li>אביזר בחישה עמיד בחום לקרם</li><li>סלסלת אידוי</li><li>מכסה שקוף למניעת התזה</li>
+            <li>וו לישה</li><li>מקצף</li><li>אביזר בחישה K</li><li>אביזר בחישה</li><li class="wide">אביזר בחישה עמיד בחום לקרם</li><li>סלסלת אידוי</li><li class="wide">מכסה שקוף למניעת התזה</li>
             <li class="gift">ערכת פסטה 3 ב-1, מתנה עם הקוד</li>
           </ul>
         </div>
@@ -698,9 +746,23 @@
       })();
 
       var bar = document.getElementById("ccBar"), offer = document.getElementById("offer");
-      if (bar && offer && "IntersectionObserver" in window) {
-        new IntersectionObserver(function (e) { bar.classList.toggle("show", !e[0].isIntersecting && e[0].boundingClientRect.top < 0); }).observe(offer);
+      /* scroll fallback: reveals anything already on screen and drives the phone bar (works even where IntersectionObserver is lazy) */
+      var ticking = false;
+      function onScroll() {
+        ticking = false;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        document.querySelectorAll(".cc-r:not(.in), .cc-head:not(.in)").forEach(function (el) {
+          var r = el.getBoundingClientRect(); if (r.top < vh * 0.94 && r.bottom > 0) el.classList.add("in");
+        });
+        if (bar && offer) {
+          var on = offer.getBoundingClientRect().bottom < 0;
+          bar.classList.toggle("show", on); document.body.classList.toggle("cc-bar-on", on);
+        }
       }
+      function req() { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }
+      window.addEventListener("scroll", req, { passive: true });
+      window.addEventListener("resize", req);
+      onScroll();
     })();
   </script>
 </body>
