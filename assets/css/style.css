@@ -51,6 +51,17 @@
   --s-2xl: 48px;
   --section: 96px;
 
+  /* shared with the academy and Besti apps (src/styles/eden-tokens.css) */
+  --r-field: 11px;
+  --r-tile: 16px;
+  --r-card: 22px;
+  --r-panel: 30px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-press: 120ms;
+  --dur-fast: 160ms;
+  --dur-base: 220ms;
+
   --maxw: 1180px;
   --maxw-text: 820px;
   --nav-h: 48px;
@@ -1926,6 +1937,11 @@ body.qv-open { overflow: hidden; }
 .fh-fly .fh-scroll { animation: flyHint 1.6s ease-in-out infinite; }
 @keyframes flyHint { 50% { transform: translateY(6px); } }
 @media (max-width: 768px) {
+  /* phones: the headline spans the full width, so the wash behind it must too, or tiles cross the words */
+  .fh-fly .fh-center::before {
+    inset: -8% -6%;
+    background: radial-gradient(closest-side, rgba(253,249,248,.99), rgba(253,249,248,.96) 78%, rgba(253,249,248,0));
+  }
   .fly-tile { width: 84px; margin: -75px 0 0 -42px; border-radius: 14px; }
   .fly-icon { width: 54px; margin: -27px 0 0 -27px; border-radius: 16px; }
   .fly-chip { font-size: 14px; padding: 8px 12px; }
