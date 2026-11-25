@@ -193,7 +193,7 @@
 
     /* ===== about — "נעים להכיר" split ===== */
     '<section class="landing-sec"><div class="wrap"><div class="split reveal">' +
-      '<div class="split-media"><img src="assets/images/eden-hero-bw.jpg" alt="עדן רוסק"></div>' +
+      '<div class="split-media"><img src="/assets/images/eden-hero-bw.jpg" alt="עדן רוסק"></div>' +
       "<div>" + eb("נעים להכיר") +
       '<h2 class="h2 lp-h2">מה מחכה לך</h2><p class="lead" style="margin-top:16px">' + d.intro + "</p>" +
       '<ul class="check-list" style="margin-top:22px">' + li(d.whatYouGet) + "</ul>" +

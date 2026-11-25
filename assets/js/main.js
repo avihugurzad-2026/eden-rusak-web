@@ -9,9 +9,9 @@
     var TT = '<svg viewBox="0 0 24 24"><path d="M14.5 3h2.8c.2 1.9 1.4 3.3 3.2 3.5v2.8c-1.2 0-2.3-.4-3.2-1v6.3a5.4 5.4 0 1 1-5.4-5.4c.3 0 .6 0 .9.1v2.9a2.6 2.6 0 1 0 1.7 2.4V3Z" fill="#fff"/></svg>';
     var STAR = '<svg viewBox="0 0 24 24"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z" fill="#fff"/></svg>';
     var reel = function (n, video) {
-      var src = "assets/images/posters/fly/reel-" + n + ".jpg"; /* small 240px copies for the flying tiles */
+      var src = "/assets/images/posters/fly/reel-" + n + ".jpg"; /* small 240px copies for the flying tiles */
       return { cls: "fly-tile", html: video
-        ? '<video src="assets/videos/fly/reel-' + n + '.mp4" poster="' + src + '" autoplay muted loop playsinline preload="none"></video>'
+        ? '<video src="/assets/videos/fly/reel-' + n + '.mp4" poster="' + src + '" autoplay muted loop playsinline preload="none"></video>'
         : '<img src="' + src + '" alt="" decoding="async">' };
     };
     var chip = function (t) { return { cls: "fly-tile fly-chip", html: '<span class="heart">♥</span><b>' + t + "</b>" }; };
@@ -639,3 +639,43 @@
     }).catch(function () {});
   } catch (e) {}
 })();
+
+/* ---------- Conversion events (GTM / GA4 / Meta) ---------- */
+(function () {
+  "use strict";
+  function push(name, params) {
+    try { (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params || {})); } catch (e) {}
+  }
+  function vertical() {
+    var p = location.pathname;
+    if (/^\/work-with-me/.test(p)) return "b2b";
+    if (/^\/recommendations/.test(p)) return "recommendations";
+    if (/^\/blog|^\/academy|^\/editit|^\/workshops|^\/ugc|^\/video-editing|^\/shop|^\/landing|^\/product/.test(p)) return "academy";
+    return "general";
+  }
+  /* A plain WhatsApp link gets a ready message that fits the page it was clicked on. */
+  var WA_TEXT = {
+    b2b: "היי עדן, פונה מעסק/מותג לגבי שיתוף פעולה (תוכן / UGC / משפיענות)",
+    academy: "היי עדן, אשמח לייעוץ קצר לגבי המסלול המתאים לי באקדמיה / בסדנאות",
+    recommendations: "היי עדן, יש לי שאלה על אחת ההמלצות שלך"
+  };
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("a, [data-copy]");
+    if (!a) return;
+    if (a.hasAttribute("data-copy")) { push("copy_coupon_code", { coupon: a.getAttribute("data-copy"), page: location.pathname }); return; }
+    var href = a.getAttribute("href") || "";
+    if (/^https:\/\/wa\.me\//.test(href)) {
+      var v = a.getAttribute("data-wa") || vertical();
+      if (href.indexOf("?text=") === -1 && WA_TEXT[v] && !a.closest(".footer")) a.href = href + "?text=" + encodeURIComponent(WA_TEXT[v]);
+      push("click_whatsapp_by_vertical", { vertical: v, page: location.pathname });
+    } else if (a.hasAttribute("data-stat-link")) {
+      push("download_media_kit", { page: location.pathname });
+    } else if (/\bsponsored\b/.test(a.getAttribute("rel") || "")) {
+      push("click_affiliate_product", { url: href, label: (a.closest("[data-id]") || {}).getAttribute ? a.closest("[data-id]").getAttribute("data-id") : "", page: location.pathname });
+    }
+  }, true);
+  document.addEventListener("submit", function (e) {
+    if (vertical() === "b2b" || (e.target && e.target.id === "contactForm" && /עסק|מותג/.test((e.target.elements.subject || {}).value || "")))
+      push("submit_b2b_brief", { page: location.pathname });
+  }, true);
+}());

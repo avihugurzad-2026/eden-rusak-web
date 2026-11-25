@@ -14,9 +14,9 @@ window.EDEN_STORE_CATEGORIES = [
 
 window.EDEN_STORE_PRODUCTS = [
   {
-    id: "editit", cat: "courses", img: "assets/images/work/work-08.jpg",
+    id: "editit", cat: "courses", img: "/assets/images/work/work-08.jpg",
     title: "editit — תוכנית הדגל",
-    short: "התוכנית המקיפה בישראל בעולם יצירת התוכן. מאפס למאה.",
+    short: "תוכנית מקיפה ליצירת תוכן, צעד אחרי צעד מאפס.",
     desc: "שנים של עבודה וניסיון בתחום שזוקקו לתוכנית אחת שכוללת את כל הסודות הכי כמוסים בתחום — ויראליות, עריכה, צילום מהנייד, מיתוג אישי ו-AI. בשפה פשוטה, עם דוגמאות אמיתיות והסברים מפורטים.",
     includes: ["גישה לכל השיעורים ללא הגבלת זמן, כל עוד התוכנית באוויר", "5 עולמות תוכן — מויראליות ועד AI", "תבניות, צ'קליסטים ודוגמאות מוכנות", "תוכנית חיה שמתעדכנת בשוטף"],
     price: 99, oldPrice: 597, stock: "",
@@ -24,9 +24,9 @@ window.EDEN_STORE_PRODUCTS = [
     buy: "https://my.schooler.biz/s/95064/1747927021904?tid=26293&utm_source=%D7%94%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA+", active: true
   },
   {
-    id: "carousel-secrets", cat: "courses", img: "assets/images/work/work-13.jpg",
+    id: "carousel-secrets", cat: "courses", img: "/assets/images/work/work-13.jpg",
     title: "סודות הקרוסלה",
-    short: "צעד אחרי צעד איך לייצר קרוסלה שתכניס לך כסף.",
+    short: "צעד אחרי צעד: איך בונים קרוסלה שמובילה לפניות.",
     desc: "מי אמר שצריך סרטון מפוצץ כדי לגדול ברשת? בקורס הזה תלמדי צעד אחרי צעד איך לייצר קרוסלה ממירה — מהרעיון, דרך העיצוב ועד הכתיבה שמוכרת. בלי רקע בעיצוב ובלי תוכנות יקרות.",
     includes: ["גישה מיידית לכל השיעורים", "צפייה מכל מכשיר וללא הגבלת זמן", "תבניות קרוסלה מוכנות לעבודה", "מתאים גם בלי רקע בעיצוב"],
     price: 29, oldPrice: null, stock: "",
@@ -34,7 +34,7 @@ window.EDEN_STORE_PRODUCTS = [
     buy: "https://my.schooler.biz/s/105728/1764659098064", active: true
   },
   {
-    id: "content-calendar", cat: "templates", img: "assets/images/work/work-07.jpg",
+    id: "content-calendar", cat: "templates", img: "/assets/images/work/work-07.jpg",
     title: "לוח תוכן",
     short: "לוח תוכן לתכנון העבודה והיצירה שלך.",
     desc: "לפרטים על לוח התוכן אפשר ליצור קשר עם עדן.",

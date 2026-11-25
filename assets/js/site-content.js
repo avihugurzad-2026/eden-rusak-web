@@ -23,13 +23,20 @@
     var stats = r.stats || {};
     document.querySelectorAll("[data-stat]").forEach(function (el) {
       var v = stats[el.getAttribute("data-stat")];
-      if (typeof v === "string" && v.trim()) el.textContent = v.trim();
+      if (typeof v === "string" && v.trim()) {
+        el.textContent = v.trim();
+        var box = el.closest(".stat"); if (box) box.hidden = false;
+      }
+    });
+    document.querySelectorAll("[data-stat-link]").forEach(function (el) {
+      var u = url(stats[el.getAttribute("data-stat-link")]);
+      if (u) { el.href = u; el.hidden = false; }
     });
   });
 
   function url(s) {
     if (!s) return "";
-    if (/^assets\//.test(s)) return s;
+    if (/^\/?assets\//.test(s)) return s.charAt(0) === "/" ? s : "/" + s;
     try { var u = new URL(s, location.origin); return u.protocol === "https:" ? u.href : ""; } catch (e) { return ""; }
   }
   function money(n) { return (Number(n) % 1 === 0 ? String(Number(n)) : Number(n).toFixed(2)) + "₪"; }

@@ -6,7 +6,7 @@
   "use strict";
 
   /* placeholder thumbnails — להחלפה בסרטונים אמיתיים בהמשך */
-  function imgs(list) { return list.map(function (n) { return "assets/images/work/work-" + n + ".jpg"; }); }
+  function imgs(list) { return list.map(function (n) { return "/assets/images/work/work-" + n + ".jpg"; }); }
 
   var CATEGORIES = [
     {

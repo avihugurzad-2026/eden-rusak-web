@@ -9,19 +9,19 @@ window.EDEN_WORKSHOPS = [
     id: "ugc-workshop", tag: "מעשי", title: "סדנת UGC",
     text: "היכנסי לתחום הכי חם בשנים האחרונות בעולם השיווק!",
     cap: "", status: "", sticker: "ההרשמה נסגרה",
-    price: "", img: "assets/images/work/work-23.jpg",
+    price: "", img: "/assets/images/work/work-23.jpg",
     link: "", linkText: "", active: true
   },
   {
     id: "content-workshop", tag: "קבוצתי", title: "סדנה ליצירת תוכן",
     text: "יום אחד של יצירה, למידה והתנסות, שבסופו תצאו עם כלים מעשיים ותוכן מוכן לפרסום. בסדנאות יצירת התוכן הפרונטליות שלי, המיועדות לעסקים, ליוצרות UGC, לצוותים ולקבוצות, נלמד איך להפוך רעיון לסרטון רילס מוכן.", cap: "עד 12 משתתפים",
     status: "", sticker: "ההרשמה נפתחת בקרוב",
-    price: "", img: "assets/images/eden-portrait-2.jpg", imgPos: "center 38%",
+    price: "", img: "/assets/images/eden-portrait-2.jpg", imgPos: "center 38%",
     link: "", linkText: "", active: true
   },
   {
     id: "social-workshop", tag: "השתלמות", title: "סדנת ניהול סושיאל",
     text: "כלים לתכנון תוכן, ניהול נוכחות ברשתות ופיתוח העבודה המקצועית.",
-    img: "assets/images/work/work-20.jpg", link: "#contact-cta", linkText: "לקבלת פרטים", active: true
+    img: "/assets/images/work/work-20.jpg", link: "#contact-cta", linkText: "לקבלת פרטים", active: true
   }
 ];

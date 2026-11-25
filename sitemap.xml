@@ -31,7 +31,7 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://edenrusak.com/portfolio</loc>
+    <loc>https://edenrusak.com/work-with-me/content-and-social</loc>
     <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
@@ -43,7 +43,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://edenrusak.com/recommendations</loc>
+    <loc>https://edenrusak.com/recommendations/shop</loc>
     <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
@@ -153,4 +153,28 @@
   <url><loc>https://edenrusak.com/blog/ai-video-editing-guide</loc><lastmod>2026-11-04</lastmod></url>
   <url><loc>https://edenrusak.com/blog/choose-content-creation-course</loc><lastmod>2026-11-04</lastmod></url>
   <url><loc>https://edenrusak.com/editit</loc></url>
+  <url>
+    <loc>https://edenrusak.com/work-with-me</loc>
+    <lastmod>2026-11-25</lastmod>
+  </url>
+  <url>
+    <loc>https://edenrusak.com/work-with-me/influencers</loc>
+    <lastmod>2026-11-25</lastmod>
+  </url>
+  <url>
+    <loc>https://edenrusak.com/recommendations</loc>
+    <lastmod>2026-11-25</lastmod>
+  </url>
+  <url>
+    <loc>https://edenrusak.com/recommendations/travel</loc>
+    <lastmod>2026-11-25</lastmod>
+  </url>
+  <url>
+    <loc>https://edenrusak.com/privacy</loc>
+    <lastmod>2026-11-25</lastmod>
+  </url>
+  <url>
+    <loc>https://edenrusak.com/disclosure</loc>
+    <lastmod>2026-11-25</lastmod>
+  </url>
 </urlset>

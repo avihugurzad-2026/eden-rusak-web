@@ -3,6 +3,31 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/portfolio",
+      "destination": "/work-with-me/content-and-social",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio.html",
+      "destination": "/work-with-me/content-and-social",
+      "permanent": true
+    },
+    {
+      "source": "/ugc-brands",
+      "destination": "/work-with-me/ugc",
+      "permanent": true
+    },
+    {
+      "source": "/ugc-brands.html",
+      "destination": "/work-with-me/ugc",
+      "permanent": true
+    },
+    {
+      "source": "/recommendations.html",
+      "destination": "/recommendations/shop",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
@@ -127,6 +152,10 @@
     {
       "source": "/google-tag-gateway/:path*",
       "destination": "/api/google-tag-gateway?gateway_path=:path*"
+    },
+    {
+      "source": "/recommendations/travel/:slug((?!destination$)[^/]+)",
+      "destination": "/recommendations/travel/destination"
     }
   ],
   "functions": {

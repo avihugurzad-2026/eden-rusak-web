@@ -140,7 +140,7 @@
       if (p.badge) meta.push("תגית: " + esc(p.badge));
       meta.push("מיקום " + p.sort);
       return '<div class="ra-row' + (p.active ? "" : " off") + '" data-id="' + p.id + '">' +
-        '<img src="' + esc(p.image_url || "assets/images/logo.png") + '" alt="" loading="lazy">' +
+        '<img src="' + esc(p.image_url || "/assets/images/logo.png") + '" alt="" loading="lazy">' +
         "<div><div class=\"t\">" + esc(p.title) + '</div><div class="m">' + meta.join("") + "</div></div>" +
         '<div class="acts">' +
           '<button type="button" class="ra-icon' + (p.featured ? " on" : "") + '" data-act="fav" title="המועדפים שלי" aria-label="המועדפים שלי">' + IC.star + '</button>' +
@@ -220,7 +220,7 @@
     $("pActive").checked = p ? p.active : true;
     $("pFeatured").checked = p ? p.featured : false;
     $("pImg").value = p ? (p.image_url || "") : "";
-    $("pImgPreview").src = (p && p.image_url) || "assets/images/logo.png";
+    $("pImgPreview").src = (p && p.image_url) || "/assets/images/logo.png";
     $("pFile").value = "";
     $("pError").textContent = "";
     openDrawer("pDrawer");
@@ -274,7 +274,7 @@
   $("pSlug").addEventListener("input", function () { slugTouched = true; $("pSlugPrev").textContent = $("pSlug").value || "…"; });
   $("pImg").addEventListener("input", function () {
     state.uploadFile = null;
-    $("pImgPreview").src = $("pImg").value || "assets/images/logo.png";
+    $("pImgPreview").src = $("pImg").value || "/assets/images/logo.png";
   });
 
   function pickFile(file) {
