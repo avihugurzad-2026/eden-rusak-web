@@ -5,7 +5,7 @@
 (function () {
   "use strict";
   var DATA = window.EDEN_LANDINGS || {};
-  var COMMON = window.EDEN_LANDING_COMMON || { stats: [], steps: [], testimonials: [] };
+  var COMMON = window.EDEN_LANDING_COMMON || { steps: [] };
   var root = document.getElementById("landingContent");
   if (!root) return;
 
@@ -119,23 +119,6 @@
       '<h3 class="h3">' + s.t + "</h3><p>" + s.d + "</p></div>";
   }).join("");
 
-  /* ---------- stats (quiet trust strip, white) ---------- */
-  var statsHTML = COMMON.stats.map(function (s) {
-    return '<div class="lp-stat"><span class="lp-stat-num">' + s.num + "</span>" +
-      '<span class="lp-stat-label">' + s.label + "</span></div>";
-  }).join("");
-
-  /* ---------- testimonials ---------- */
-  var testimonialHTML = COMMON.testimonials.map(function (t) {
-    var initial = (t.name || "").trim().charAt(0);
-    return '<figure class="testimonial reveal">' +
-      '<div class="testimonial-stars" aria-hidden="true">★★★★★</div>' +
-      '<blockquote>' + t.text + "</blockquote>" +
-      '<figcaption><span class="t-avatar">' + initial + "</span>" +
-      '<span class="t-meta"><strong>' + t.name + "</strong><span>" + t.role + "</span></span></figcaption>" +
-      "</figure>";
-  }).join("");
-
   /* ---------- FAQ ---------- */
   var faqHTML = "";
   if (d.faq && d.faq.length) {
@@ -231,14 +214,9 @@
       '<div class="lp-forwho"><ul class="check-list' + (d.forWhoSpark ? " check-list-spark" : "") + '">' + li(d.forWho) + "</ul></div>" +
     "</div></section>" +
 
-    /* ===== stats — quiet trust strip ===== */
-    (statsHTML ? '<section class="landing-sec lp-stats-sec"><div class="wrap"><div class="lp-stats">' + statsHTML + "</div></div></section>" : "") +
-
-    /* ===== testimonials ===== */
-    '<section class="landing-sec"><div class="wrap"><div class="center">' +
-      eb("ממליצות") +
-      '<h2 class="h2 lp-h2">מה אומרות עליי</h2></div>' +
-      '<div class="testimonial-grid">' + testimonialHTML + "</div></div></section>" +
+    /* ===== stats, offer details, business block, testimonials, fit quiz — filled from the admin
+       (אתר › אמון ומכירה) by site-content.js; empty in the admin = nothing shown ===== */
+    '<div data-trust-page="' + key + '" data-trust-stats hidden></div>' +
 
     /* ===== FAQ ===== */
     faqHTML +
