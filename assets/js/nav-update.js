@@ -1,23 +1,27 @@
 (function () {
-  var menu = document.querySelector('.nav-academy');
-  if (!menu) return;
+  var menus = Array.prototype.slice.call(document.querySelectorAll('.nav-academy'));
+  if (!menus.length) return;
   var toggle = document.querySelector('.nav-toggle');
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.open = false; }); }
+  menus.forEach(function (menu) {
+    menu.addEventListener('toggle', function () { if (menu.open) closeAll(menu); });
+  });
   document.addEventListener('click', function (event) {
-    if (!menu.contains(event.target)) menu.open = false;
+    menus.forEach(function (m) { if (!m.contains(event.target)) m.open = false; });
   });
   document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape' && menu.open) {
-      menu.open = false;
-      menu.querySelector('summary').focus();
-    }
+    if (event.key !== 'Escape') return;
+    menus.forEach(function (m) {
+      if (m.open) { m.open = false; m.querySelector('summary').focus(); }
+    });
   });
   document.querySelectorAll('.nav-links a').forEach(function (link) {
     link.addEventListener('click', function () {
-      menu.open = false;
+      closeAll();
       if (toggle) toggle.setAttribute('aria-expanded', 'false');
     });
   });
   if (toggle) toggle.addEventListener('click', function () {
-    if (!document.body.classList.contains('nav-open')) menu.open = false;
+    if (!document.body.classList.contains('nav-open')) closeAll();
   });
 }());

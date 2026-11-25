@@ -13,12 +13,12 @@
   /* a dedicated short-URL page (e.g. /ugc.html) can pin the id via window.EDEN_FORCE_ID */
   var key = window.EDEN_FORCE_ID || params.get("id");
   if (!window.EDEN_FORCE_ID && key === "editit") {
-    window.location.replace("editit.html");
+    window.location.replace("/editit");
     return;
   }
   var d = key && DATA[key] ? DATA[key] : null;
   if (!d) {
-    root.innerHTML = '<section class="section center" style="padding:120px 20px"><div class="wrap"><h1 class="h2">העמוד לא נמצא</h1><p class="lead" style="margin:12px auto 24px">אולי הקישור השתנה — אפשר למצוא את כל הקורסים והמדריכים בעמוד האקדמיה.</p><a href="academy.html" class="btn btn-primary">לכל הקורסים</a></div></section>';
+    root.innerHTML = '<section class="section center" style="padding:120px 20px"><div class="wrap"><h1 class="h2">העמוד לא נמצא</h1><p class="lead" style="margin:12px auto 24px">אולי הקישור השתנה — אפשר למצוא את כל הקורסים והמדריכים בעמוד האקדמיה.</p><a href="/academy" class="btn btn-primary">לכל הקורסים</a></div></section>';
     return;
   }
 

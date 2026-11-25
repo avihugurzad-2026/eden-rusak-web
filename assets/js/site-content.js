@@ -9,7 +9,7 @@
   "use strict";
   var base = "https://lefqtffubkmxbsenptrc.supabase.co", key = "sb_publishable_P2XYPTQ1k6DkqUZ5txXGgw_j7v-hIqn";
   var controller = new AbortController(), timeout = setTimeout(function () { controller.abort(); }, 5000);
-  var rows = fetch(base + "/rest/v1/eden_site_content?key=in.(catalog,media,trust)&select=key,data", { signal: controller.signal, headers: { apikey: key, Authorization: "Bearer " + key } })
+  var rows = fetch(base + "/rest/v1/eden_site_content?key=in.(catalog,media,trust,stats)&select=key,data", { signal: controller.signal, headers: { apikey: key, Authorization: "Bearer " + key } })
     .then(function (r) { if (!r.ok) throw Error("content"); return r.json(); })
     .then(function (list) { var out = {}; list.forEach(function (row) { out[row.key] = row.data; }); return out; })
     .catch(function () { return {}; })
@@ -17,6 +17,15 @@
   /* store.js awaits this */
   window.EDEN_CATALOG = rows.then(function (r) { return r.catalog || null; });
   window.EDEN_MEDIA = rows.then(function (r) { return r.media || null; });
+  /* siteStats: one place for every public number. Each element marked data-stat="<key>"
+     shows the admin's value; an empty or missing value leaves the page's text as is. */
+  rows.then(function (r) {
+    var stats = r.stats || {};
+    document.querySelectorAll("[data-stat]").forEach(function (el) {
+      var v = stats[el.getAttribute("data-stat")];
+      if (typeof v === "string" && v.trim()) el.textContent = v.trim();
+    });
+  });
 
   function url(s) {
     if (!s) return "";
@@ -64,7 +73,7 @@
       catalog.products.forEach(function (p) {
         if (!p || !p.id || p.active === false || p.cat !== "courses" || !p.title) return;
         if (grid.querySelector('[data-card="' + p.id + '"]')) return;
-        var href = esc(link(p.landing) || "shop-product.html?id=" + encodeURIComponent(p.id)), img = url(p.img), title = esc(p.title);
+        var href = esc(link(p.landing) || "/shop-product?id=" + encodeURIComponent(p.id)), img = url(p.img), title = esc(p.title);
         var card = document.createElement("article");
         card.className = "course-card";
         card.setAttribute("data-card", p.id);

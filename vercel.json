@@ -1,4 +1,6 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
     {
       "source": "/:path*",
@@ -50,7 +52,7 @@
           "value": "editit"
         }
       ],
-      "destination": "/editit.html",
+      "destination": "/editit",
       "permanent": true
     },
     {
@@ -62,7 +64,7 @@
           "value": "editit"
         }
       ],
-      "destination": "/editit.html",
+      "destination": "/editit",
       "permanent": true
     },
     {

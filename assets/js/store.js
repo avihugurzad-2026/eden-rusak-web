@@ -48,7 +48,7 @@
 
   function cardHTML(p) {
     var c = couponOf(p);
-    return '<a class="store-card reveal" href="' + (p.landing || (p.id === 'editit' ? 'editit.html' : p.id === 'carousel-secrets' ? 'landing.html?id=carousel' : 'shop-product.html?id=' + encodeURIComponent(p.id))) + '" data-cat="' + p.cat + '">' +
+    return '<a class="store-card reveal" href="' + (p.landing || (p.id === 'editit' ? '/editit' : p.id === 'carousel-secrets' ? '/landing?id=carousel' : '/shop-product?id=' + encodeURIComponent(p.id))) + '" data-cat="' + p.cat + '">' +
       '<span class="store-card-media">' + badgeHTML(p) +
         '<img src="' + p.img + '" alt="' + p.title + '" loading="lazy"></span>' +
       '<span class="store-card-body">' +
@@ -117,7 +117,7 @@
         (p.price === null || p.price === undefined || p.price === "" ? "לפרטים על המוצר" : Number(p.price) === 0 ? "להורדה ללא עלות" : "לרכישה מיידית") + "</a>";
 
     detail.innerHTML =
-      '<div class="wrap"><nav class="pd-breadcrumb"><a href="shop.html">החנות</a> <span>›</span> <span>' + catLabel(p.cat) + "</span></nav>" +
+      '<div class="wrap"><nav class="pd-breadcrumb"><a href="/shop">החנות</a> <span>›</span> <span>' + catLabel(p.cat) + "</span></nav>" +
       '<div class="pd-grid">' +
         '<div class="pd-gallery"><div class="pd-main">' + badgeHTML(p) + '<img src="' + p.img + '" alt="' + p.title + '"></div></div>' +
         '<div class="pd-info">' +

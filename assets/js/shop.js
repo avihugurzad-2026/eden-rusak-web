@@ -25,7 +25,7 @@
     if (isNaN(v)) return "";
     return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2)) + "₪";
   }
-  function productUrl(p) { return "product.html?id=" + encodeURIComponent(p.id); }
+  function productUrl(p) { return "/product?id=" + encodeURIComponent(p.id); }
 
   /* ---------- data ---------- */
   function fromRow(r) {
@@ -364,7 +364,7 @@
     if (!detail) return;
     var id = new URLSearchParams(location.search).get("id");
     var p = byId(id) || DATA.products[0];
-    if (!p) { detail.innerHTML = '<div class="wrap center"><h1 class="h2">המוצר לא נמצא</h1><p><a href="recommendations.html">חזרה לחנות</a></p></div>'; return; }
+    if (!p) { detail.innerHTML = '<div class="wrap center"><h1 class="h2">המוצר לא נמצא</h1><p><a href="/recommendations">חזרה לחנות</a></p></div>'; return; }
     document.title = p.title + " — עדן רוסק";
     var buy = safeUrl(p.buy);
 
@@ -376,8 +376,8 @@
       : "";
 
     detail.innerHTML =
-      '<div class="wrap"><nav class="pd-breadcrumb"><a href="recommendations.html">המומלצים שלי</a> <span>›</span> ' +
-      '<a href="recommendations.html?cat=' + encodeURIComponent(p.cat) + '#store">' + esc(catLabel(p.cat)) + "</a></nav>" +
+      '<div class="wrap"><nav class="pd-breadcrumb"><a href="/recommendations">המומלצים שלי</a> <span>›</span> ' +
+      '<a href="/recommendations?cat=' + encodeURIComponent(p.cat) + '#store">' + esc(catLabel(p.cat)) + "</a></nav>" +
       '<div class="pd-grid">' +
         '<div class="pd-gallery"><div class="pd-main">' + badgeHTML(p) + '<img src="' + esc(safeUrl(p.img)) + '" alt="' + esc(p.title) + '"></div>' +
           (videoPlayerHTML(p, false) ? '<div class="pd-video"><span class="pd-video-label">' + PLAY + " עדן מדגימה את המוצר</span>" + videoPlayerHTML(p, false) + "</div>" : "") +
@@ -402,7 +402,7 @@
       var pick = same.concat(other).slice(0, 4);
       related.innerHTML = pick.length
         ? '<div class="wrap"><div class="sec-head"><h2 class="h2">מי שאהבה את זה אהבה גם</h2>' +
-          '<a class="btn btn-outline" href="recommendations.html#store">לכל המוצרים</a></div>' +
+          '<a class="btn btn-outline" href="/recommendations#store">לכל המוצרים</a></div>' +
           '<div class="store-grid">' + pick.map(cardHTML).join("") + "</div></div>"
         : "";
     }

@@ -15,3 +15,6 @@
   .global-nav .nav-academy-menu li { width: 100%; }
   .global-nav .nav-academy-menu a { padding: 11px 0; font-size: 17px; border-bottom: 1px solid rgba(0,0,0,.05); }
 }
+.nav-academy.is-active > summary { opacity: 1; }
+.global-nav .nav-academy-menu a[aria-current="page"] { background: var(--canvas, #f6f3f1); font-weight: 600; }
+.nav-links a[aria-current="page"] { opacity: 1; }
