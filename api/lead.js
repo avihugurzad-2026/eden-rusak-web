@@ -6,9 +6,11 @@
         LEAD_NOTIFY_TO, MAIL_REPLY_TO (optional), LEADS_ADMIN_URL (optional). */
 
 const SOURCES = {
-  "ugc-course": { label: "קורס UGC דיגיטלי — רשימת השקה" },
-  "newsletter": { label: "הרשמה לעדכוני מוצרים" },
-  "ugc-workshop": { label: "סדנת UGC פרונטלית" },
+  "ugc-course": { label: "קורס UGC דיגיטלי — רשימת השקה", emailRequired: true, welcomeMail: true },
+  "newsletter": { label: "הרשמה לעדכוני מוצרים", emailRequired: true, welcomeMail: false },
+  "ugc-workshop": { label: "סדנת UGC פרונטלית", emailRequired: true, welcomeMail: true },
+  "contact": { label: "יצירת קשר מהאתר", emailRequired: false, welcomeMail: false },
+  "lead-form": { label: "השארת פרטים באתר", emailRequired: false, welcomeMail: false },
 };
 const ROLES = { beginner: "מתחילה מאפס", business: "בעלת עסק / עצמאית", creator: "מנהלת סושיאל / יוצרת תוכן", other: "אחר" };
 
@@ -144,15 +146,16 @@ function ownerMail(lead, sourceLabel) {
   const rows = [
     ["שם", lead.full_name],
     ["טלפון", lead.phone],
-    ["אימייל", lead.email],
+    ["אימייל", lead.email || "—"],
     ["מקור", sourceLabel],
-    ["מה מתאר אותה", lead.notes || ""],
+    ["פרטי הפנייה", lead.notes || ""],
+    ["הסכמה לדיוור", lead.utm && lead.utm.marketing_consent === "yes" ? "כן" : lead.utm && lead.utm.newsletter_consent === "yes" ? "כן" : "לא סומן"],
     ["עמוד", lead.page || ""],
-    ["UTM", Object.entries(lead.utm || {}).map(([k, v]) => `${k}=${v}`).join(", ")],
+    ["UTM", Object.entries(lead.utm || {}).filter(([k]) => !["marketing_consent", "newsletter_consent", "privacy_accepted_at"].includes(k)).map(([k, v]) => `${k}=${v}`).join(", ")],
   ];
   const admin = process.env.LEADS_ADMIN_URL || "https://academy.edenrusak.com/admin/leads";
   const html = `<div dir="rtl" style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6">
-    <p style="font-size:18px;font-weight:bold">מתעניינת חדשה ב${esc(sourceLabel)} 🎉</p>
+    <p style="font-size:18px;font-weight:bold">פנייה חדשה: ${esc(sourceLabel)} 🎉</p>
     <table cellpadding="6" style="border-collapse:collapse">${rows
       .filter(([, v]) => v)
       .map(([k, v]) => `<tr><td style="color:#86868b">${esc(k)}</td><td><b>${esc(v)}</b></td></tr>`)
@@ -160,9 +163,9 @@ function ownerMail(lead, sourceLabel) {
     <p><a href="https://wa.me/${esc(lead.phone.replace(/\D/g, "").replace(/^0/, "972"))}">לשליחת וואטסאפ</a> · <a href="${esc(admin)}">לכל המתעניינות במערכת</a></p>
   </div>`;
   return {
-    subject: `מתעניינת חדשה: ${lead.full_name} — ${sourceLabel}`,
+    subject: `פנייה חדשה: ${lead.full_name} — ${sourceLabel}`,
     html,
-    text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
+    text: rows.filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join("\n"),
   };
 }
 
@@ -171,21 +174,33 @@ module.exports = async (req, res) => {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ ok: false });
   }
-  const b = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+  let b;
+  try {
+    b = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+  } catch {
+    return res.status(400).json({ ok: false, errors: ["json"] });
+  }
 
   // honeypot: bots fill every field
   if (b.website) return res.status(200).json({ ok: true });
 
-  const source = SOURCES[b.source] ? b.source : "ugc-course";
+  const requestedSource = b.source ? String(b.source) : "ugc-course";
+  if (!SOURCES[requestedSource]) return res.status(400).json({ ok: false, errors: ["source"] });
+  const source = requestedSource;
+  const sourceCfg = SOURCES[source];
+
   const full_name = clean(b.name, 120);
   const phone = clean(b.phone, 20).replace(/[^\d+\- ]/g, "");
-  const email = clean(b.email, 160).toLowerCase();
+  const rawEmail = clean(b.email, 160).toLowerCase();
+  const email = rawEmail || null;
+  const digits = phone.replace(/\D/g, "").replace(/^972/, "0");
   const errors = [];
   if (full_name.length < 2) errors.push("name");
-  if (phone.replace(/\D/g, "").length < 9) errors.push("phone");
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errors.push("email");
+  if (!/^0(5\d|7\d|[2-489])\d{7}$/.test(digits)) errors.push("phone");
+  if (sourceCfg.emailRequired && (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))) errors.push("email");
+  else if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errors.push("email");
   if (source === "newsletter" && b.consent !== true) errors.push("consent");
-  if (source === "ugc-workshop" && b.privacy !== true) errors.push("privacy");
+  if ((source === "ugc-workshop" || source === "contact") && b.privacy !== true) errors.push("privacy");
   if (errors.length) return res.status(400).json({ ok: false, errors });
 
   const utm = {};
@@ -193,36 +208,48 @@ module.exports = async (req, res) => {
     if (b.utm && b.utm[k]) utm[k] = clean(b.utm[k], 200);
   const page = clean(b.page, 300);
   if (source === "newsletter") utm.newsletter_consent = "yes";
-  if (source === "ugc-workshop") utm.privacy_accepted_at = new Date().toISOString();
+  if (source === "ugc-workshop" || source === "contact") utm.privacy_accepted_at = new Date().toISOString();
+  if (typeof b.marketing === "boolean") utm.marketing_consent = b.marketing ? "yes" : "no";
+
   const role = source === "ugc-workshop" && ROLES[b.role] ? ROLES[b.role] : null;
+  const topic = clean(b.topic, 120);
+  const message = clean(b.message, 800);
+  const noteParts = [];
+  if (role) noteParts.push(`מה מתאר אותה: ${role}`);
+  if (topic) noteParts.push(`נושא: ${topic}`);
+  if (message) noteParts.push(message);
+  const notes = noteParts.length ? noteParts.join(" · ") : null;
 
   try {
-    // same e-mail on the same list in the last day → don't store or mail twice
-    const since = new Date(Date.now() - 864e5).toISOString();
-    const dup = await supabase(
-      `lms_leads?select=id&source=eq.${encodeURIComponent(source)}&email=eq.${encodeURIComponent(email)}&created_at=gte.${since}&limit=1`,
-      { method: "GET" }
-    );
+    // deduplicate: 24h by source+email when email exists, or 15m by source+phone when email is omitted
+    const since = new Date(Date.now() - (email ? 864e5 : 900e3)).toISOString();
+    const dupQuery = email
+      ? `lms_leads?select=id&source=eq.${encodeURIComponent(source)}&email=eq.${encodeURIComponent(email)}&created_at=gte.${since}&limit=1`
+      : `lms_leads?select=id&source=eq.${encodeURIComponent(source)}&phone=eq.${encodeURIComponent(phone)}&created_at=gte.${since}&limit=1`;
+    const dup = await supabase(dupQuery, { method: "GET" });
     if (dup && dup.length) return res.status(200).json({ ok: true, duplicate: true });
 
     const [lead] = await supabase("lms_leads", {
       method: "POST",
       headers: { Prefer: "return=representation" },
-      body: JSON.stringify({ source, full_name, phone, email, utm, page, ...(role ? { notes: `מה מתאר אותה: ${role}` } : {}) }),
+      body: JSON.stringify({ source, full_name, phone, email, utm, page, ...(notes ? { notes } : {}) }),
     });
 
     const firstName = full_name.split(" ")[0];
     const replyTo = process.env.MAIL_REPLY_TO;
     const welcome = source === "ugc-workshop" ? workshopConfirmMail(firstName) : welcomeMail(firstName);
     const results = await Promise.allSettled([
-      source === "newsletter" ? Promise.resolve(null) : sendMail({ to: email, replyTo, ...welcome }),
+      sourceCfg.welcomeMail && email ? sendMail({ to: email, replyTo, ...welcome }) : Promise.resolve(null),
       process.env.LEAD_NOTIFY_TO
-        ? sendMail({ to: process.env.LEAD_NOTIFY_TO, replyTo: email, ...ownerMail(lead, SOURCES[source].label) })
+        ? sendMail({ to: process.env.LEAD_NOTIFY_TO, ...(email ? { replyTo: email } : {}), ...ownerMail(lead, sourceCfg.label) })
         : Promise.resolve(),
     ]);
     results.forEach((r) => r.status === "rejected" && console.error("lead mail failed:", r.reason));
-    if (source !== "newsletter" && results[0].status === "fulfilled")
-      await supabase(`lms_leads?id=eq.${lead.id}`, { method: "PATCH", body: JSON.stringify({ email_sent: true }) });
+    if (sourceCfg.welcomeMail && email && results[0].status === "fulfilled") {
+      await supabase(`lms_leads?id=eq.${lead.id}`, { method: "PATCH", body: JSON.stringify({ email_sent: true }) }).catch((e) =>
+        console.error("lead email_sent patch failed:", e)
+      );
+    }
 
     return res.status(200).json({ ok: true });
   } catch (err) {

@@ -99,15 +99,15 @@
       ? '<div class="pd-coupon"><span class="pd-coupon-label">קוד קופון' + (c.off ? " — " + c.off : "") + "</span>" +
         '<div class="pd-coupon-row"><code id="pdCode">' + c.code + "</code>" +
         '<button type="button" class="pd-copy" id="pdCopy">העתקה</button></div>' +
-        '<p class="pd-coupon-note">' + (c.note || "הזינו את הקוד בעמוד הרכישה ותיהנו מהטבה.") + "</p></div>"
+        '<p class="pd-coupon-note">' + (c.note || "הזיני את הקוד בעמוד הרכישה ותיהני מההטבה.") + "</p></div>"
       : "";
 
     var stockNote = "";
-    if (soldOut(p)) { stockNote = '<p class="pd-stock pd-stock-out">המוצר אזל מהמלאי — השאירו פרטים ואעדכן כשיחזור.</p>'; }
+    if (soldOut(p)) { stockNote = '<p class="pd-stock pd-stock-out">המוצר אזל מהמלאי — השאירי פרטים ואעדכן כשיחזור.</p>'; }
     else if (lowStock(p)) { stockNote = '<p class="pd-stock">נותרו רק ' + Number(p.stock) + " עותקים במחיר הזה!</p>"; }
 
     var includes = (p.includes && p.includes.length)
-      ? '<div class="pd-includes"><h3 class="h3">מה מקבלים</h3><ul class="check-list">' +
+      ? '<div class="pd-includes"><h3 class="h3">מה מקבלות</h3><ul class="check-list">' +
         p.includes.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul></div>"
       : "";
 
@@ -127,7 +127,7 @@
           stockNote +
           '<p class="pd-desc">' + p.desc + "</p>" +
           includes + couponBlock + buyBtn +
-          '<p class="fine pd-affiliate">לשאלות ולפרטים נוספים אני כאן ב-whatsapp.</p>' +
+          '<p class="fine pd-affiliate">לשאלות ולפרטים נוספים אני כאן בוואטסאפ.</p>' +
         "</div>" +
       "</div></div>";
 

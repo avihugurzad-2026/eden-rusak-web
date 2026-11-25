@@ -92,7 +92,9 @@
         var src = esc(url(v.url)), poster = v.poster && url(v.poster) ? esc(url(v.poster)) : "", title = esc(v.title || "סרטון");
         if (reel) return '<div class="reel-item">' + (poster ? '<img class="reel-poster" src="' + poster + '" alt="' + title + '" loading="lazy">' : "") +
           '<video src="' + src + '" muted loop playsinline preload="metadata"></video><span class="reel-play">▶</span></div>';
-        return '<video controls playsinline preload="none"' + (poster ? ' poster="' + poster + '"' : "") + ' aria-label="' + title + '"><source src="' + src + '" type="' + (/\.webm(\?|$)/i.test(src) ? "video/webm" : "video/mp4") + '"></video>';
+        var video = '<video controls playsinline preload="none"' + (poster ? ' poster="' + poster + '"' : "") + ' aria-label="' + title + '"><source src="' + src + '" type="' + (/\.webm(\?|$)/i.test(src) ? "video/webm" : "video/mp4") + '"></video>';
+        if (el.hasAttribute("data-show-titles")) return '<figure class="ugc-example">' + video + '<figcaption><strong>' + title + '</strong><span>תוכן UGC למותג</span></figcaption></figure>';
+        return video;
       }).join("");
       var section = el.closest("section");
       if (section) section.hidden = !items.length;

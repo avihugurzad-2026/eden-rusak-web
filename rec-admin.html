@@ -182,7 +182,7 @@
   <div class="ra-drawer" id="pDrawer" hidden>
     <form class="ra-panel" id="pForm" novalidate>
       <h2><span id="pFormTitle">מוצר חדש</span><button type="button" class="ra-icon" data-close aria-label="סגירה">×</button></h2>
-      <div class="form-field"><label for="pImportUrl">ייבוא פרטי מוצר מקישור</label><input id="pImportUrl" type="url" dir="ltr" placeholder="https://..."><button class="btn btn-outline" type="button" id="pImportBtn" style="margin-top:10px">ייבוא פרטים</button><p class="hint" id="pImportStatus">הפרטים שנמצאים ימולאו בטופס לבדיקה וניתנים לעריכה. באתרים מסוימים הייבוא עשוי להיות מוגבל.</p></div>
+      <div class="form-field"><label for="pImportUrl">ייבוא פרטי מוצר מקישור</label><input id="pImportUrl" type="url" dir="ltr" placeholder="https://..."><button class="btn btn-outline" type="button" id="pImportBtn" style="margin-top:10px">ייבוא פרטים</button><p class="hint" id="pImportStatus">הפרטים שנמצאים ימולאו בטופס לבדיקה ואפשר לערוך אותם. בחלק מהאתרים הייבוא מוגבל.</p></div>
       <div class="form-field">
         <label>תמונת המוצר</label>
         <div class="ra-img">
@@ -200,7 +200,7 @@
         <div class="form-field"><label for="pBadge">תגית על התמונה</label><input id="pBadge" placeholder="למשל: חדש / רב מכר"></div>
       </div>
       <div class="form-field"><label for="pShort">תיאור קצר (בכרטיס)</label><input id="pShort" maxlength="140"></div>
-      <div class="form-field"><label for="pDesc">תיאור מלא (בעמוד המוצר)</label><textarea id="pDesc"></textarea><button class="btn btn-outline btn-sm" id="pRewrite" type="button" style="margin-top:10px">ניסוח בעברית עם Gemini</button><p class="hint" id="pRewriteStatus">המילים שתזינו יישלחו ל־Gemini ליצירת הצעה. יש לבדוק את הנוסח לפני שמירה.</p></div>
+      <div class="form-field"><label for="pDesc">תיאור מלא (בעמוד המוצר)</label><textarea id="pDesc"></textarea><button class="btn btn-outline btn-sm" id="pRewrite" type="button" style="margin-top:10px">ניסוח בעברית עם Gemini</button><p class="hint" id="pRewriteStatus">המילים שתזיני יישלחו ל־Gemini ליצירת הצעה. כדאי לבדוק את הנוסח לפני שמירה.</p></div>
       <div class="ra-grid2">
         <div class="form-field"><label for="pPrice">מחיר (₪)</label><input id="pPrice" type="number" min="0" step="0.01" inputmode="decimal"></div>
         <div class="form-field"><label for="pOld">מחיר לפני הנחה (₪)</label><input id="pOld" type="number" min="0" step="0.01" inputmode="decimal"></div>

@@ -4,7 +4,7 @@
     {
       "name": "eden-site",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["/Users/avihugurzad/Desktop/work - graphics/עדן - אתר/.claude/serve.py"],
+      "runtimeArgs": ["/Users/avihugurzad/Desktop/Ai uses/כל המערכות - עדן/eden-site-update/.claude/serve.py"],
       "port": 4173,
       "autoPort": true
     }

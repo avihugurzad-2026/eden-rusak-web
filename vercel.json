@@ -27,13 +27,47 @@
       "permanent": false
     },
     {
-      "source": "/site-admin.html",
-      "destination": "https://academy.edenrusak.com/admin/site/catalog",
+      "source": "/admin.html",
+      "destination": "https://academy.edenrusak.com/admin/site",
       "permanent": false
     },
     {
+      "source": "/admin",
+      "destination": "https://academy.edenrusak.com/admin/site",
+      "permanent": false
+    },
+    {
+      "source": "/site-admin.html",
+      "destination": "https://academy.edenrusak.com/admin/site",
+      "permanent": false
+    },
+    {
+      "source": "/landing.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "editit"
+        }
+      ],
+      "destination": "/editit.html",
+      "permanent": true
+    },
+    {
+      "source": "/landing",
+      "has": [
+        {
+          "type": "query",
+          "key": "id",
+          "value": "editit"
+        }
+      ],
+      "destination": "/editit.html",
+      "permanent": true
+    },
+    {
       "source": "/site-admin",
-      "destination": "https://academy.edenrusak.com/admin/site/catalog",
+      "destination": "https://academy.edenrusak.com/admin/site",
       "permanent": false
     }
   ],

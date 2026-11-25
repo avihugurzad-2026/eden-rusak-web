@@ -4,7 +4,7 @@ import sys
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 # Absolute project root (avoid getcwd — blocked in the preview sandbox)
-ROOT = "/Users/avihugurzad/Desktop/work - graphics/עדן - אתר"
+ROOT = "/Users/avihugurzad/Desktop/Ai uses/כל המערכות - עדן/eden-site-update"
 PORT = int(os.environ.get("PORT", sys.argv[1] if len(sys.argv) > 1 else "4173"))
 
 handler = functools.partial(SimpleHTTPRequestHandler, directory=ROOT)

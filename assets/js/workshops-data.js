@@ -7,7 +7,7 @@
 window.EDEN_WORKSHOPS = [
   {
     id: "ugc-workshop", tag: "מעשי", title: "סדנת UGC",
-    text: "הכנסי לתחום הכי חם בשנים האחרונות בעולם השיווק!",
+    text: "היכנסי לתחום הכי חם בשנים האחרונות בעולם השיווק!",
     cap: "", status: "", sticker: "ההרשמה נסגרה",
     price: "", img: "assets/images/work/work-23.jpg",
     link: "", linkText: "", active: true

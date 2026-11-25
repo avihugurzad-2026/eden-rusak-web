@@ -12,8 +12,15 @@
   var params = new URLSearchParams(window.location.search);
   /* a dedicated short-URL page (e.g. /ugc.html) can pin the id via window.EDEN_FORCE_ID */
   var key = window.EDEN_FORCE_ID || params.get("id");
-  var d = DATA[key] || DATA[Object.keys(DATA)[0]];
-  if (!d) return;
+  if (!window.EDEN_FORCE_ID && key === "editit") {
+    window.location.replace("editit.html");
+    return;
+  }
+  var d = key && DATA[key] ? DATA[key] : null;
+  if (!d) {
+    root.innerHTML = '<section class="section center" style="padding:120px 20px"><div class="wrap"><h1 class="h2">העמוד לא נמצא</h1><p class="lead" style="margin:12px auto 24px">אולי הקישור השתנה — אפשר למצוא את כל הקורסים והמדריכים בעמוד האקדמיה.</p><a href="academy.html" class="btn btn-primary">לכל הקורסים</a></div></section>';
+    return;
+  }
 
   /* forced-id pages (e.g. /ugc.html) keep their own SEO <title> */
   if (!window.EDEN_FORCE_ID) document.title = d.title + " — עדן רוסק";
@@ -55,7 +62,11 @@
   }
 
   function li(arr) { return arr.map(function (x) { return "<li>" + boldLead(x) + "</li>"; }).join(""); }
-  function esc(s) { return String(s); }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
 
   /* landings that sell a catalog product: price + checkout link follow the admin (site-content.js) */
   var pid = { editit: "editit", carousel: "carousel-secrets" }[key] || "";
@@ -183,14 +194,14 @@
 
     /* ===== curriculum ===== */
     '<section class="landing-sec"><div class="wrap"><div class="center">' +
-      eb("התכנית") +
+      eb("התוכנית") +
       '<h2 class="h2 lp-h2">' + (d.curriculumTitle || "מה לומדים בפנים") + "</h2></div>" +
       '<div class="cards cards-centered' + (d.curriculumPlain ? " cards-plain" : "") + '">' + curriculum + "</div></div></section>" +
 
     /* ===== mid CTA strip (soft pink card on the white page) ===== */
     '<section class="landing-sec"><div class="wrap">' +
       '<div class="lp-cta-strip reveal">' +
-      '<h2 class="h2 lp-h2">' + (d.price && d.price !== "ללא עלות" ? "מוכנה להתחיל" : "רוצה פרטים נוספים?") + "</h2>" +
+      '<h2 class="h2 lp-h2">' + (d.price && d.price !== "ללא עלות" ? "מוכנה להתחיל?" : "רוצה פרטים נוספים?") + "</h2>" +
       '<p class="lead" style="margin:14px auto 0;max-width:560px">' + d.tagline + "</p>" +
       priceHTML + dateHTML +
       '<div class="btn-row" style="justify-content:center;margin-top:26px">' + ctaBtn() +

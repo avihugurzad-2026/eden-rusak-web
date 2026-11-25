@@ -65,5 +65,5 @@ module.exports = async (req, res) => {
     try { img = img ? new URL(img, url).href : ''; if (!/^https:\/\//i.test(img)) img = ''; } catch (_) { img = ''; }
     const price = String(offer.priceCurrency || '').toUpperCase() === 'ILS' && offer.price != null && String(offer.price).trim() !== '' && Number.isFinite(Number(offer.price)) ? Number(offer.price) : null;
     return res.status(200).json({ title: decode(p.name || meta(html,'og:title') || meta(html,'twitter:title') || ((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1])).slice(0,180), description: decode(p.description || meta(html,'og:description') || meta(html,'twitter:description') || meta(html,'description')).replace(/<[^>]*>/g,'').slice(0,3000), image: img, price, url });
-  } catch (_) { return res.status(422).json({ error: 'לא ניתן לייבא מהקישור הזה. אפשר למלא את הפרטים ידנית.' }); }
+  } catch (_) { return res.status(422).json({ error: 'אי אפשר לייבא מהקישור הזה. אפשר למלא את הפרטים ידנית.' }); }
 };

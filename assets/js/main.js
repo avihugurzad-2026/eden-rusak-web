@@ -55,7 +55,10 @@
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
     document.querySelectorAll(".nav-links a").forEach(function (a) {
-      a.addEventListener("click", function () { body.classList.remove("nav-open"); });
+      a.addEventListener("click", function () {
+        body.classList.remove("nav-open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
     });
   }
 
@@ -195,21 +198,219 @@
   };
   window.EDEN_initReels();
 
-  /* ---------- Contact form (no backend — friendly handoff) ---------- */
+  /* ---------- Helpers: Israeli phone validation, UTM capture, analytics ---------- */
+  function isValidIsraeliPhone(raw) {
+    var digits = String(raw || "").replace(/\D/g, "").replace(/^972/, "0");
+    return /^0(5\d|7\d|[2-489])\d{7}$/.test(digits);
+  }
+  function isValidEmail(raw) {
+    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(raw || "").trim());
+  }
+  function getUtmParams() {
+    var out = {};
+    try {
+      var sp = new URLSearchParams(location.search);
+      ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "fbclid", "gclid"].forEach(function (k) {
+        var v = sp.get(k);
+        if (v) out[k] = v.slice(0, 200);
+      });
+    } catch (e) {}
+    return out;
+  }
+  function pushEvent(name, params) {
+    try {
+      if (Array.isArray(window.dataLayer)) {
+        window.dataLayer.push(Object.assign({ event: name }, params || {}));
+      }
+    } catch (e) {}
+  }
+
+  /* ---------- Contact form (validated server save + resilient WhatsApp handoff) ---------- */
   var form = document.getElementById("contactForm");
   if (form) {
+    var DRAFT_KEY = "eden_contact_draft_v1";
+    var convertedKeys = {};
+    var lastWaText = "";
+
+    var nameEl = document.getElementById("cName");
+    var phoneEl = document.getElementById("cPhone");
+    var emailEl = document.getElementById("cEmail");
+    var topicEl = document.getElementById("cTopic");
+    var msgEl = document.getElementById("cMsg");
+    var privacyEl = document.getElementById("cPrivacy") || form.querySelector('input[type="checkbox"][required]');
+    var marketingEl = document.getElementById("cMarketing");
+    var errEl = document.getElementById("formError");
+    var noteEl = document.getElementById("formNote");
+    var noteTextEl = document.getElementById("formNoteText");
+    var waDirectLink = document.getElementById("waDirectLink");
+    var waCopyBtn = document.getElementById("waCopyBtn");
+    var resetBtn = document.getElementById("formResetBtn");
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    /* Restore saved draft if user refreshed before finishing */
+    try {
+      var savedDraft = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || "null");
+      if (savedDraft && typeof savedDraft === "object") {
+        if (nameEl && savedDraft.name) nameEl.value = savedDraft.name;
+        if (phoneEl && savedDraft.phone) phoneEl.value = savedDraft.phone;
+        if (emailEl && savedDraft.email) emailEl.value = savedDraft.email;
+        if (topicEl && savedDraft.topic) topicEl.value = savedDraft.topic;
+        if (msgEl && savedDraft.msg) msgEl.value = savedDraft.msg;
+      }
+    } catch (e) {}
+
+    function saveDraft() {
+      try {
+        sessionStorage.setItem(DRAFT_KEY, JSON.stringify({
+          name: nameEl ? nameEl.value : "",
+          phone: phoneEl ? phoneEl.value : "",
+          email: emailEl ? emailEl.value : "",
+          topic: topicEl ? topicEl.value : "",
+          msg: msgEl ? msgEl.value : ""
+        }));
+      } catch (e) {}
+    }
+
+    [nameEl, phoneEl, emailEl, topicEl, msgEl].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener("input", function () {
+        el.setAttribute("aria-invalid", "false");
+        if (errEl) errEl.style.display = "none";
+        saveDraft();
+      });
+    });
+    if (privacyEl) {
+      privacyEl.addEventListener("change", function () {
+        privacyEl.setAttribute("aria-invalid", "false");
+        if (errEl) errEl.style.display = "none";
+      });
+    }
+
+    if (waCopyBtn) {
+      waCopyBtn.addEventListener("click", function () {
+        if (!lastWaText || !navigator.clipboard || !navigator.clipboard.writeText) return;
+        navigator.clipboard.writeText(lastWaText).then(function () {
+          waCopyBtn.textContent = "ההודעה הועתקה ✓";
+          setTimeout(function () { waCopyBtn.textContent = "העתקת ההודעה"; }, 2200);
+        }).catch(function () {});
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener("click", function () {
+        form.reset();
+        try { sessionStorage.removeItem(DRAFT_KEY); } catch (e) {}
+        if (noteEl) noteEl.style.display = "none";
+        if (errEl) errEl.style.display = "none";
+        if (nameEl) nameEl.focus();
+      });
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var note = document.getElementById("formNote");
-      var name = (document.getElementById("cName") || {}).value || "";
-      var msg = (document.getElementById("cMsg") || {}).value || "";
-      var topic = (document.getElementById("cTopic") || {}).value || "";
-      if (topic) { msg = "(" + topic + ") " + msg; }
-      fireLeadConversion();
-      var text = encodeURIComponent("שלום עדן, שמי " + name + ". " + msg);
-      window.open("https://wa.me/972548148311?text=" + text, "_blank");
-      if (note) { note.style.display = "block"; }
-      form.reset();
+      if (errEl) { errEl.textContent = ""; errEl.style.display = "none"; }
+
+      var name = ((nameEl || {}).value || "").trim();
+      var phone = ((phoneEl || {}).value || "").trim();
+      var email = ((emailEl || {}).value || "").trim();
+      var topic = ((topicEl || {}).value || "").trim();
+      var msg = ((msgEl || {}).value || "").trim();
+      var privacyOk = privacyEl ? !!privacyEl.checked : true;
+      var marketingOk = marketingEl ? !!marketingEl.checked : false;
+      var honeypot = (form.elements && form.elements.website && form.elements.website.value) || "";
+
+      var invalidFields = [];
+      var firstInvalid = null;
+      function markInvalid(el, bad, label) {
+        if (el && el.setAttribute) el.setAttribute("aria-invalid", bad ? "true" : "false");
+        if (bad) {
+          invalidFields.push(label);
+          if (!firstInvalid && el) firstInvalid = el;
+        }
+      }
+
+      markInvalid(nameEl, name.length < 2, "שם מלא");
+      markInvalid(phoneEl, !isValidIsraeliPhone(phone), "טלפון ישראלי תקין");
+      markInvalid(emailEl, email.length > 0 && !isValidEmail(email), "כתובת אימייל תקינה");
+      markInvalid(privacyEl, !privacyOk, "אישור מדיניות הפרטיות ותנאי השימוש");
+
+      if (invalidFields.length) {
+        if (errEl) {
+          errEl.textContent = "כדאי להשלים או לתקן: " + invalidFields.join(", ") + ".";
+          errEl.style.display = "block";
+        }
+        pushEvent("contact_validation_error", { form: "contact", fields: invalidFields.join(",") });
+        if (firstInvalid && typeof firstInvalid.focus === "function") firstInvalid.focus();
+        return;
+      }
+
+      saveDraft();
+
+      var parts = ["שלום עדן, שמי " + name + " (טלפון: " + phone + (email ? ", אימייל: " + email : "") + ")."];
+      if (topic) parts.push("נושא: " + topic + ".");
+      if (msg) parts.push(msg);
+      lastWaText = parts.join(" ");
+      var waUrl = "https://wa.me/972548148311?text=" + encodeURIComponent(lastWaText);
+      if (waDirectLink) waDirectLink.href = waUrl;
+
+      /* Open WhatsApp synchronously inside user gesture so browsers don't block the tab */
+      var popup = null;
+      try { popup = window.open(waUrl, "_blank"); } catch (err) {}
+      var popupBlocked = !popup;
+      pushEvent("whatsapp_handoff_attempt", { form: "contact", popup_blocked: popupBlocked });
+
+      var origLabel = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "שומר פרטים..."; }
+
+      var dedupeKey = [name, phone.replace(/\D/g, ""), email.toLowerCase()].join("|");
+
+      fetch("/api/lead", {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "contact",
+          name: name,
+          phone: phone,
+          email: email || "",
+          topic: topic,
+          message: msg,
+          privacy: true,
+          marketing: marketingOk,
+          website: honeypot,
+          utm: getUtmParams(),
+          page: location.pathname
+        })
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error("status " + r.status);
+          return r.json();
+        })
+        .then(function (resData) {
+          if (!convertedKeys[dedupeKey] && !(resData && resData.duplicate)) {
+            convertedKeys[dedupeKey] = true;
+            fireLeadConversion();
+            pushEvent("generate_lead", { form: "contact", method: "server_saved" });
+          }
+          if (noteTextEl) {
+            noteTextEl.textContent = popupBlocked
+              ? "הפרטים שלך נשמרו במערכת! הדפדפן חסם פתיחה אוטומטית של וואטסאפ — אפשר לפתוח את ההודעה בלחיצה כאן:"
+              : "הפרטים נשמרו ופתחנו לכם חלון וואטסאפ עם ההודעה. אם לא נפתח, אפשר ללחוץ כאן:";
+          }
+          if (noteEl) noteEl.style.display = "block";
+        })
+        .catch(function () {
+          pushEvent("contact_save_failed", { form: "contact", popup_blocked: popupBlocked });
+          if (noteTextEl) {
+            noteTextEl.textContent = popupBlocked
+              ? "לא הצלחנו לשמור אוטומטית והדפדפן חסם את החלון. הפרטים נשארו בטופס — לחצו כאן לפתיחת ההודעה בוואטסאפ:"
+              : "פתחנו לכם וואטסאפ עם ההודעה (הפרטים נשארו שמורים בטופס לגיבוי). אם החלון לא נפתח, לחצו כאן:";
+          }
+          if (noteEl) noteEl.style.display = "block";
+        })
+        .finally(function () {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = origLabel; }
+        });
     });
   }
 
@@ -315,50 +516,104 @@
 
   var leadForm = document.getElementById("leadForm");
   if (leadForm) {
+    var leadConverted = {};
     leadForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var nameEl = document.getElementById("lName");
       var phoneEl = document.getElementById("lPhone");
       var emailEl = document.getElementById("lEmail");
       var note = document.getElementById("leadNote");
-      var name = (nameEl.value || "").trim();
-      var phone = (phoneEl.value || "").trim();
-      var email = (emailEl.value || "").trim();
+      var submitBtn = leadForm.querySelector('button[type="submit"]');
+      var name = ((nameEl || {}).value || "").trim();
+      var phone = ((phoneEl || {}).value || "").trim();
+      var email = ((emailEl || {}).value || "").trim();
 
-      if (!name) { nameEl.focus(); return; }
-      var digits = phone.replace(/\D/g, "").replace(/^972/, "0");
-      if (!/^0(5\d|[2-489])\d{7}$/.test(digits)) {
-        phoneEl.setCustomValidity("נא להזין מספר טלפון ישראלי תקין");
+      if (name.length < 2) {
+        if (nameEl) {
+          nameEl.setCustomValidity("הזיני שם מלא");
+          nameEl.reportValidity();
+        }
+        return;
+      }
+      if (nameEl) nameEl.setCustomValidity("");
+
+      if (!isValidIsraeliPhone(phone)) {
+        phoneEl.setCustomValidity("הזיני מספר טלפון ישראלי תקין");
         phoneEl.reportValidity();
         return;
       }
       phoneEl.setCustomValidity("");
 
-      fireLeadConversion();
-
-      var cfg = window.EDEN_LEAD;
-      if (cfg) {
-        /* 1) auto-forward the lead to Eden's inbox (no backend — FormSubmit) */
-        sendLeadEmail(cfg.email, { name: name, phone: phone, email: email, page: cfg.page });
-        /* 2) hand off to a prefilled whatsapp chat within a few seconds */
-        var firstName = name.split(/\s+/)[0];
-        var waText = (cfg.waMessage || "").replace("{name}", firstName);
-        var waUrl = "https://wa.me/" + cfg.waNumber + "?text=" + encodeURIComponent(waText);
-        if (note) { note.style.display = "block"; }
-        leadForm.reset();
-        setTimeout(function () { window.location.href = waUrl; }, cfg.delayMs || 4000);
+      if (email && !isValidEmail(email)) {
+        emailEl.setCustomValidity("הזיני כתובת אימייל תקינה");
+        emailEl.reportValidity();
         return;
       }
+      if (emailEl) emailEl.setCustomValidity("");
 
-      var text = "שלום עדן, שמי " + name + " ואשמח לקבל פרטים על האקדמיה. טלפון: " + phone;
-      if (email) { text += ". מייל: " + email; }
-      window.open("https://wa.me/972548148311?text=" + encodeURIComponent(text), "_blank");
-      if (note) { note.style.display = "block"; }
-      leadForm.reset();
+      var path = (location.pathname || "").toLowerCase();
+      var defaultSubject = /editit/.test(path) ? "תוכנית Editit"
+        : /ugc/.test(path) ? "סדנת ה-UGC"
+        : /workshop/.test(path) ? "הסדנאות"
+        : "האקדמיה";
+
+      var cfg = window.EDEN_LEAD;
+      var waUrl;
+      if (cfg) {
+        sendLeadEmail(cfg.email, { name: name, phone: phone, email: email, page: cfg.page });
+        var firstName = name.split(/\s+/)[0];
+        var waText = (cfg.waMessage || "").replace("{name}", firstName);
+        waUrl = "https://wa.me/" + cfg.waNumber + "?text=" + encodeURIComponent(waText);
+      } else {
+        var text = "שלום עדן, שמי " + name + " ואשמח לקבל פרטים על " + defaultSubject + ". טלפון: " + phone;
+        if (email) { text += ", אימייל: " + email; }
+        waUrl = "https://wa.me/972548148311?text=" + encodeURIComponent(text);
+        try { window.open(waUrl, "_blank"); } catch (err) {}
+      }
+
+      var origText = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "שולח..."; }
+      var key = [name, phone.replace(/\D/g, ""), path].join("|");
+
+      fetch("/api/lead", {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "lead-form",
+          name: name,
+          phone: phone,
+          email: email || "",
+          topic: cfg && cfg.page ? cfg.page : defaultSubject,
+          utm: getUtmParams(),
+          page: location.pathname
+        })
+      })
+        .then(function (r) { if (!r.ok) throw new Error("failed"); return r.json(); })
+        .then(function (d) {
+          if (!leadConverted[key] && !(d && d.duplicate)) {
+            leadConverted[key] = true;
+            fireLeadConversion();
+          }
+        })
+        .catch(function () {})
+        .finally(function () {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = origText; }
+          if (note) { note.style.display = "block"; }
+          if (cfg) {
+            setTimeout(function () { window.location.href = waUrl; }, cfg.delayMs || 4000);
+          }
+        });
     });
-    document.getElementById("lPhone").addEventListener("input", function () {
-      this.setCustomValidity("");
-    });
+    if (document.getElementById("lName")) {
+      document.getElementById("lName").addEventListener("input", function () { this.setCustomValidity(""); });
+    }
+    if (document.getElementById("lPhone")) {
+      document.getElementById("lPhone").addEventListener("input", function () { this.setCustomValidity(""); });
+    }
+    if (document.getElementById("lEmail")) {
+      document.getElementById("lEmail").addEventListener("input", function () { this.setCustomValidity(""); });
+    }
   }
 })();
 

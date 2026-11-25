@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
 Disallow: /admin.html
+Disallow: /admin
 Disallow: /rec-admin.html
+Disallow: /site-admin.html
+Disallow: /proposals/
+Disallow: /ugc-tool/
 
 Sitemap: https://edenrusak.com/sitemap.xml

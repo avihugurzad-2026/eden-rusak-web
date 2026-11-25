@@ -963,7 +963,7 @@
                 <small>חתמו כאן עם האצבע או העכבר</small>
               </div>
               <label class="in"><span>הקלדת שמך המלא לאישור החתימה *</span><input name="typed_name" required></label>
-              <label class="tick consent" data-key="consent"><input type="checkbox" name="consent"> קראתי את ההסכם ואני מסכים/ה לתנאיו, אני מוסמך/ת לחתום עליו בשם המזמין, ואני מסכים/ה לחתום עליו בחתימה אלקטרונית ולקבל את עותקיו בדוא״ל.</label>
+              <label class="tick consent" data-key="consent"><input type="checkbox" name="consent"> קראתי את ההסכם והבנתי את תנאיו, יש לי הרשאה לחתום עליו בשם המזמין בחתימה אלקטרונית ולקבל את עותקיו בדוא״ל.</label>
 
               <div class="step-code" hidden>
                 <label class="in"><span>קוד האימות שנשלח למייל *</span><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" dir="ltr" class="code-in"></label>
@@ -1011,7 +1011,7 @@
                 <small>חתמו כאן עם האצבע או העכבר</small>
               </div>
               <label class="in"><span>הקלדת שמך המלא לאישור החתימה *</span><input name="typed_name" required></label>
-              <label class="tick consent" data-key="consent"><input type="checkbox" name="consent"> אני מאשר/ת את תנאי ההסכם ואת החתימה עליו בחתימה אלקטרונית בשם נותן השירות.</label>
+              <label class="tick consent" data-key="consent"><input type="checkbox" name="consent"> אישור תנאי ההסכם וחתימה עליו בחתימה אלקטרונית בשם נותן השירות.</label>
               <div class="step-code" hidden>
                 <label class="in"><span>קוד האימות שנשלח למייל *</span><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" dir="ltr" class="code-in"></label>
                 <button type="button" class="link-btn resend">שליחת קוד חדש</button>
@@ -1168,7 +1168,7 @@
         code_expired: 'הקוד פג תוקף או שלא נשלח לכתובת הזו. שלחו קוד חדש.',
         too_many_attempts: 'יותר מדי ניסיונות שגויים. שלחו קוד חדש.',
         already_signed: 'הצד הזה כבר חתם על ההסכם.',
-        text_changed: 'נוסח ההסכם השתנה מאז החתימה הראשונה, ולכן לא ניתן לחתום עליו. צרו קשר עם a-digital.',
+        text_changed: 'נוסח ההסכם השתנה מאז החתימה הראשונה, ולכן אי אפשר לחתום עליו. צרו קשר עם a-digital.',
         not_found: 'ההסכם לא נמצא.', server: 'משהו השתבש. נסו שוב בעוד רגע.'
       };
       function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }

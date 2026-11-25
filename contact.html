@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
+  <meta charset="UTF-8">
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -21,16 +22,15 @@
     gtag('config', 'GT-55KS2GRC');
     gtag('config', 'G-JRHYFQT52K');
   </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
   <title>צור קשר — עדן רוסק | קורסים, סדנאות ושיתופי פעולה UGC</title>
-  <meta name="description" content="ליצירת קשר עם עדן רוסק לשיתופי פעולה, סדנאות וקורסים. השאירו פרטים ואחזור אליכם, או דברו איתי ב-whatsapp.">
+  <meta name="description" content="ליצירת קשר עם עדן רוסק לשיתופי פעולה, סדנאות וקורסים. השאירו פרטים ואחזור אליכם, או דברו איתי בוואטסאפ.">
   <link rel="canonical" href="https://edenrusak.com/contact.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="he_IL">
   <meta property="og:site_name" content="עדן רוסק">
   <meta property="og:title" content="צור קשר — עדן רוסק | קורסים, סדנאות ושיתופי פעולה UGC">
-  <meta property="og:description" content="ליצירת קשר עם עדן רוסק לשיתופי פעולה, סדנאות וקורסים. השאירו פרטים ואחזור אליכם, או דברו איתי ב-whatsapp.">
+  <meta property="og:description" content="ליצירת קשר עם עדן רוסק לשיתופי פעולה, סדנאות וקורסים. השאירו פרטים ואחזור אליכם, או דברו איתי בוואטסאפ.">
   <meta property="og:url" content="https://edenrusak.com/contact.html">
   <meta property="og:image" content="https://edenrusak.com/assets/images/edenport.png">
   <link rel="icon" href="/favicon.ico" sizes="any">
@@ -59,6 +59,8 @@
   /></noscript>
   <!-- End Meta Pixel Code -->
 <script defer src="https://buyz.co.il/assets/js/st.js?v=2" data-site="va7gb5edvrfzfynw"></script>
+  <link rel="stylesheet" href="assets/css/nav-update.css">
+  <script defer src="assets/js/nav-update.js"></script>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -71,11 +73,17 @@
       <a href="/" class="nav-logo"><img src="assets/images/edenewlogo.svg" alt="עדן רוסק"></a>
       <ul class="nav-links">
         <li><a href="/">בית</a></li>
-        <li><a href="academy.html">האקדמיה</a></li>
-        <li><a href="workshops.html">סדנאות</a></li>
-        <li><a href="shop.html">החנות</a></li>
+        <li><a href="portfolio.html">תוכן וסושיאל</a></li>
+        <li><a href="ugc-brands.html">UGC למותגים</a></li>
         <li><a href="recommendations.html">המומלצים שלי</a></li>
-        <li><a href="contact.html" class="nav-cta active">צור קשר</a></li>
+        <li><details class="nav-academy"><summary>האקדמיה</summary>
+          <ul class="nav-academy-menu">
+            <li><a href="academy.html">כל הקורסים</a></li>
+            <li><a href="workshops.html">סדנאות</a></li>
+            <li><a href="shop.html">החנות</a></li>
+          </ul>
+        </details></li>
+        <li><a href="contact.html" class="nav-cta">בואו נדבר</a></li>
       </ul>
       <button class="nav-toggle" aria-label="תפריט" aria-expanded="false"><span></span><span></span></button>
     </nav>
@@ -87,7 +95,7 @@
         <div class="sec-head center">
           <p class="eyebrow">צור קשר</p>
           <h1 class="display" style="font-size:clamp(44px,7vw,84px)">בואו <span style="color:var(--primary)">נדבר.</span></h1>
-          <p class="lead" style="max-width:680px">ליצירת קשר לשיתופי פעולה, סדנאות, קורסים או כל שאלה — השאירו פרטים ואחזור אליכם, או דברו איתי ישירות ב-whatsapp.</p>
+          <p class="lead" style="max-width:680px">ליצירת קשר לשיתופי פעולה, סדנאות, קורסים או כל שאלה — השאירו פרטים ואחזור אליכם, או דברו איתי ישירות בוואטסאפ.</p>
           <nav class="seg seg-xl" aria-label="נושא הפנייה" style="margin-top:22px">
             <a href="academy.html">האקדמיה</a>
             <a href="workshops.html">סדנאות</a>
@@ -97,27 +105,50 @@
         <div class="contact-layout">
             <form id="contactForm" class="form-card" novalidate>
               <div class="form-field">
-                <label for="cName">שם מלא</label>
+                <label for="cName">שם מלא *</label>
                 <input type="text" id="cName" name="name" autocomplete="name" required>
               </div>
               <div class="form-field">
-                <label for="cPhone">טלפון</label>
-                <input type="tel" id="cPhone" name="phone" autocomplete="tel" required>
+                <label for="cPhone">טלפון *</label>
+                <input type="tel" id="cPhone" name="phone" autocomplete="tel" inputmode="tel" dir="ltr" required>
               </div>
               <div class="form-field">
-                <label for="cEmail">אימייל</label>
-                <input type="email" id="cEmail" name="email" autocomplete="email">
+                <label for="cEmail">אימייל <span class="optional">(רשות)</span></label>
+                <input type="email" id="cEmail" name="email" autocomplete="email" dir="ltr">
               </div>
               <div class="form-field">
-                <label for="cMsg">איך אפשר לעזור?</label>
+                <label for="cTopic">מה מעניין אתכם <span class="optional">(רשות)</span></label>
+                <select id="cTopic" name="topic">
+                  <option value="">בחרו...</option>
+                  <option>האקדמיה / קורס יצירת תוכן</option>
+                  <option>סדנאות יצירת תוכן / סדנת UGC</option>
+                  <option>תוכן לעסק שלי / ימי צילום</option>
+                  <option>שיתוף פעולה UGC למותגים</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="cMsg">איך אפשר לעזור? <span class="optional">(רשות)</span></label>
                 <textarea id="cMsg" name="message" placeholder="ספרו לי קצת על העסק או על מה שמעניין אתכם..."></textarea>
               </div>
-              <label class="consent">
-                <input type="checkbox" required>
-                <span>אני מאשר/ת בזאת לעדן רוסק לשלוח לי הודעות שיווקיות, ומאשר/ת את <a href="terms.html#privacy">מדיניות הפרטיות</a> ואת <a href="terms.html">תנאי השימוש</a> באתר.</span>
+              <label class="consent" id="cPrivacyRow">
+                <input type="checkbox" id="cPrivacy" name="privacy" required>
+                <span>קראתי והבנתי את <a href="terms.html#privacy">מדיניות הפרטיות</a> ואת <a href="terms.html">תנאי השימוש</a> באתר. *</span>
               </label>
-              <button type="submit" class="btn btn-primary btn-lg">שליחה ב-whatsapp</button>
-              <p id="formNote" class="fine" style="display:none;margin-top:16px;color:var(--primary)">פותח עבורכם whatsapp עם ההודעה — נדבר ממש עוד מעט!</p>
+              <label class="consent">
+                <input type="checkbox" id="cMarketing" name="marketing">
+                <span>אשמח לקבל מעדן רוסק עדכונים, טיפים והטבות בדיוור שיווקי (רשות).</span>
+              </label>
+              <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;pointer-events:none" aria-hidden="true">
+              <p id="formError" class="fine" role="alert" style="display:none;margin-bottom:12px;color:#c0392b;font-weight:600"></p>
+              <button type="submit" class="btn btn-primary btn-lg">שליחה בוואטסאפ</button>
+              <div id="formNote" class="fine" role="status" aria-live="polite" style="display:none;margin-top:16px;padding:14px 16px;border-radius:14px;background:#f3f4ff;color:var(--ink)">
+                <p id="formNoteText" style="margin:0 0 10px;color:var(--primary);font-weight:600">הפרטים נקלטו! אם וואטסאפ לא נפתח אוטומטית, אפשר לפתוח אותו מכאן:</p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <a id="waDirectLink" href="https://wa.me/972548148311" target="_blank" rel="noopener" class="btn btn-primary" style="padding:8px 16px;font-size:14px">פתיחת ההודעה בוואטסאפ</a>
+                  <button type="button" id="waCopyBtn" class="btn btn-outline" style="padding:8px 16px;font-size:14px">העתקת ההודעה</button>
+                  <button type="button" id="formResetBtn" class="btn btn-outline" style="padding:8px 16px;font-size:14px">פנייה חדשה</button>
+                </div>
+              </div>
             </form>
           <aside class="detail-card">
             <div class="contact-portrait">
@@ -129,7 +160,7 @@
             </div>
             <div class="contact-detail">
               <div class="ico ico-wa"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.82c2.17 0 4.21.84 5.74 2.37a8.06 8.06 0 0 1 2.38 5.72c0 4.46-3.63 8.09-8.1 8.09a8.1 8.1 0 0 1-4.12-1.13l-.3-.18-3.12.82.83-3.04-.19-.31a8.05 8.05 0 0 1-1.24-4.31c0-4.46 3.63-8.09 8.1-8.09Zm-2.62 4.38c-.18 0-.46.07-.7.33-.24.26-.92.9-.92 2.2 0 1.3.94 2.55 1.07 2.73.13.18 1.85 2.96 4.61 4.04 2.29.9 2.76.72 3.26.67.5-.05 1.6-.65 1.83-1.28.23-.63.23-1.17.16-1.28-.07-.11-.24-.18-.5-.31-.26-.13-1.6-.79-1.85-.88-.24-.09-.42-.13-.6.13-.18.26-.69.88-.84 1.06-.16.18-.31.2-.57.07-.26-.13-1.13-.42-2.15-1.33-.79-.71-1.33-1.58-1.48-1.84-.16-.26-.02-.4.11-.53.12-.12.26-.31.4-.46.13-.16.18-.26.26-.44.09-.18.04-.33-.02-.46-.07-.13-.6-1.45-.82-1.99-.22-.52-.44-.45-.6-.46h-.51Z"/></svg></div>
-              <div><div class="d-label">הודעת whatsapp</div><a href="https://wa.me/972548148311" class="d-value" target="_blank" rel="noopener">לחצו כאן לשיחת whatsapp</a></div>
+              <div><div class="d-label">הודעת וואטסאפ</div><a href="https://wa.me/972548148311" class="d-value" target="_blank" rel="noopener">לחצו כאן לשיחת וואטסאפ</a></div>
             </div>
             <div class="contact-detail">
               <div class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
